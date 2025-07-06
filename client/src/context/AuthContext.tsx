@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserData, AuthContextType } from '@/types';
 import { hybridAuthService, initializeAdminUser } from '@/services/firebase/hybrid';
-import { firestoreService } from '@/services/firebase/firestore';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

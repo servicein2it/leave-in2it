@@ -9,6 +9,20 @@ import { firestoreService } from './firestore';
 import { UserData } from '@/types';
 
 export const authService = {
+  // Login method with proper return format
+  login: async (username: string, password: string) => {
+    try {
+      const user = await authService.signInWithUsernameAndPassword(username, password);
+      if (user) {
+        return { success: true, user };
+      }
+      return { success: false, user: null };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, user: null };
+    }
+  },
+
   // Custom sign in with username and password (we'll use email field to store username)
   signInWithUsernameAndPassword: async (username: string, password: string): Promise<UserData | null> => {
     try {
@@ -45,6 +59,11 @@ export const authService = {
       console.error('Sign in error:', error);
       return null;
     }
+  },
+
+  logout: (): void => {
+    // For mock compatibility, just do nothing when Firebase is not configured
+    // In production with real Firebase, this would sign out the user
   },
 
   signOut: async (): Promise<void> => {

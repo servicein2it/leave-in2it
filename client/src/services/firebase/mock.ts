@@ -32,6 +32,15 @@ let currentUser: UserData | null = null;
 
 // Mock authentication
 export const mockAuth = {
+  login: async (username: string, password: string) => {
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+      currentUser = user;
+      return { success: true, user };
+    }
+    return { success: false, user: null };
+  },
+
   signInWithUsernameAndPassword: async (username: string, password: string): Promise<UserData | null> => {
     const user = users.find(u => u.username === username && u.password === password);
     if (user) {
@@ -39,6 +48,10 @@ export const mockAuth = {
       return user;
     }
     return null;
+  },
+
+  logout: (): void => {
+    currentUser = null;
   },
 
   signOut: async (): Promise<void> => {
