@@ -178,7 +178,7 @@ export const initializeAdminUser = async () => {
         nickname: 'Admin',
         firstName: 'ผู้ดูแล',
         lastName: 'ระบบ',
-        email: 'admin@in2it.com',
+        email: 'admin@in2it.co.th',
         phone: '02-123-4567',
         position: 'System Administrator',
         profilePicture: '',

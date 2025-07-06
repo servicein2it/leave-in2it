@@ -195,7 +195,7 @@ IN2IT Company
 
   return {
     to: employee.email,
-    from: 'noreply@in2it.com', // You can customize this sender email
+    from: 'noreply@in2it.co.th', // You can customize this sender email
     subject,
     text,
     html

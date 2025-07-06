@@ -40,7 +40,7 @@ export const authService = {
 
       // For demo purposes, we'll sign in with a dummy email
       // In production, you'd implement proper Firebase Auth
-      const dummyEmail = `${username}@in2it.com`;
+      const dummyEmail = `${username}@in2it.co.th`;
       
       try {
         // Try to sign in (this will fail the first time)
@@ -102,7 +102,7 @@ export const initializeAdminUser = async () => {
         nickname: 'Admin',
         firstName: 'ผู้ดูแล',
         lastName: 'ระบบ',
-        email: 'admin@in2it.com',
+        email: 'admin@in2it.co.th',
         phone: '02-123-4567',
         position: 'System Administrator',
         gender: 'MALE' as any,

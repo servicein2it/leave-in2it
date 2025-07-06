@@ -76,7 +76,7 @@ SENDGRID_API_KEY=your_sendgrid_api_key
 The system automatically creates an admin user when no admin exists:
 - **Username**: admin
 - **Password**: admin
-- **Email**: admin@in2it.com
+- **Email**: admin@in2it.co.th
 
 **IMPORTANT**: Change the admin password immediately after first login!
 
@@ -100,7 +100,7 @@ Create employees through the admin dashboard:
 - [ ] Set up SendGrid account
 - [ ] Configure verified sender email
 - [ ] Test email notifications
-- [ ] Update sender email in `server/emailService.ts`
+- [ ] Update sender email in `server/emailService.ts` (currently set to noreply@in2it.co.th)
 
 ### Database
 - [ ] Test user creation and authentication

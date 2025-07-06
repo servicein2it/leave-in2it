@@ -337,7 +337,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                placeholder="example@in2it.com"
+                placeholder="example@in2it.co.th"
                 required
               />
             </div>
