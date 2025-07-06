@@ -11,19 +11,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Set a timeout for Firebase initialization
-        const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Firebase initialization timeout')), 5000);
-        });
-
-        // Race between Firebase initialization and timeout
-        await Promise.race([
-          initializeAdminUser(),
-          timeoutPromise
-        ]);
+        // Initialize admin user with mock services (fast)
+        await initializeAdminUser();
       } catch (error) {
         console.error('Error initializing app:', error);
-        console.log('Continuing with mock services...');
       } finally {
         setLoading(false);
       }

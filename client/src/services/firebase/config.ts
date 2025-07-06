@@ -33,7 +33,8 @@ let auth: any = null;
 let db: any = null;
 let storage: any = null;
 
-export const isFirebaseConfigured = hasValidFirebaseConfig();
+// Force mock services for better performance
+export const isFirebaseConfigured = false;
 
 if (isFirebaseConfigured) {
   try {
