@@ -50,11 +50,21 @@ export const AllLeaveRequests: React.FC = () => {
 
   const loadLeaveRequests = async () => {
     try {
-      const monthIndex = parseInt(selectedMonth);
-      const year = parseInt(selectedYear) - 543; // Convert Buddhist year to Gregorian year
-
       const requests = await leaveRequestsAPI.getAll();
-      setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
+      
+      // Filter requests by selected month and year
+      const filteredRequests = requests.filter(request => {
+        const requestDate = new Date(request.requestDate);
+        const requestMonth = requestDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
+        const requestYear = requestDate.getFullYear() + 543; // Convert to Buddhist year
+        
+        const selectedMonthNum = parseInt(selectedMonth);
+        const selectedYearNum = parseInt(selectedYear);
+        
+        return requestMonth === selectedMonthNum && requestYear === selectedYearNum;
+      });
+      
+      setLeaveRequests(filteredRequests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave requests:', error);
     } finally {

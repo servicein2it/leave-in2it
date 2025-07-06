@@ -204,7 +204,7 @@ IN2IT Company
 
   return {
     to: employee.email,
-    from: 'noreply@in2it.co.th', // You can customize this sender email
+    from: 'admin@in2it.co.th', // Use verified sender email in SendGrid
     subject,
     text,
     html
