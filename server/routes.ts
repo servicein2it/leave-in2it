@@ -88,6 +88,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get individual user by ID
+  app.get('/api/users/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const user = await storage.getUser(id);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      
+      res.json(user);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      res.status(500).json({ message: 'Failed to fetch user' });
+    }
+  });
+
+  // PATCH route for partial user updates (used by profile dashboard)
+  app.patch('/api/users/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updates = req.body;
+      
+      // Convert date strings to Date objects if present
+      if (updates.createdAt) {
+        updates.createdAt = new Date(updates.createdAt);
+      }
+      if (updates.updatedAt) {
+        updates.updatedAt = new Date(updates.updatedAt);
+      }
+      
+      const user = await storage.updateUser(id, updates);
+      res.json(user);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ message: 'Failed to update user' });
+    }
+  });
+
   // Leave request routes
   app.get('/api/leave-requests', async (req, res) => {
     try {
