@@ -82,8 +82,8 @@ export const LeaveHistory: React.FC = () => {
     } catch (error) {
       console.error('Error deleting leave request:', error);
       const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถลบคำขอลาได้';
-      const description = errorMessage.includes('Only pending requests') 
-        ? 'สามารถลบได้เฉพาะคำขอลาที่อยู่ในสถานะรอพิจารณาเท่านั้น'
+      const description = errorMessage.includes('approved leave request') 
+        ? 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว'
         : 'ไม่สามารถลบคำขอลาได้';
       
       toast({
@@ -151,7 +151,7 @@ export const LeaveHistory: React.FC = () => {
                           <i className="fas fa-print mr-1"></i>
                           พิมพ์
                         </Button>
-                        {request.status === LeaveStatus.PENDING && (
+                        {(request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED) && (
                           <Button
                             variant="ghost"
                             size="sm"

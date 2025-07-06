@@ -134,6 +134,12 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Enhanced Leave Request Deletion:
+  * Updated deletion logic to allow deletion of both pending and rejected requests
+  * Only approved requests cannot be deleted (to protect finalized leave records)
+  * Fixed server-side validation and error messages
+  * Updated frontend UI to show delete buttons for pending and rejected requests
+  * Improved user experience by allowing deletion of unsuccessful requests
 - July 06, 2025. Print Document Restrictions:
   * Disabled print functionality for rejected leave requests
   * Print button now only works for approved requests

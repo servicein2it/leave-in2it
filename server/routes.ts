@@ -184,10 +184,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Leave request not found' });
       }
       
-      // Only allow deletion of pending requests
-      if (existingRequest.status !== 'รอพิจารณา') {
+      // Only allow deletion of pending and rejected requests (not approved)
+      if (existingRequest.status === 'อนุมัติ') {
         return res.status(400).json({ 
-          message: 'Cannot delete leave request. Only pending requests can be deleted.' 
+          message: 'Cannot delete approved leave request.' 
         });
       }
       
