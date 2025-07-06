@@ -85,11 +85,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="text-center">
-            <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ${getAvatarColor(user.gender)}`}>
-              <span className="text-white text-xl font-medium">
-                {user.nickname.charAt(0)}
-              </span>
-            </div>
+            {user.profilePicture ? (
+              <img 
+                src={user.profilePicture} 
+                alt={user.nickname || user.firstName} 
+                className="w-20 h-20 rounded-full object-cover border-4 border-gray-200 shadow-lg mx-auto mb-4"
+              />
+            ) : (
+              <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ${getAvatarColor(user.gender)} border-4 border-gray-200 shadow-lg`}>
+                <span className="text-white text-xl font-medium">
+                  {user.nickname.charAt(0)}
+                </span>
+              </div>
+            )}
             <input 
               type="file" 
               accept="image/*" 

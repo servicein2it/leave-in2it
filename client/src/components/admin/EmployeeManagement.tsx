@@ -111,7 +111,7 @@ export const EmployeeManagement: React.FC = () => {
   };
 
   const getGenderIcon = (gender: Gender) => {
-    return gender === Gender.MALE ? 'fas fa-mars text-blue-500' : 'fas fa-venus text-pink-500';
+    return gender === Gender.MALE ? 'text-blue-500' : 'text-pink-500';
   };
 
   const getInitials = (nickname: string) => {
@@ -202,8 +202,8 @@ export const EmployeeManagement: React.FC = () => {
                                 className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
                               />
                             ) : (
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)}`}>
-                                <span className="text-white font-medium">
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)} border-2 border-gray-200 shadow-sm`}>
+                                <span className="text-white font-medium text-sm">
                                   {getInitials(employee.nickname)}
                                 </span>
                               </div>
@@ -211,7 +211,15 @@ export const EmployeeManagement: React.FC = () => {
                             <div>
                               <div className="flex items-center space-x-2">
                                 <p className="font-semibold text-gray-800">{employee.nickname}</p>
-                                <i className={getGenderIcon(employee.gender)}></i>
+                                {employee.gender === Gender.MALE ? (
+                                  <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">M</span>
+                                  </div>
+                                ) : (
+                                  <div className="w-4 h-4 rounded-full bg-pink-500 flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">F</span>
+                                  </div>
+                                )}
                               </div>
                               <p className="text-sm text-gray-600">
                                 {employee.title}{employee.firstName} {employee.lastName}

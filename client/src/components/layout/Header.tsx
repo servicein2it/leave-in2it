@@ -52,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
                   className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm"
                 />
               ) : (
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getAvatarColor(user?.gender || Gender.MALE)}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getAvatarColor(user?.gender || Gender.MALE)} border-2 border-gray-200 shadow-sm`}>
                   <span className="text-white text-sm font-medium">
                     {getInitials(user?.nickname || '')}
                   </span>
