@@ -182,6 +182,8 @@ Changelog:
   * Added proper null safety and error handling for all profile fields
   * Fixed form data handling to allow empty fields and proper value fallbacks
   * Added helpful placeholders for optional fields (เว้นว่างได้หากไม่มี)
+  * Fixed API request errors and save functionality with proper error handling
+  * Removed placeholder credentials from login form for security
 - July 06, 2025. Admin Delete with Balance Restoration Feature:
   * Added ability for admins to delete approved leave requests and automatically restore leave balances
   * System now adds back deducted days when admin deletes an approved request

@@ -72,7 +72,6 @@ export const LoginForm: React.FC = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
                 className="mt-2"
                 required
               />
@@ -87,7 +86,6 @@ export const LoginForm: React.FC = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="admin"
                 className="mt-2"
                 required
               />
