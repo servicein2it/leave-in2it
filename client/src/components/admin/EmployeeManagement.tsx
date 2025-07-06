@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { UserData, UserRole, Gender } from '@/types';
 import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { EmployeeModal } from './EmployeeModal';
+import { EmployeeLeaveView } from './EmployeeLeaveView';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ export const EmployeeManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<UserData | null>(null);
+  const [viewingEmployeeId, setViewingEmployeeId] = useState<string | null>(null);
 
   useEffect(() => {
     loadEmployees();
@@ -193,11 +195,19 @@ export const EmployeeManagement: React.FC = () => {
                       <tr key={employee.id} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-4 px-4">
                           <div className="flex items-center space-x-3">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)}`}>
-                              <span className="text-white font-medium">
-                                {getInitials(employee.nickname)}
-                              </span>
-                            </div>
+                            {employee.profilePicture ? (
+                              <img 
+                                src={employee.profilePicture} 
+                                alt={employee.nickname || employee.firstName} 
+                                className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                              />
+                            ) : (
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)}`}>
+                                <span className="text-white font-medium">
+                                  {getInitials(employee.nickname)}
+                                </span>
+                              </div>
+                            )}
                             <div>
                               <div className="flex items-center space-x-2">
                                 <p className="font-semibold text-gray-800">{employee.nickname}</p>
@@ -235,6 +245,15 @@ export const EmployeeManagement: React.FC = () => {
                             <Button
                               variant="ghost"
                               size="sm"
+                              onClick={() => setViewingEmployeeId(employee.id)}
+                              className="text-blue-500 hover:text-blue-700"
+                            >
+                              <i className="fas fa-calendar-alt mr-1"></i>
+                              ใบลา
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
                               onClick={() => handleDeleteEmployee(employee.id)}
                               className="text-red-600 hover:text-red-800"
                             >
@@ -259,6 +278,12 @@ export const EmployeeManagement: React.FC = () => {
         onClose={() => setShowModal(false)}
         employee={editingEmployee}
         onSave={loadEmployees}
+      />
+
+      {/* Employee Leave View */}
+      <EmployeeLeaveView
+        employeeId={viewingEmployeeId}
+        onClose={() => setViewingEmployeeId(null)}
       />
     </div>
   );

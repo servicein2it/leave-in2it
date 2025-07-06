@@ -16,11 +16,19 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
   return (
     <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer">
       <div className="flex items-center space-x-3">
-        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)}`}>
-          <span className="text-white font-medium">
-            {getInitials(employee.nickname)}
-          </span>
-        </div>
+        {employee.profilePicture ? (
+          <img 
+            src={employee.profilePicture} 
+            alt={employee.nickname || employee.firstName} 
+            className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 shadow-sm"
+          />
+        ) : (
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getAvatarColor(employee.gender)}`}>
+            <span className="text-white font-medium">
+              {getInitials(employee.nickname)}
+            </span>
+          </div>
+        )}
         <div>
           <p className="font-medium text-gray-800">{employee.nickname}</p>
           <p className="text-sm text-gray-600">{employee.position}</p>

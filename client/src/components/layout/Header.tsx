@@ -45,11 +45,19 @@ export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
           
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getAvatarColor(user?.gender || Gender.MALE)}`}>
-                <span className="text-white text-sm font-medium">
-                  {getInitials(user?.nickname || '')}
-                </span>
-              </div>
+              {user?.profilePicture ? (
+                <img 
+                  src={user.profilePicture} 
+                  alt={user.nickname || user.firstName || ''} 
+                  className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm"
+                />
+              ) : (
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getAvatarColor(user?.gender || Gender.MALE)}`}>
+                  <span className="text-white text-sm font-medium">
+                    {getInitials(user?.nickname || '')}
+                  </span>
+                </div>
+              )}
               <span className="text-gray-700 font-medium">
                 {user?.nickname || ''}
               </span>
