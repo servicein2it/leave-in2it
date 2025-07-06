@@ -42,6 +42,11 @@ interface EmailParams {
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
+    if (!process.env.SENDGRID_API_KEY) {
+      console.log('SendGrid API key not configured, skipping email');
+      return false;
+    }
+    
     await mailService.send({
       to: params.to,
       from: params.from,
@@ -52,6 +57,10 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('SendGrid email error:', error);
+    // Log the specific error for debugging
+    if (error.response && error.response.body) {
+      console.error('SendGrid error details:', error.response.body);
+    }
     return false;
   }
 }

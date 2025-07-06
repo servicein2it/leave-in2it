@@ -185,6 +185,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Email notification endpoint
+  app.post('/api/leave-approval-email', async (req, res) => {
+    try {
+      const { employee, leaveRequest, status, approver, rejectionReason } = req.body;
+      
+      await sendLeaveApprovalNotification(
+        employee, 
+        leaveRequest, 
+        status, 
+        approver, 
+        rejectionReason
+      );
+      
+      res.json({ message: 'Email sent successfully' });
+    } catch (error) {
+      console.error('Email notification error:', error);
+      res.status(500).json({ message: 'Failed to send email notification' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

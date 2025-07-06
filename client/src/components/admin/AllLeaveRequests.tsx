@@ -37,38 +37,7 @@ export const AllLeaveRequests: React.FC = () => {
     loadEmployees();
   }, []);
 
-  const sendEmailNotification = async (
-    leaveRequest: LeaveRequest, 
-    status: LeaveStatus, 
-    rejectionReason?: string
-  ) => {
-    try {
-      const employee = employees.find(e => e.id === leaveRequest.userId);
-      if (!employee) {
-        console.error('Employee not found for notification');
-        return;
-      }
-
-      await apiRequest('/api/leave-approval-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          employee,
-          leaveRequest,
-          status,
-          approver: 'ผู้ดูแลระบบ', // You can customize this based on logged-in admin
-          rejectionReason
-        }),
-      });
-
-      console.log('Email notification sent successfully');
-    } catch (error) {
-      console.error('Failed to send email notification:', error);
-      // Don't show error to user as this is a background operation
-    }
-  };
+  // Email notifications are now handled automatically by the backend when updating leave requests
 
   const loadEmployees = async () => {
     try {
@@ -111,8 +80,7 @@ export const AllLeaveRequests: React.FC = () => {
         description: "คำขอลาได้รับการอนุมัติและหักวันลาเรียบร้อยแล้ว",
       });
 
-      // Send email notification
-      await sendEmailNotification(leaveRequest, LeaveStatus.APPROVED);
+      // Email notification is handled automatically by the backend
 
       loadLeaveRequests();
     } catch (error) {
@@ -147,7 +115,7 @@ export const AllLeaveRequests: React.FC = () => {
       });
 
       // Send email notification with rejection reason
-      await sendEmailNotification(leaveRequest, LeaveStatus.REJECTED, reason);
+      // Email notification is handled automatically by the backend
 
       loadLeaveRequests();
     } catch (error) {
