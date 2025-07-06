@@ -12,10 +12,6 @@ export const generatePrintableLeaveForm = (
     return;
   }
 
-  const isOtherLeaveType = !Object.values(LeaveType).includes(request.leaveType);
-  const sickChecked = request.leaveType === LeaveType.SICK ? '✓' : '';
-  const personalChecked = request.leaveType === LeaveType.PERSONAL ? '✓' : '';
-  
   const htmlContent = `
     <!DOCTYPE html>
     <html lang="th">
@@ -36,9 +32,8 @@ export const generatePrintableLeaveForm = (
             .form-row { display: flex; margin-bottom: 15px; align-items: center; }
             .form-label { min-width: 120px; font-weight: 500; }
             .form-input { flex: 1; border-bottom: 1px solid #333; padding: 5px 10px; margin-left: 10px; }
-            .checkbox-group { display: flex; gap: 30px; margin: 15px 0; }
-            .checkbox-item { display: flex; align-items: center; gap: 10px; }
-            .checkbox { width: 20px; height: 20px; border: 2px solid #333; display: inline-block; text-align: center; line-height: 16px; font-weight: bold; }
+            .leave-type-section { margin: 15px 0; }
+            .leave-type-box { border: 2px solid #333; padding: 10px; text-align: center; font-weight: 500; background-color: #f8f9fa; }
             .signature-section { margin-top: 50px; display: flex; justify-content: space-between; }
             .signature-box { width: 45%; text-align: center; }
             .signature-line { border-bottom: 1px solid #333; margin: 40px 0 10px 0; }
@@ -74,22 +69,11 @@ export const generatePrintableLeaveForm = (
                 <div style="margin-bottom: 15px;">
                     <strong>ขอลา:</strong>
                 </div>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <span class="checkbox">${sickChecked}</span>
-                        <span>ป่วย</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox">${personalChecked}</span>
-                        <span>กิจส่วนตัว</span>
+                <div class="leave-type-section">
+                    <div class="leave-type-box">
+                        ${request.leaveType}
                     </div>
                 </div>
-                ${isOtherLeaveType ? `
-                <div class="form-row">
-                    <span class="form-label">เรื่อง</span>
-                    <span class="form-input">${request.leaveType}</span>
-                </div>
-                ` : ''}
                 <div class="form-row">
                     <span class="form-label">เหตุผล</span>
                     <span class="form-input">${request.reason}</span>

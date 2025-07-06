@@ -134,6 +134,12 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Print Document Format Fix:
+  * Removed generic checkboxes for "ป่วย" and "กิจส่วนตัว" from print document
+  * Replaced checkbox section with actual leave type from request
+  * Added styled box to highlight the specific leave type (e.g., "วันลาสะสม", "ลาป่วย")
+  * Print document now shows the exact leave type requested instead of generic options
+  * Improved visual formatting for better official document appearance
 - July 06, 2025. Month Filter Bug Fix:
   * Fixed inconsistent month indexing between UI and filtering logic
   * Changed Thai months array to use 1-based indexing (1-12) instead of 0-based (0-11)
