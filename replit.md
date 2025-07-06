@@ -172,6 +172,14 @@ Changelog:
   * Simplified email notifications - no more rejection reason display
   * Updated frontend types and backend API to remove rejectedReason field
   * Streamlined leave request rejection process for better user experience
+- July 06, 2025. Employee Profile Dashboard Implementation:
+  * Added comprehensive profile dashboard in employee interface with tabbed navigation
+  * Shows all employee details except leave balances as requested
+  * Edit functionality for: Title, Nickname, Position, Phone, Gender, Address, Social Media, Line User ID
+  * Protected fields (Full Name, Email, Username, Password) are read-only for security
+  * Profile picture upload with 2MB validation and preview functionality
+  * Replaced modal interface with clean tab-based navigation
+  * Added proper null safety and error handling for all profile fields
 - July 06, 2025. Admin Delete with Balance Restoration Feature:
   * Added ability for admins to delete approved leave requests and automatically restore leave balances
   * System now adds back deducted days when admin deletes an approved request

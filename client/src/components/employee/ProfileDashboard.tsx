@@ -147,7 +147,8 @@ export const ProfileDashboard: React.FC = () => {
     }
   };
 
-  const getInitials = (firstName: string, lastName: string) => {
+  const getInitials = (firstName?: string, lastName?: string) => {
+    if (!firstName || !lastName) return 'U';
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
 
@@ -219,7 +220,7 @@ export const ProfileDashboard: React.FC = () => {
                   className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
                 />
               ) : (
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-lg ${getAvatarColor(userData.gender)}`}>
+                <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-lg ${getAvatarColor(userData.gender || Gender.MALE)}`}>
                   {getInitials(userData.firstName, userData.lastName)}
                 </div>
               )}
@@ -236,8 +237,8 @@ export const ProfileDashboard: React.FC = () => {
               )}
             </div>
             <div>
-              <p className="font-semibold text-lg">{userData.firstName} {userData.lastName}</p>
-              <p className="text-gray-600">{userData.position}</p>
+              <p className="font-semibold text-lg">{userData.firstName || ''} {userData.lastName || ''}</p>
+              <p className="text-gray-600">{userData.position || 'ไม่ระบุตำแหน่ง'}</p>
             </div>
           </div>
 
@@ -245,17 +246,17 @@ export const ProfileDashboard: React.FC = () => {
             {/* Read-only fields */}
             <div>
               <Label className="text-sm font-medium text-gray-700">ชื่อผู้ใช้</Label>
-              <Input value={userData.username} disabled className="mt-1" />
+              <Input value={userData.username || ''} disabled className="mt-1" />
             </div>
 
             <div>
               <Label className="text-sm font-medium text-gray-700">อีเมล</Label>
-              <Input value={userData.email} disabled className="mt-1" />
+              <Input value={userData.email || ''} disabled className="mt-1" />
             </div>
 
             <div>
               <Label className="text-sm font-medium text-gray-700">ชื่อ-นามสกุล</Label>
-              <Input value={`${userData.firstName} ${userData.lastName}`} disabled className="mt-1" />
+              <Input value={`${userData.firstName || ''} ${userData.lastName || ''}`} disabled className="mt-1" />
             </div>
 
             {/* Editable fields */}
@@ -276,7 +277,7 @@ export const ProfileDashboard: React.FC = () => {
                   </SelectContent>
                 </Select>
               ) : (
-                <Input value={userData.title} disabled className="mt-1" />
+                <Input value={userData.title || ''} disabled className="mt-1" />
               )}
             </div>
 
@@ -289,7 +290,7 @@ export const ProfileDashboard: React.FC = () => {
                   className="mt-1"
                 />
               ) : (
-                <Input value={userData.nickname} disabled className="mt-1" />
+                <Input value={userData.nickname || ''} disabled className="mt-1" />
               )}
             </div>
 
@@ -302,7 +303,7 @@ export const ProfileDashboard: React.FC = () => {
                   className="mt-1"
                 />
               ) : (
-                <Input value={userData.position} disabled className="mt-1" />
+                <Input value={userData.position || ''} disabled className="mt-1" />
               )}
             </div>
 
@@ -315,7 +316,7 @@ export const ProfileDashboard: React.FC = () => {
                   className="mt-1"
                 />
               ) : (
-                <Input value={userData.phone} disabled className="mt-1" />
+                <Input value={userData.phone || ''} disabled className="mt-1" />
               )}
             </div>
 
@@ -335,7 +336,7 @@ export const ProfileDashboard: React.FC = () => {
                   </SelectContent>
                 </Select>
               ) : (
-                <Input value={userData.gender === Gender.MALE ? 'ชาย' : 'หญิง'} disabled className="mt-1" />
+                <Input value={userData.gender === Gender.MALE ? 'ชาย' : userData.gender === Gender.FEMALE ? 'หญิง' : ''} disabled className="mt-1" />
               )}
             </div>
 
