@@ -134,6 +134,12 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Fixed Profile Picture Display in Leave Requests:
+  * Updated AllLeaveRequests component to show actual profile pictures instead of initials
+  * Added fallback to colored initials when no profile picture is available
+  * Profile pictures now display properly in admin leave requests table
+  * Improved visual consistency across admin interface components
+  * Enhanced user experience with better employee identification
 - July 06, 2025. Fixed File Upload Size Limits:
   * Increased Express body parser limits to 10MB to handle base64 encoded images
   * Reduced client-side file size validation from 5MB to 2MB to prevent payload errors

@@ -257,11 +257,28 @@ export const AllLeaveRequests: React.FC = () => {
                   <tr key={request.id} className="border-b border-gray-100">
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getEmployeeAvatarColor(request.userId)}`}>
-                          <span className="text-white text-sm font-medium">
-                            {getEmployeeInitials(request.userId)}
-                          </span>
-                        </div>
+                        {(() => {
+                          const employee = getEmployee(request.userId);
+                          const hasProfilePicture = employee?.profilePicture && employee.profilePicture.trim() !== '';
+                          
+                          if (hasProfilePicture) {
+                            return (
+                              <img
+                                src={employee.profilePicture}
+                                alt={employee.nickname}
+                                className="w-8 h-8 rounded-full object-cover border border-gray-200"
+                              />
+                            );
+                          } else {
+                            return (
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getEmployeeAvatarColor(request.userId)}`}>
+                                <span className="text-white text-sm font-medium">
+                                  {getEmployeeInitials(request.userId)}
+                                </span>
+                              </div>
+                            );
+                          }
+                        })()}
                         <span className="text-gray-700 font-medium">
                           {request.employeeName}
                         </span>
