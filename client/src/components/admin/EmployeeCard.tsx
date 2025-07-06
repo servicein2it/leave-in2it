@@ -2,9 +2,10 @@ import { UserData, Gender } from '@/types';
 
 interface EmployeeCardProps {
   employee: UserData;
+  onClick?: () => void;
 }
 
-export const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
+export const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee, onClick }) => {
   const getAvatarColor = (gender: Gender) => {
     return gender === Gender.MALE ? 'bg-indigo-500' : 'bg-sky-500';
   };
@@ -14,7 +15,10 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({ employee }) => {
   };
 
   return (
-    <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+    <div 
+      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer"
+      onClick={onClick}
+    >
       <div className="flex items-center space-x-3">
         {employee.profilePicture ? (
           <img 

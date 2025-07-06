@@ -5,6 +5,7 @@ import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { Header } from '@/components/layout/Header';
 import { EmployeeCard } from './EmployeeCard';
 import { AllLeaveRequests } from './AllLeaveRequests';
+import { EmployeeLeaveView } from './EmployeeLeaveView';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loading } from '@/components/ui/loading';
 
@@ -13,6 +14,7 @@ export const AdminDashboard: React.FC = () => {
   const [employees, setEmployees] = useState<UserData[]>([]);
   const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [viewingEmployeeId, setViewingEmployeeId] = useState<string | null>(null);
 
   useEffect(() => {
     loadDashboardData();
@@ -105,7 +107,11 @@ export const AdminDashboard: React.FC = () => {
                 </div>
               ) : (
                 employees.map((employee) => (
-                  <EmployeeCard key={employee.id} employee={employee} />
+                  <EmployeeCard 
+                    key={employee.id} 
+                    employee={employee}
+                    onClick={() => setViewingEmployeeId(employee.id)}
+                  />
                 ))
               )}
             </div>
@@ -115,6 +121,12 @@ export const AdminDashboard: React.FC = () => {
         {/* All Leave Requests */}
         <AllLeaveRequests />
       </div>
+
+      {/* Employee Leave View */}
+      <EmployeeLeaveView
+        employeeId={viewingEmployeeId}
+        onClose={() => setViewingEmployeeId(null)}
+      />
     </div>
   );
 };
