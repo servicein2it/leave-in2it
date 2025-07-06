@@ -57,16 +57,8 @@ export const ProfileDashboard: React.FC = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
-    setProfileData({
-      title: userData?.title,
-      nickname: userData?.nickname,
-      position: userData?.position,
-      phone: userData?.phone,
-      address: userData?.address,
-      socialMedia: userData?.socialMedia,
-      lineUserId: userData?.lineUserId,
-      gender: userData?.gender,
-    });
+    // Initialize form data with current user data
+    setProfileData({});
   };
 
   const handleCancelEdit = () => {
@@ -170,14 +162,7 @@ export const ProfileDashboard: React.FC = () => {
     );
   }
 
-  // Temporary debug
-  console.log('Rendering userData:', {
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    title: userData.title,
-    nickname: userData.nickname,
-    gender: userData.gender
-  });
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -267,7 +252,7 @@ export const ProfileDashboard: React.FC = () => {
 
             <div>
               <Label className="text-sm font-medium text-gray-700">ชื่อ-นามสกุล</Label>
-              <Input value={`${userData.firstName || ''} ${userData.lastName || ''}`} disabled className="mt-1" />
+              <Input value={`${userData.firstName || ''} ${userData.lastName || ''}`.trim()} disabled className="mt-1" />
             </div>
 
             {/* Editable fields */}
@@ -275,7 +260,7 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">คำนำหน้า</Label>
               {isEditing ? (
                 <Select
-                  value={profileData.title || ''}
+                  value={profileData.title || userData.title || ''}
                   onValueChange={(value) => setProfileData({...profileData, title: value as Title})}
                 >
                   <SelectTrigger className="mt-1">
@@ -296,7 +281,7 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">ชื่อเล่น</Label>
               {isEditing ? (
                 <Input
-                  value={profileData.nickname || ''}
+                  value={profileData.nickname !== undefined ? profileData.nickname : userData.nickname || ''}
                   onChange={(e) => setProfileData({...profileData, nickname: e.target.value})}
                   className="mt-1"
                 />
@@ -309,7 +294,7 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">ตำแหน่ง</Label>
               {isEditing ? (
                 <Input
-                  value={profileData.position || ''}
+                  value={profileData.position !== undefined ? profileData.position : userData.position || ''}
                   onChange={(e) => setProfileData({...profileData, position: e.target.value})}
                   className="mt-1"
                 />
@@ -322,7 +307,7 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">เบอร์โทร</Label>
               {isEditing ? (
                 <Input
-                  value={profileData.phone || ''}
+                  value={profileData.phone !== undefined ? profileData.phone : userData.phone || ''}
                   onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
                   className="mt-1"
                 />
@@ -335,7 +320,7 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">เพศ</Label>
               {isEditing ? (
                 <Select
-                  value={profileData.gender || ''}
+                  value={profileData.gender !== undefined ? profileData.gender : userData.gender || ''}
                   onValueChange={(value) => setProfileData({...profileData, gender: value as Gender})}
                 >
                   <SelectTrigger className="mt-1">
@@ -355,12 +340,13 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">Line User ID</Label>
               {isEditing ? (
                 <Input
-                  value={profileData.lineUserId || ''}
+                  value={profileData.lineUserId !== undefined ? profileData.lineUserId : userData.lineUserId || ''}
                   onChange={(e) => setProfileData({...profileData, lineUserId: e.target.value})}
                   className="mt-1"
+                  placeholder="เว้นว่างได้หากไม่มี"
                 />
               ) : (
-                <Input value={userData.lineUserId || '-'} disabled className="mt-1" />
+                <Input value={userData.lineUserId || ''} disabled className="mt-1" />
               )}
             </div>
 
@@ -368,12 +354,13 @@ export const ProfileDashboard: React.FC = () => {
               <Label className="text-sm font-medium text-gray-700">Social Media</Label>
               {isEditing ? (
                 <Input
-                  value={profileData.socialMedia || ''}
+                  value={profileData.socialMedia !== undefined ? profileData.socialMedia : userData.socialMedia || ''}
                   onChange={(e) => setProfileData({...profileData, socialMedia: e.target.value})}
                   className="mt-1"
+                  placeholder="เว้นว่างได้หากไม่มี"
                 />
               ) : (
-                <Input value={userData.socialMedia || '-'} disabled className="mt-1" />
+                <Input value={userData.socialMedia || ''} disabled className="mt-1" />
               )}
             </div>
           </div>
@@ -382,13 +369,14 @@ export const ProfileDashboard: React.FC = () => {
             <Label className="text-sm font-medium text-gray-700">ที่อยู่</Label>
             {isEditing ? (
               <Textarea
-                value={profileData.address || ''}
+                value={profileData.address !== undefined ? profileData.address : userData.address || ''}
                 onChange={(e) => setProfileData({...profileData, address: e.target.value})}
                 className="mt-1"
                 rows={3}
+                placeholder="เว้นว่างได้หากไม่มี"
               />
             ) : (
-              <Textarea value={userData.address || '-'} disabled className="mt-1" rows={3} />
+              <Textarea value={userData.address || ''} disabled className="mt-1" rows={3} />
             )}
           </div>
         </CardContent>
