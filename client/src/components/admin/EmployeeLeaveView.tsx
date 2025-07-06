@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UserData, LeaveRequest, LeaveStatus } from '@/types';
 import { leaveRequestsAPI, usersAPI } from '@/services/api';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -72,6 +72,9 @@ export const EmployeeLeaveView: React.FC<EmployeeLeaveViewProps> = ({ employeeId
             <User className="h-5 w-5" />
             รายการขอลาของพนักงาน
           </DialogTitle>
+          <DialogDescription>
+            ดูข้อมูลและประวัติการลาของพนักงาน
+          </DialogDescription>
         </DialogHeader>
 
         {loading ? (

@@ -21,7 +21,7 @@ const getDefaultLeaveBalances = () => ({
   spouse: 0
 });
 // Image upload temporarily disabled for PostgreSQL migration
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -263,6 +263,9 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           <DialogTitle className="text-2xl font-semibold text-gray-800">
             {employee ? 'แก้ไขพนักงาน' : 'เพิ่มพนักงานใหม่'}
           </DialogTitle>
+          <DialogDescription>
+            {employee ? 'แก้ไขข้อมูลพนักงานที่มีอยู่' : 'เพิ่มพนักงานใหม่ในระบบ'}
+          </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">

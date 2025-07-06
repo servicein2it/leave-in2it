@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/SimpleAuthContext';
 import { usersAPI } from '@/services/api';
 import { Gender } from '@/types';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -135,6 +135,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
           <DialogTitle className="text-2xl font-semibold text-gray-800">
             แก้ไขโปรไฟล์
           </DialogTitle>
+          <DialogDescription>
+            แก้ไขข้อมูลโปรไฟล์ส่วนตัวของคุณ
+          </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">
