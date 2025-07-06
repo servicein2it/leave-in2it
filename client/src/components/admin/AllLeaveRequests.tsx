@@ -52,6 +52,12 @@ export const AllLeaveRequests: React.FC = () => {
     try {
       const requests = await leaveRequestsAPI.getAll();
       
+      // If no month/year selected, show all requests
+      if (!selectedMonth || !selectedYear) {
+        setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
+        return;
+      }
+      
       // Filter requests by selected month and year
       const filteredRequests = requests.filter(request => {
         const requestDate = new Date(request.requestDate);
@@ -63,7 +69,6 @@ export const AllLeaveRequests: React.FC = () => {
         
         return requestMonth === selectedMonthNum && requestYear === selectedYearNum;
       });
-      
       setLeaveRequests(filteredRequests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave requests:', error);

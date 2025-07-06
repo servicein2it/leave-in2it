@@ -134,6 +134,13 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Month Filter Bug Fix:
+  * Fixed inconsistent month indexing between UI and filtering logic
+  * Changed Thai months array to use 1-based indexing (1-12) instead of 0-based (0-11)
+  * Updated getCurrentMonthYear to return proper 1-based month numbers
+  * Month filter now correctly shows/hides leave requests by selected month
+  * Default behavior shows all requests when no month/year filter is selected
+  * Filter properly converts Buddhist calendar dates for comparison
 - July 06, 2025. Complete PostgreSQL Migration Success:
   * Migrated from Firebase to PostgreSQL for dramatically improved performance
   * Removed all Firebase dependencies and services completely  

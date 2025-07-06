@@ -46,25 +46,25 @@ export const parseInputDate = (dateString: string): Date => {
 
 export const getThaiMonths = (): { value: number; label: string }[] => {
   return [
-    { value: 0, label: 'มกราคม' },
-    { value: 1, label: 'กุมภาพันธ์' },
-    { value: 2, label: 'มีนาคม' },
-    { value: 3, label: 'เมษายน' },
-    { value: 4, label: 'พฤษภาคม' },
-    { value: 5, label: 'มิถุนายน' },
-    { value: 6, label: 'กรกฎาคม' },
-    { value: 7, label: 'สิงหาคม' },
-    { value: 8, label: 'กันยายน' },
-    { value: 9, label: 'ตุลาคม' },
-    { value: 10, label: 'พฤศจิกายน' },
-    { value: 11, label: 'ธันวาคม' }
+    { value: 1, label: 'มกราคม' },
+    { value: 2, label: 'กุมภาพันธ์' },
+    { value: 3, label: 'มีนาคม' },
+    { value: 4, label: 'เมษายน' },
+    { value: 5, label: 'พฤษภาคม' },
+    { value: 6, label: 'มิถุนายน' },
+    { value: 7, label: 'กรกฎาคม' },
+    { value: 8, label: 'สิงหาคม' },
+    { value: 9, label: 'กันยายน' },
+    { value: 10, label: 'ตุลาคม' },
+    { value: 11, label: 'พฤศจิกายน' },
+    { value: 12, label: 'ธันวาคม' }
   ];
 };
 
 export const getCurrentMonthYear = (): { month: number; year: number } => {
   const now = new Date();
   return {
-    month: now.getMonth(),
+    month: now.getMonth() + 1, // Convert to 1-based (1-12)
     year: now.getFullYear() + 543
   };
 };
