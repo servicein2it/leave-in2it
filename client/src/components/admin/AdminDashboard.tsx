@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { UserData, LeaveRequest, LeaveStatus } from '@/types';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { leaveRequestsAPI, usersAPI } from '@/services/api';
 import { Header } from '@/components/layout/Header';
 import { EmployeeCard } from './EmployeeCard';
 import { AllLeaveRequests } from './AllLeaveRequests';
@@ -23,8 +23,8 @@ export const AdminDashboard: React.FC = () => {
   const loadDashboardData = async () => {
     try {
       const [allUsers, allRequests] = await Promise.all([
-        hybridFirestoreService.users.get(),
-        hybridFirestoreService.leaveRequests.get()
+        usersAPI.getAll(),
+        leaveRequestsAPI.getAll()
       ]);
 
       const employeeUsers = allUsers.filter(u => u.role === 'EMPLOYEE');

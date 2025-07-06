@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LeaveRequest, LeaveStatus, UserData } from '@/types';
-import { leaveRequestsAPI } from '@/services/api';
+import { leaveRequestsAPI, usersAPI } from '@/services/api';
 import { formatDateThai, getThaiMonths, getCurrentMonthYear } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -72,7 +72,7 @@ export const AllLeaveRequests: React.FC = () => {
 
   const loadEmployees = async () => {
     try {
-      const allUsers = await hybridFirestoreService.users.get();
+      const allUsers = await usersAPI.getAll();
       setEmployees(allUsers);
     } catch (error) {
       console.error('Error loading employees:', error);
@@ -84,7 +84,7 @@ export const AllLeaveRequests: React.FC = () => {
       const monthIndex = parseInt(selectedMonth);
       const year = parseInt(selectedYear) - 543; // Convert Buddhist year to Gregorian year
 
-      const requests = await hybridFirestoreService.leaveRequests.getByMonth(year, monthIndex);
+      const requests = await leaveRequestsAPI.getAll();
       setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave requests:', error);
@@ -101,7 +101,7 @@ export const AllLeaveRequests: React.FC = () => {
         throw new Error('Leave request not found');
       }
 
-      await hybridFirestoreService.leaveRequests.update(requestId, {
+      await leaveRequestsAPI.update(requestId, {
         status: LeaveStatus.APPROVED,
         approvedDate: new Date()
       });
@@ -135,7 +135,7 @@ export const AllLeaveRequests: React.FC = () => {
         throw new Error('Leave request not found');
       }
 
-      await hybridFirestoreService.leaveRequests.update(requestId, {
+      await leaveRequestsAPI.update(requestId, {
         status: LeaveStatus.REJECTED,
         rejectedReason: reason,
         approvedDate: new Date()

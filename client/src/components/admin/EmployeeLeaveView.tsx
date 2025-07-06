@@ -32,12 +32,12 @@ export const EmployeeLeaveView: React.FC<EmployeeLeaveViewProps> = ({ employeeId
       setLoading(true);
       
       // Load employee details
-      const users = await hybridFirestoreService.users.get();
+      const users = await usersAPI.getAll();
       const employeeData = users.find(u => u.id === employeeId);
       setEmployee(employeeData || null);
 
       // Load leave requests for this employee
-      const allRequests = await hybridFirestoreService.leaveRequests.get();
+      const allRequests = await leaveRequestsAPI.getByUserId(employeeId);
       const employeeRequests = allRequests.filter(req => req.userId === employeeId);
       setLeaveRequests(employeeRequests);
     } catch (error) {

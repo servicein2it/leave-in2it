@@ -1,6 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { UserData, Title, Gender, UserRole } from '@/types';
 import { usersAPI } from '@/services/api';
+
+// Helper functions for employee creation
+const generateUsername = (firstName: string, lastName: string): string => {
+  return `${firstName.toLowerCase()}.${lastName.toLowerCase()}`;
+};
+
+const getDefaultLeaveBalances = () => ({
+  accumulated: 0,
+  sick: 0,
+  maternity: 0,
+  paternity: 0,
+  personal: 0,
+  vacation: 0,
+  ordination: 0,
+  military: 0,
+  study: 0,
+  international: 0,
+  spouse: 0
+});
 import { imageUploadService } from '@/services/firebase/storage';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -114,7 +133,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
 
       if (employee) {
         // Update existing employee
-        await hybridFirestoreService.users.update(employee.id, {
+        await usersAPI.update(employee.id, {
           title: formData.title,
           nickname: formData.nickname,
           firstName: formData.firstName,
@@ -139,7 +158,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         // Add new employee
         const gender = formData.title === Title.NAI ? Gender.MALE : Gender.FEMALE;
 
-        const newEmployee = await hybridFirestoreService.users.add({
+        const newEmployee = await usersAPI.create({
           username: formData.username,
           password: formData.password,
           role: UserRole.EMPLOYEE,
@@ -162,7 +181,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         if (profileImageFile && profilePictureUrl.includes('temp-')) {
           try {
             const finalImageUrl = await imageUploadService.uploadProfileImage(profileImageFile, newEmployee.id);
-            await hybridFirestoreService.users.update(newEmployee.id, {
+            await usersAPI.update(newEmployee.id, {
               profilePicture: finalImageUrl
             });
           } catch (finalUploadError) {
