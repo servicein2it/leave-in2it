@@ -1,0 +1,69 @@
+Prompt for Re-creating the Leave Management System
+High-Level Goal:
+Please create a comprehensive, self-contained "Leave Management System" web application from scratch. The application must be in Thai and tailored for a company named "IN2IT COMPANY". It should serve two primary roles: Employee (to request and track leave) and Admin (to manage employees and leave requests).
+The entire application must run without a real backend. All Firebase interactions (authentication, database) must be simulated using a firebase/mock.ts file that stores data in memory. The app should be built with React, TypeScript, and Tailwind CSS.
+Core Features & Requirements:
+User Authentication:
+A clean login page with fields for username and password.
+Use the company logo: http://in2it-service.com/IN2IT/logo/logo.jpg
+Initial mock data should contain only one user: username: 'admin', password: 'admin', with the ADMIN role. No other sample employees should be created.
+Two User Roles:
+Employee: Can view their own leave balances, submit new leave requests, view their request history, and edit their own profile.
+Admin: Has full access. Can manage employees (CRUD), manage all leave requests (approve/reject/delete), and view company-wide data.
+Employee Dashboard:
+A two-column layout.
+Left Column: Contains the "New Leave Request" form and the "My Leave History" table.
+Right Column: Contains the "Manage Remaining Leave" display, showing a vertical list of leave types and their balances.
+Profile Page: Accessible from the header, allowing employees to edit their nickname, profile picture, address, and social media links.
+Admin Dashboard:
+Main View:
+A prominent "Manage Employees" card that navigates to the employee management page.
+A grid of employee cards for quick navigation to an employee's leave history.
+A table of "All Leave Requests" with a month and year filter. The default view must be the current month.
+Employee Management Page:
+A full-page view for CRUD operations on employees.
+The employee list must be a table that looks exactly like the provided design specification (see UI/UX section).
+Includes modals for adding/editing employees and resetting passwords.
+Leave Request Management:
+Admins can approve or reject pending requests directly from the table. Approving a request must automatically deduct the days from the employee's balance.
+Admins can delete completed (approved/rejected) leave requests.
+Printable Leave Form (Critical Feature):
+Instead of generating a PDF file, this feature must open a new browser tab containing a clean, printable HTML page styled to look exactly like an official A4 leave document.
+This allows users to use their browser's native "Print to PDF" functionality, which is more reliable.
+The design must precisely match the official Thai "ใบลา" template provided previously.
+Layout Details:
+Header: Company logo (https://in2it-service.com/IN2IT/logo/in2it-logo.png) on the top-left, "ใบลา" title in the center, and the request date on the right.
+Employee Info: Fields for title (e.g., นาย), full name, and position.
+Leave Type: Checkboxes for "ป่วย" (Sick) and "กิจส่วนตัว" (Personal). If another leave type is chosen, it must be explicitly written out on a "เรื่อง" (Subject) line.
+Details: Fields for start date, end date, total duration, and a contact number during leave.
+Signatures: Sections for the employee's signature and the approver's signature and final decision.
+All dynamic data (names, dates, etc.) must be correctly formatted in Thai (using Buddhist Era for the year).
+Data Models & Schema (TypeScript):
+The application must use the following interfaces:
+Title: An enum for NAI, NANG, NANGSAO.
+Gender: An enum for MALE, FEMALE.
+LeaveType: An enum for all leave types (Sick, Annual, etc.).
+LeaveStatus: An enum for PENDING, APPROVED, REJECTED.
+UserData: The main interface for employee/admin data, including personal details, role, and a nested LeaveBalances object.
+LeaveRequest: The interface for a single leave request.
+EmployeeFormData: The type used for the add/edit employee form.
+UI/UX Design Specifications:
+Framework: Tailwind CSS.
+Font: 'Kanit' from Google Fonts.
+Primary Color: Sky blue (#0284c7).
+Employee Management List (Admin View): This must be implemented precisely as shown in the provided image.
+Columns: Name, Position, Email, Manage.
+Name Column:
+A circular avatar with initials. The background color should be different based on gender (e.g., indigo for male, sky blue for female).
+Display the nickname in bold, with the gender icon next to it.
+Below the nickname, display the full name and then the @username in a smaller, lighter font.
+Employee Form Modal:
+Must have a dropdown for "Title" (นาย, นาง, นางสาว). Selecting a title must automatically set the gender.
+Must have an image upload feature for the profile picture.
+Must allow admins to set all leave balances for an employee.
+Technical Implementation Details:
+Setup: Use a standard index.html file that includes the Tailwind CSS CDN script and an importmap for React and other libraries.
+State Management: Use React hooks (useState, useEffect, useCallback).
+Mock Backend: The firebase/mock.ts file is essential. It must simulate all Firestore database operations (CRUD, transactions, real-time updates with onSnapshot) and Authentication (signInWithUsernameAndPassword, onAuthStateChanged).
+Leave Balances: When creating a new employee, all their leave balances must default to 0.
+File Structure: Organize components logically (e.g., components/ui, components/admin, components/leave). Create utility files for helpers like utils/dateHelpers.ts and utils/pdfGenerator.ts (which will actually generate the printable HTML).
