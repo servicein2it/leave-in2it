@@ -4,19 +4,24 @@ import { LeaveRequestForm } from './LeaveRequestForm';
 import { LeaveHistory } from './LeaveHistory';
 import { LeaveBalance } from './LeaveBalance';
 import { LeaveTypesOverview } from './LeaveTypesOverview';
-import { ProfileModal } from './ProfileModal';
+
 import { ProfileDashboard } from './ProfileDashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const EmployeeDashboard: React.FC = () => {
-  const [showProfile, setShowProfile] = useState(false);
+
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  const handleProfileClick = () => {
+    setActiveTab('profile');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header onProfileClick={() => setShowProfile(true)} />
+      <Header onProfileClick={handleProfileClick} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="dashboard" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="dashboard">แดชบอร์ด</TabsTrigger>
             <TabsTrigger value="profile">ข้อมูลส่วนตัว</TabsTrigger>
@@ -44,11 +49,7 @@ export const EmployeeDashboard: React.FC = () => {
         </Tabs>
       </div>
 
-      {/* Profile Modal */}
-      <ProfileModal 
-        isOpen={showProfile} 
-        onClose={() => setShowProfile(false)} 
-      />
+
     </div>
   );
 };
