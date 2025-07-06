@@ -32,6 +32,13 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 - **Session Persistence**: LocalStorage for client-side session management
 - **Protected Routes**: Route-level protection based on user roles
 
+### Email Notifications
+- **SendGrid Integration**: Professional email notifications for leave approvals/rejections
+- **Automated Workflow**: Emails sent automatically when admin approves or rejects leave requests
+- **Rich HTML Templates**: Beautiful, responsive email templates with Thai language support
+- **Notification Content**: Includes leave details, status, approver info, and rejection reasons
+- **Error Handling**: Graceful fallback if email service is unavailable
+
 ## Key Components
 
 ### User Management
@@ -135,6 +142,18 @@ Changelog:
   * Updated leave types to 11 Thai leave categories with 0-day defaults
   * Connected to real Firebase database for file uploads
   * Implemented image validation (5MB max, image files only)
+- July 06, 2025. Enhanced Employee Dashboard with:
+  * Real-time date count summary when selecting leave dates
+  * Leave balance validation with modal warnings
+  * Document upload requirement for sick leave type only
+  * Automatic refresh of leave history after form submission
+  * Comprehensive form validation with Thai error messages
+- July 06, 2025. Implemented email notification system:
+  * SendGrid integration for professional email delivery
+  * Automated notifications on leave approval/rejection
+  * Rich HTML email templates with Thai language support
+  * Backend API endpoint for email notifications
+  * Integrated with admin approval workflow
 ```
 
 ## User Preferences

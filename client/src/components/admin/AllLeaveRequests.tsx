@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { useToast } from '@/hooks/use-toast';
+import { apiRequest } from '@/lib/queryClient';
 
 export const AllLeaveRequests: React.FC = () => {
   const { toast } = useToast();
@@ -36,6 +37,39 @@ export const AllLeaveRequests: React.FC = () => {
     loadEmployees();
   }, []);
 
+  const sendEmailNotification = async (
+    leaveRequest: LeaveRequest, 
+    status: LeaveStatus, 
+    rejectionReason?: string
+  ) => {
+    try {
+      const employee = employees.find(e => e.id === leaveRequest.userId);
+      if (!employee) {
+        console.error('Employee not found for notification');
+        return;
+      }
+
+      await apiRequest('/api/leave-approval-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          employee,
+          leaveRequest,
+          status,
+          approver: 'ผู้ดูแลระบบ', // You can customize this based on logged-in admin
+          rejectionReason
+        }),
+      });
+
+      console.log('Email notification sent successfully');
+    } catch (error) {
+      console.error('Failed to send email notification:', error);
+      // Don't show error to user as this is a background operation
+    }
+  };
+
   const loadEmployees = async () => {
     try {
       const allUsers = await hybridFirestoreService.users.get();
@@ -61,6 +95,12 @@ export const AllLeaveRequests: React.FC = () => {
 
   const handleApproveRequest = async (requestId: string) => {
     try {
+      // Find the leave request before updating
+      const leaveRequest = leaveRequests.find(req => req.id === requestId);
+      if (!leaveRequest) {
+        throw new Error('Leave request not found');
+      }
+
       await hybridFirestoreService.leaveRequests.update(requestId, {
         status: LeaveStatus.APPROVED,
         approvedDate: new Date()
@@ -70,6 +110,9 @@ export const AllLeaveRequests: React.FC = () => {
         title: "อนุมัติคำขอลาสำเร็จ",
         description: "คำขอลาได้รับการอนุมัติและหักวันลาเรียบร้อยแล้ว",
       });
+
+      // Send email notification
+      await sendEmailNotification(leaveRequest, LeaveStatus.APPROVED);
 
       loadLeaveRequests();
     } catch (error) {
@@ -86,6 +129,12 @@ export const AllLeaveRequests: React.FC = () => {
     if (reason === null) return;
 
     try {
+      // Find the leave request before updating
+      const leaveRequest = leaveRequests.find(req => req.id === requestId);
+      if (!leaveRequest) {
+        throw new Error('Leave request not found');
+      }
+
       await hybridFirestoreService.leaveRequests.update(requestId, {
         status: LeaveStatus.REJECTED,
         rejectedReason: reason,
@@ -96,6 +145,9 @@ export const AllLeaveRequests: React.FC = () => {
         title: "ปฏิเสธคำขอลาสำเร็จ",
         description: "คำขอลาได้รับการปฏิเสธเรียบร้อยแล้ว",
       });
+
+      // Send email notification with rejection reason
+      await sendEmailNotification(leaveRequest, LeaveStatus.REJECTED, reason);
 
       loadLeaveRequests();
     } catch (error) {
