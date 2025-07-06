@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UserData, Title, Gender, UserRole } from '@/types';
 import { hybridFirestoreService, generateUsername, getDefaultLeaveBalances } from '@/services/firebase/hybrid';
+import { imageUploadService } from '@/services/firebase/storage';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { Upload, X } from 'lucide-react';
 
 interface EmployeeModalProps {
   isOpen: boolean;
@@ -23,6 +25,9 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
 }) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [profileImagePreview, setProfileImagePreview] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     title: Title.NAI,
     nickname: '',
@@ -31,6 +36,8 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     email: '',
     phone: '',
     position: '',
+    username: '',
+    password: '',
     profilePicture: '',
     address: '',
     socialMedia: '',
@@ -48,12 +55,18 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         email: employee.email,
         phone: employee.phone,
         position: employee.position,
+        username: employee.username,
+        password: employee.password,
         profilePicture: employee.profilePicture || '',
         address: employee.address || '',
         socialMedia: employee.socialMedia || '',
         lineUserId: employee.lineUserId || '',
         leaveBalances: employee.leaveBalances
       });
+      // Set preview for existing profile picture
+      if (employee.profilePicture) {
+        setProfileImagePreview(employee.profilePicture);
+      }
     } else {
       setFormData({
         title: Title.NAI,
@@ -63,12 +76,16 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         email: '',
         phone: '',
         position: '',
+        username: '',
+        password: '',
         profilePicture: '',
         address: '',
         socialMedia: '',
         lineUserId: '',
         leaveBalances: getDefaultLeaveBalances()
       });
+      setProfileImagePreview('');
+      setProfileImageFile(null);
     }
   }, [employee]);
 
@@ -77,6 +94,24 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     setIsLoading(true);
 
     try {
+      let profilePictureUrl = formData.profilePicture;
+
+      // Handle image upload if a new file is selected
+      if (profileImageFile) {
+        try {
+          const userId = employee?.id || `temp-${Date.now()}`;
+          profilePictureUrl = await imageUploadService.uploadProfileImage(profileImageFile, userId);
+        } catch (uploadError) {
+          toast({
+            title: "ข้อผิดพลาดในการอัปโหลดรูปภาพ",
+            description: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+      }
+
       if (employee) {
         // Update existing employee
         await hybridFirestoreService.users.update(employee.id, {
@@ -87,7 +122,9 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           email: formData.email,
           phone: formData.phone,
           position: formData.position,
-          profilePicture: formData.profilePicture,
+          username: formData.username,
+          password: formData.password,
+          profilePicture: profilePictureUrl,
           address: formData.address,
           socialMedia: formData.socialMedia,
           lineUserId: formData.lineUserId,
@@ -100,12 +137,11 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         });
       } else {
         // Add new employee
-        const username = generateUsername(formData.firstName, formData.lastName);
         const gender = formData.title === Title.NAI ? Gender.MALE : Gender.FEMALE;
 
-        await hybridFirestoreService.users.add({
-          username,
-          password: '123456', // Default password
+        const newEmployee = await hybridFirestoreService.users.add({
+          username: formData.username,
+          password: formData.password,
           role: UserRole.EMPLOYEE,
           title: formData.title,
           nickname: formData.nickname,
@@ -114,7 +150,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           email: formData.email,
           phone: formData.phone,
           position: formData.position,
-          profilePicture: formData.profilePicture,
+          profilePicture: profilePictureUrl,
           address: formData.address,
           socialMedia: formData.socialMedia,
           lineUserId: formData.lineUserId,
@@ -122,14 +158,34 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           leaveBalances: formData.leaveBalances
         });
 
+        // If we uploaded a temporary image, update it with the real user ID
+        if (profileImageFile && profilePictureUrl.includes('temp-')) {
+          try {
+            const finalImageUrl = await imageUploadService.uploadProfileImage(profileImageFile, newEmployee.id);
+            await hybridFirestoreService.users.update(newEmployee.id, {
+              profilePicture: finalImageUrl
+            });
+          } catch (finalUploadError) {
+            console.warn('Failed to update profile picture with final user ID:', finalUploadError);
+            // Don't fail the whole operation for this
+          }
+        }
+
         toast({
           title: "เพิ่มพนักงานสำเร็จ",
-          description: `พนักงานใหม่ถูกเพิ่มเรียบร้อยแล้ว รหัสผ่านเริ่มต้นคือ '123456'`,
+          description: `พนักงานใหม่ถูกเพิ่มเรียบร้อยแล้ว ชื่อผู้ใช้: ${formData.username}`,
         });
       }
 
       onSave();
       onClose();
+      
+      // Reset form and image states
+      setProfileImageFile(null);
+      setProfileImagePreview('');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (error) {
       toast({
         title: "เกิดข้อผิดพลาด",
@@ -153,6 +209,49 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
       }));
     } else {
       setFormData(prev => ({ ...prev, [field]: value }));
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "ข้อผิดพลาด",
+          description: "กรุณาเลือกไฟล์รูปภาพเท่านั้น",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "ข้อผิดพลาด",
+          description: "ขนาดไฟล์ต้องไม่เกิน 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setProfileImageFile(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeProfileImage = () => {
+    setProfileImageFile(null);
+    setProfileImagePreview('');
+    setFormData(prev => ({ ...prev, profilePicture: '' }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -273,15 +372,79 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="profilePicture" className="text-sm font-medium text-gray-700 mb-2">
-                รูปโปรไฟล์ (URL)
+              <Label htmlFor="username" className="text-sm font-medium text-gray-700 mb-2">
+                ชื่อผู้ใช้ *
               </Label>
               <Input
-                id="profilePicture"
-                value={formData.profilePicture}
-                onChange={(e) => handleInputChange('profilePicture', e.target.value)}
-                placeholder="https://example.com/profile.jpg"
+                id="username"
+                value={formData.username}
+                onChange={(e) => handleInputChange('username', e.target.value)}
+                placeholder="ป้อนชื่อผู้ใช้"
+                required
               />
+            </div>
+            
+            <div>
+              <Label htmlFor="password" className="text-sm font-medium text-gray-700 mb-2">
+                รหัสผ่าน *
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => handleInputChange('password', e.target.value)}
+                placeholder="ป้อนรหัสผ่าน"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label className="text-sm font-medium text-gray-700 mb-2">
+                รูปโปรไฟล์
+              </Label>
+              <div className="space-y-4">
+                {profileImagePreview && (
+                  <div className="relative inline-block">
+                    <img
+                      src={profileImagePreview}
+                      alt="Profile preview"
+                      className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                      onClick={removeProfileImage}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-2"
+                  >
+                    <Upload className="h-4 w-4" />
+                    เลือกรูปภาพ
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+                <p className="text-xs text-gray-500">
+                  รองรับไฟล์: JPG, PNG, GIF (ขนาดไม่เกิน 5MB)
+                </p>
+              </div>
             </div>
             
             <div>

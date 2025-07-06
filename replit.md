@@ -25,7 +25,9 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 - **Development**: Hot reload with Vite integration
 
 ### Authentication & Authorization
-- **Mock Authentication**: Firebase-style authentication interface with in-memory storage
+- **Firebase Integration**: Real Firebase Authentication and Firestore database
+- **Hybrid System**: Automatic fallback to mock services when Firebase unavailable
+- **Profile Pictures**: Firebase Storage for image uploads with validation
 - **Role-Based Access Control**: Two roles (EMPLOYEE, ADMIN) with different permissions
 - **Session Persistence**: LocalStorage for client-side session management
 - **Protected Routes**: Route-level protection based on user roles
@@ -35,10 +37,18 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 ### User Management
 - **Employee Role**: Can view leave balances, submit requests, view history, edit profile
 - **Admin Role**: Full CRUD operations on employees, leave request management, company-wide analytics
+- **Employee Creation**: Admins can create employees with custom username/password
+- **Profile Management**: Profile pictures uploaded to Firebase Storage
+- **Enhanced Fields**: Address, social media, Line User ID support
 - **Default User**: Single admin user (username: 'admin', password: 'admin')
 
 ### Leave Management
-- **Leave Types**: Sick, Annual, Personal, Maternity, and Other categories
+- **Leave Types**: 11 specific Thai leave categories:
+  * วันลาสะสม, ลาป่วย, ลาคลอดบุตร, ลาไปช่วยเหลือภริยาที่คลอดบุตร
+  * ลากิจส่วนตัว, ลาพักผ่อน, ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์
+  * ลาเข้ารับการตรวจเลือกทหาร, ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน
+  * ลาไปปฏิบัติงานในองค์การระหว่างประเทศ, ลาติดตามคู่สมรส
+- **Default Balances**: All leave types default to 0 days
 - **Request Workflow**: Submit → Pending → Approved/Rejected
 - **Balance Tracking**: Automatic deduction from employee balances upon approval
 - **History Tracking**: Complete audit trail of all leave requests
@@ -117,7 +127,14 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
-- July 06, 2025. Initial setup
+- July 06, 2025. Initial setup with hybrid Firebase/mock authentication system
+- July 06, 2025. Enhanced employee management with:
+  * Added username/password fields for employee login
+  * Added profile picture upload with Firebase Storage
+  * Added address, social media, and Line User ID fields
+  * Updated leave types to 11 Thai leave categories with 0-day defaults
+  * Connected to real Firebase database for file uploads
+  * Implemented image validation (5MB max, image files only)
 ```
 
 ## User Preferences

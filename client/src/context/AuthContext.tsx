@@ -1,16 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { UserData, AuthContextType } from '@/types';
 import { hybridAuthService, initializeAdminUser } from '@/services/firebase/hybrid';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -19,10 +11,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Initialize admin user if it doesn't exist
-        await initializeAdminUser();
+        // Set a timeout for Firebase initialization
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Firebase initialization timeout')), 5000);
+        });
+
+        // Race between Firebase initialization and timeout
+        await Promise.race([
+          initializeAdminUser(),
+          timeoutPromise
+        ]);
       } catch (error) {
         console.error('Error initializing app:', error);
+        console.log('Continuing with mock services...');
       } finally {
         setLoading(false);
       }
