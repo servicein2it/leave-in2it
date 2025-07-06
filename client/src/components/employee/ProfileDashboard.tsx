@@ -30,11 +30,17 @@ export const ProfileDashboard: React.FC = () => {
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: Partial<UserData>) => {
-      return apiRequest(`/api/users/${user?.id}`, {
+      const response = await fetch(`/api/users/${user?.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return response.json();
     },
     onSuccess: () => {
       toast({
@@ -122,15 +128,16 @@ export const ProfileDashboard: React.FC = () => {
         updateData.profilePicture = base64String;
       }
 
-      // Only include fields that have been changed
-      const changedData: Partial<UserData> = {};
-      Object.keys(updateData).forEach(key => {
-        if (updateData[key as keyof UserData] !== undefined) {
-          changedData[key as keyof UserData] = updateData[key as keyof UserData];
+      // Filter out undefined values but allow empty strings
+      const filteredData: Partial<UserData> = {};
+      Object.entries(updateData).forEach(([key, value]) => {
+        if (value !== undefined) {
+          filteredData[key as keyof UserData] = value as any;
         }
       });
 
-      updateProfileMutation.mutate(changedData);
+      console.log('Saving profile data:', filteredData);
+      updateProfileMutation.mutate(filteredData);
     } catch (error) {
       console.error('Save profile error:', error);
       toast({
