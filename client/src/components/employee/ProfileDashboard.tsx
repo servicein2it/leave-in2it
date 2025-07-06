@@ -25,9 +25,7 @@ export const ProfileDashboard: React.FC = () => {
     enabled: !!user?.id,
   });
 
-  console.log('ProfileDashboard - userData:', userData);
-  console.log('ProfileDashboard - isLoading:', isLoading);
-  console.log('ProfileDashboard - user from context:', user);
+
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: Partial<UserData>) => {
@@ -171,6 +169,15 @@ export const ProfileDashboard: React.FC = () => {
       </div>
     );
   }
+
+  // Temporary debug
+  console.log('Rendering userData:', {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    title: userData.title,
+    nickname: userData.nickname,
+    gender: userData.gender
+  });
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
