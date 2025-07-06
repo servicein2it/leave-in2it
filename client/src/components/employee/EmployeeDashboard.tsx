@@ -1,0 +1,37 @@
+import { useState } from 'react';
+import { Header } from '@/components/layout/Header';
+import { LeaveRequestForm } from './LeaveRequestForm';
+import { LeaveHistory } from './LeaveHistory';
+import { LeaveBalance } from './LeaveBalance';
+import { ProfileModal } from './ProfileModal';
+
+export const EmployeeDashboard: React.FC = () => {
+  const [showProfile, setShowProfile] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header onProfileClick={() => setShowProfile(true)} />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Forms and History */}
+          <div className="lg:col-span-2 space-y-8">
+            <LeaveRequestForm />
+            <LeaveHistory />
+          </div>
+
+          {/* Right Column - Leave Balance */}
+          <div className="space-y-8">
+            <LeaveBalance />
+          </div>
+        </div>
+      </div>
+
+      {/* Profile Modal */}
+      <ProfileModal 
+        isOpen={showProfile} 
+        onClose={() => setShowProfile(false)} 
+      />
+    </div>
+  );
+};
