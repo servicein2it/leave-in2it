@@ -10,11 +10,17 @@ export enum Gender {
 }
 
 export enum LeaveType {
+  ACCUMULATED = "วันลาสะสม",
   SICK = "ลาป่วย",
-  ANNUAL = "ลาพักร้อน",
-  PERSONAL = "ลากิจส่วนตัว",
   MATERNITY = "ลาคลอดบุตร",
-  OTHER = "อื่นๆ"
+  PATERNITY = "ลาไปช่วยเหลือภริยาที่คลอดบุตร",
+  PERSONAL = "ลากิจส่วนตัว",
+  VACATION = "ลาพักผ่อน",
+  ORDINATION = "ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์",
+  MILITARY = "ลาเข้ารับการตรวจเลือกทหาร",
+  STUDY = "ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน",
+  INTERNATIONAL = "ลาไปปฏิบัติงานในองค์การระหว่างประเทศ",
+  SPOUSE = "ลาติดตามคู่สมรส"
 }
 
 export enum LeaveStatus {
@@ -29,10 +35,17 @@ export enum UserRole {
 }
 
 export interface LeaveBalances {
+  accumulated: number;
   sick: number;
-  annual: number;
-  personal: number;
   maternity: number;
+  paternity: number;
+  personal: number;
+  vacation: number;
+  ordination: number;
+  military: number;
+  study: number;
+  international: number;
+  spouse: number;
 }
 
 export interface UserData {
@@ -50,6 +63,7 @@ export interface UserData {
   profilePicture?: string;
   address?: string;
   socialMedia?: string;
+  lineUserId?: string;
   gender: Gender;
   leaveBalances: LeaveBalances;
   createdAt: Date;
@@ -82,6 +96,9 @@ export interface EmployeeFormData {
   phone: string;
   position: string;
   profilePicture?: string;
+  address?: string;
+  socialMedia?: string;
+  lineUserId?: string;
   leaveBalances: LeaveBalances;
 }
 

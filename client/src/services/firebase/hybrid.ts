@@ -143,10 +143,17 @@ export const hybridFirestoreService = {
 };
 
 export const getDefaultLeaveBalances = (): LeaveBalances => ({
-  sick: 30,
-  annual: 10,
-  personal: 3,
-  maternity: 98
+  accumulated: 0,
+  sick: 0,
+  maternity: 0,
+  paternity: 0,
+  personal: 0,
+  vacation: 0,
+  ordination: 0,
+  military: 0,
+  study: 0,
+  international: 0,
+  spouse: 0
 });
 
 export const generateUsername = (firstName: string, lastName: string): string => {
@@ -174,6 +181,10 @@ export const initializeAdminUser = async () => {
         email: 'admin@in2it.com',
         phone: '02-123-4567',
         position: 'System Administrator',
+        profilePicture: '',
+        address: '',
+        socialMedia: '',
+        lineUserId: '',
         gender: 'MALE',
         leaveBalances: getDefaultLeaveBalances(),
         createdAt: new Date(),

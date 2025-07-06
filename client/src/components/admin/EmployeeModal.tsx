@@ -31,6 +31,10 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     email: '',
     phone: '',
     position: '',
+    profilePicture: '',
+    address: '',
+    socialMedia: '',
+    lineUserId: '',
     leaveBalances: getDefaultLeaveBalances()
   });
 
@@ -44,6 +48,10 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         email: employee.email,
         phone: employee.phone,
         position: employee.position,
+        profilePicture: employee.profilePicture || '',
+        address: employee.address || '',
+        socialMedia: employee.socialMedia || '',
+        lineUserId: employee.lineUserId || '',
         leaveBalances: employee.leaveBalances
       });
     } else {
@@ -55,12 +63,11 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         email: '',
         phone: '',
         position: '',
-        leaveBalances: {
-          sick: 30,
-          annual: 15,
-          personal: 6,
-          maternity: 90
-        }
+        profilePicture: '',
+        address: '',
+        socialMedia: '',
+        lineUserId: '',
+        leaveBalances: getDefaultLeaveBalances()
       });
     }
   }, [employee]);
@@ -80,6 +87,10 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           email: formData.email,
           phone: formData.phone,
           position: formData.position,
+          profilePicture: formData.profilePicture,
+          address: formData.address,
+          socialMedia: formData.socialMedia,
+          lineUserId: formData.lineUserId,
           leaveBalances: formData.leaveBalances
         });
 
@@ -103,6 +114,10 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           email: formData.email,
           phone: formData.phone,
           position: formData.position,
+          profilePicture: formData.profilePicture,
+          address: formData.address,
+          socialMedia: formData.socialMedia,
+          lineUserId: formData.lineUserId,
           gender,
           leaveBalances: formData.leaveBalances
         });
@@ -256,9 +271,71 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
             />
           </div>
           
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="profilePicture" className="text-sm font-medium text-gray-700 mb-2">
+                รูปโปรไฟล์ (URL)
+              </Label>
+              <Input
+                id="profilePicture"
+                value={formData.profilePicture}
+                onChange={(e) => handleInputChange('profilePicture', e.target.value)}
+                placeholder="https://example.com/profile.jpg"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="lineUserId" className="text-sm font-medium text-gray-700 mb-2">
+                Line User ID
+              </Label>
+              <Input
+                id="lineUserId"
+                value={formData.lineUserId}
+                onChange={(e) => handleInputChange('lineUserId', e.target.value)}
+                placeholder="Line User ID"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <Label htmlFor="address" className="text-sm font-medium text-gray-700 mb-2">
+              ที่อยู่
+            </Label>
+            <Input
+              id="address"
+              value={formData.address}
+              onChange={(e) => handleInputChange('address', e.target.value)}
+              placeholder="ป้อนที่อยู่"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="socialMedia" className="text-sm font-medium text-gray-700 mb-2">
+              โซเชียลมีเดีย
+            </Label>
+            <Input
+              id="socialMedia"
+              value={formData.socialMedia}
+              onChange={(e) => handleInputChange('socialMedia', e.target.value)}
+              placeholder="Facebook, Instagram, หรือโซเชียลมีเดียอื่นๆ"
+            />
+          </div>
+          
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4">ตั้งค่าวันลา</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="accumulatedLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  วันลาสะสม
+                </Label>
+                <Input
+                  id="accumulatedLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.accumulated}
+                  onChange={(e) => handleInputChange('leaveBalances.accumulated', e.target.value)}
+                />
+              </div>
               <div>
                 <Label htmlFor="sickLeave" className="text-sm font-medium text-gray-700 mb-2">
                   ลาป่วย
@@ -272,15 +349,27 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
                 />
               </div>
               <div>
-                <Label htmlFor="annualLeave" className="text-sm font-medium text-gray-700 mb-2">
-                  ลาพักร้อน
+                <Label htmlFor="maternityLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาคลอดบุตร
                 </Label>
                 <Input
-                  id="annualLeave"
+                  id="maternityLeave"
                   type="number"
                   min="0"
-                  value={formData.leaveBalances.annual}
-                  onChange={(e) => handleInputChange('leaveBalances.annual', e.target.value)}
+                  value={formData.leaveBalances.maternity}
+                  onChange={(e) => handleInputChange('leaveBalances.maternity', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="paternityLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาไปช่วยเหลือภริยาที่คลอดบุตร
+                </Label>
+                <Input
+                  id="paternityLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.paternity}
+                  onChange={(e) => handleInputChange('leaveBalances.paternity', e.target.value)}
                 />
               </div>
               <div>
@@ -296,15 +385,75 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
                 />
               </div>
               <div>
-                <Label htmlFor="maternityLeave" className="text-sm font-medium text-gray-700 mb-2">
-                  ลาคลอดบุตร
+                <Label htmlFor="vacationLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาพักผ่อน
                 </Label>
                 <Input
-                  id="maternityLeave"
+                  id="vacationLeave"
                   type="number"
                   min="0"
-                  value={formData.leaveBalances.maternity}
-                  onChange={(e) => handleInputChange('leaveBalances.maternity', e.target.value)}
+                  value={formData.leaveBalances.vacation}
+                  onChange={(e) => handleInputChange('leaveBalances.vacation', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="ordinationLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์
+                </Label>
+                <Input
+                  id="ordinationLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.ordination}
+                  onChange={(e) => handleInputChange('leaveBalances.ordination', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="militaryLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาเข้ารับการตรวจเลือกทหาร
+                </Label>
+                <Input
+                  id="militaryLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.military}
+                  onChange={(e) => handleInputChange('leaveBalances.military', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="studyLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน
+                </Label>
+                <Input
+                  id="studyLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.study}
+                  onChange={(e) => handleInputChange('leaveBalances.study', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="internationalLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาไปปฏิบัติงานในองค์การระหว่างประเทศ
+                </Label>
+                <Input
+                  id="internationalLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.international}
+                  onChange={(e) => handleInputChange('leaveBalances.international', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="spouseLeave" className="text-sm font-medium text-gray-700 mb-2">
+                  ลาติดตามคู่สมรส
+                </Label>
+                <Input
+                  id="spouseLeave"
+                  type="number"
+                  min="0"
+                  value={formData.leaveBalances.spouse}
+                  onChange={(e) => handleInputChange('leaveBalances.spouse', e.target.value)}
                 />
               </div>
             </div>

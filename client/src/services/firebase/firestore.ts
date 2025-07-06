@@ -262,14 +262,28 @@ export const firestoreService = {
 // Helper function to map leave types to balance keys
 function getLeaveTypeKey(leaveType: LeaveType): keyof LeaveBalances | null {
   switch (leaveType) {
+    case LeaveType.ACCUMULATED:
+      return 'accumulated';
     case LeaveType.SICK:
       return 'sick';
-    case LeaveType.ANNUAL:
-      return 'annual';
-    case LeaveType.PERSONAL:
-      return 'personal';
     case LeaveType.MATERNITY:
       return 'maternity';
+    case LeaveType.PATERNITY:
+      return 'paternity';
+    case LeaveType.PERSONAL:
+      return 'personal';
+    case LeaveType.VACATION:
+      return 'vacation';
+    case LeaveType.ORDINATION:
+      return 'ordination';
+    case LeaveType.MILITARY:
+      return 'military';
+    case LeaveType.STUDY:
+      return 'study';
+    case LeaveType.INTERNATIONAL:
+      return 'international';
+    case LeaveType.SPOUSE:
+      return 'spouse';
     default:
       return null;
   }
@@ -277,10 +291,17 @@ function getLeaveTypeKey(leaveType: LeaveType): keyof LeaveBalances | null {
 
 // Helper function to get default leave balances for new employees
 export const getDefaultLeaveBalances = (): LeaveBalances => ({
-  sick: 30,
-  annual: 15,
-  personal: 6,
-  maternity: 90
+  accumulated: 0,
+  sick: 0,
+  maternity: 0,
+  paternity: 0,
+  personal: 0,
+  vacation: 0,
+  ordination: 0,
+  military: 0,
+  study: 0,
+  international: 0,
+  spouse: 0
 });
 
 // Helper function to generate username from name

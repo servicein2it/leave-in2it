@@ -1,5 +1,20 @@
 import { UserData, LeaveRequest, UserRole, Title, Gender, LeaveType, LeaveStatus, LeaveBalances } from "@/types";
 
+// Helper function to get default leave balances for new employees
+export const getDefaultLeaveBalances = (): LeaveBalances => ({
+  accumulated: 0,
+  sick: 0,
+  maternity: 0,
+  paternity: 0,
+  personal: 0,
+  vacation: 0,
+  ordination: 0,
+  military: 0,
+  study: 0,
+  international: 0,
+  spouse: 0
+});
+
 // Mock data storage
 let users: UserData[] = [
   {
@@ -14,13 +29,12 @@ let users: UserData[] = [
     email: "admin@in2it.com",
     phone: "02-123-4567",
     position: "System Administrator",
+    profilePicture: "",
+    address: "",
+    socialMedia: "",
+    lineUserId: "",
     gender: Gender.MALE,
-    leaveBalances: {
-      sick: 30,
-      annual: 15,
-      personal: 6,
-      maternity: 0
-    },
+    leaveBalances: getDefaultLeaveBalances(),
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -186,26 +200,34 @@ export const mockFirestore = {
 // Helper function to map leave types to balance keys
 function getLeaveTypeKey(leaveType: LeaveType): keyof LeaveBalances | null {
   switch (leaveType) {
+    case LeaveType.ACCUMULATED:
+      return 'accumulated';
     case LeaveType.SICK:
       return 'sick';
-    case LeaveType.ANNUAL:
-      return 'annual';
-    case LeaveType.PERSONAL:
-      return 'personal';
     case LeaveType.MATERNITY:
       return 'maternity';
+    case LeaveType.PATERNITY:
+      return 'paternity';
+    case LeaveType.PERSONAL:
+      return 'personal';
+    case LeaveType.VACATION:
+      return 'vacation';
+    case LeaveType.ORDINATION:
+      return 'ordination';
+    case LeaveType.MILITARY:
+      return 'military';
+    case LeaveType.STUDY:
+      return 'study';
+    case LeaveType.INTERNATIONAL:
+      return 'international';
+    case LeaveType.SPOUSE:
+      return 'spouse';
     default:
       return null;
   }
 }
 
-// Helper function to get default leave balances for new employees
-export const getDefaultLeaveBalances = (): LeaveBalances => ({
-  sick: 0,
-  annual: 0,
-  personal: 0,
-  maternity: 0
-});
+// Function is already declared above, no need to re-export
 
 // Helper function to generate username from name
 export const generateUsername = (firstName: string, lastName: string): string => {
