@@ -20,6 +20,17 @@ export const LeaveHistory: React.FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const handleLeaveRequestSubmitted = () => {
+      loadLeaveHistory();
+    };
+
+    window.addEventListener('leaveRequestSubmitted', handleLeaveRequestSubmitted);
+    return () => {
+      window.removeEventListener('leaveRequestSubmitted', handleLeaveRequestSubmitted);
+    };
+  }, []);
+
   const loadLeaveHistory = async () => {
     if (!user) return;
 
