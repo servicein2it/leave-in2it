@@ -154,6 +154,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const request = await storage.updateLeaveRequest(id, updates);
       
+      // Handle leave balance deduction when request is approved
+      if (updates.status === 'อนุมัติ') {
+        try {
+          const user = await storage.getUser(request.userId);
+          if (user) {
+            // Map Thai leave types to balance field names
+            const leaveTypeMap: { [key: string]: keyof typeof user.leaveBalances } = {
+              'วันลาสะสม': 'accumulated',
+              'ลาป่วย': 'sick',
+              'ลาคลอดบุตร': 'maternity',
+              'ลาไปช่วยเหลือภริยาที่คลอดบุตร': 'paternity',
+              'ลากิจส่วนตัว': 'personal',
+              'ลาพักผ่อน': 'vacation',
+              'ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์': 'ordination',
+              'ลาเข้ารับการตรวจเลือกทหาร': 'military',
+              'ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน': 'study',
+              'ลาไปปฏิบัติงานในองค์การระหว่างประเทศ': 'international',
+              'ลาติดตามคู่สมรส': 'spouse'
+            };
+
+            const balanceField = leaveTypeMap[request.leaveType];
+            if (balanceField) {
+              const currentBalance = user.leaveBalances[balanceField];
+              const newBalance = Math.max(0, currentBalance - request.totalDays);
+              
+              // Update user's leave balance
+              await storage.updateUser(user.id, {
+                leaveBalances: {
+                  ...user.leaveBalances,
+                  [balanceField]: newBalance
+                }
+              });
+              
+              console.log(`Deducted ${request.totalDays} days from ${request.leaveType} balance for user ${user.nickname || user.id}`);
+            }
+          }
+        } catch (balanceError) {
+          console.error('Failed to update leave balance:', balanceError);
+          // Don't fail the request if balance update fails
+        }
+      }
+      
       // Send email notification if status changed
       if (updates.status && (updates.status === 'อนุมัติ' || updates.status === 'ปฏิเสธ')) {
         try {

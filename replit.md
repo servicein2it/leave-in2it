@@ -134,6 +134,13 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Implemented Automatic Leave Balance Deduction:
+  * Added automatic balance deduction when leave requests are approved
+  * System now properly updates employee leave balances upon approval
+  * Supports all 11 Thai leave types with correct field mapping
+  * Prevents negative balances with Math.max(0, calculation) safety
+  * Includes logging for balance updates and error handling
+  * Real-time balance updates visible immediately after approval
 - July 06, 2025. Fixed Profile Picture Display in Leave Requests:
   * Updated AllLeaveRequests component to show actual profile pictures instead of initials
   * Added fallback to colored initials when no profile picture is available
