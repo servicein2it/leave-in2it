@@ -20,10 +20,14 @@ export const ProfileDashboard: React.FC = () => {
   const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const { data: userData, isLoading } = useQuery({
-    queryKey: ['/api/users', user?.id],
+  const { data: userData, isLoading, error } = useQuery({
+    queryKey: [`/api/users/${user?.id}`],
     enabled: !!user?.id,
   });
+
+  console.log('ProfileDashboard - userData:', userData);
+  console.log('ProfileDashboard - isLoading:', isLoading);
+  console.log('ProfileDashboard - user from context:', user);
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: Partial<UserData>) => {
@@ -42,7 +46,7 @@ export const ProfileDashboard: React.FC = () => {
       setProfileData({});
       setProfilePictureFile(null);
       setPreviewUrl(null);
-      queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id] });
+      queryClient.invalidateQueries({ queryKey: [`/api/users/${user?.id}`] });
     },
     onError: (error) => {
       toast({
