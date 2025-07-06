@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/Header';
 import { LeaveRequestForm } from './LeaveRequestForm';
 import { LeaveHistory } from './LeaveHistory';
 import { LeaveBalance } from './LeaveBalance';
+import { LeaveTypesOverview } from './LeaveTypesOverview';
 import { ProfileModal } from './ProfileModal';
 
 export const EmployeeDashboard: React.FC = () => {
@@ -20,9 +21,10 @@ export const EmployeeDashboard: React.FC = () => {
             <LeaveHistory />
           </div>
 
-          {/* Right Column - Leave Balance */}
+          {/* Right Column - Leave Balance and Types */}
           <div className="space-y-8">
             <LeaveBalance />
+            <LeaveTypesOverview />
           </div>
         </div>
       </div>

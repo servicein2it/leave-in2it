@@ -100,10 +100,11 @@ export const LeaveRequestForm: React.FC = () => {
                   <SelectValue placeholder="เลือกประเภทการลา" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={LeaveType.SICK}>ลาป่วย</SelectItem>
-                  <SelectItem value={LeaveType.PERSONAL}>ลากิจส่วนตัว</SelectItem>
-                  <SelectItem value={LeaveType.ANNUAL}>ลาพักร้อน</SelectItem>
-                  <SelectItem value={LeaveType.MATERNITY}>ลาคลอดบุตร</SelectItem>
+                  {Object.values(LeaveType).map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
