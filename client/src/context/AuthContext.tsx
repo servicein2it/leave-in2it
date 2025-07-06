@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { UserData, AuthContextType } from '@/types';
-import { hybridAuthService, initializeAdminUser } from '@/services/firebase/hybrid';
+import { hybridAuthService } from '@/services/firebase/hybrid';
+import { initializeAdminUser } from '@/services/firebase/adminSetup';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -11,8 +12,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Initialize admin user with mock services (fast)
-        await initializeAdminUser();
+        // Initialize admin user in Firebase if needed
+        setTimeout(async () => {
+          await initializeAdminUser();
+        }, 1000); // Delay to ensure Firebase is ready
       } catch (error) {
         console.error('Error initializing app:', error);
       } finally {

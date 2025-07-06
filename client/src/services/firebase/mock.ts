@@ -15,63 +15,8 @@ export const getDefaultLeaveBalances = (): LeaveBalances => ({
   spouse: 0
 });
 
-// Mock data storage
-let users: UserData[] = [
-  {
-    id: "admin",
-    username: "admin",
-    password: "admin",
-    role: UserRole.ADMIN,
-    title: Title.NAI,
-    nickname: "Admin",
-    firstName: "ผู้ดูแล",
-    lastName: "ระบบ",
-    email: "admin@in2it.com",
-    phone: "02-123-4567",
-    position: "System Administrator",
-    profilePicture: "",
-    address: "",
-    socialMedia: "",
-    lineUserId: "",
-    gender: Gender.MALE,
-    leaveBalances: getDefaultLeaveBalances(),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: "emp001",
-    username: "employee",
-    password: "123456",
-    role: UserRole.EMPLOYEE,
-    title: Title.NAI,
-    nickname: "ปอย",
-    firstName: "สมชาย",
-    lastName: "ใจดี",
-    email: "somchai@in2it.com",
-    phone: "08-123-4567",
-    position: "กรรมการผู้จัดการ",
-    profilePicture: "",
-    address: "123 ถนนรัชดาภิเษก เขตดินแดง กรุงเทพฯ 10400",
-    socialMedia: "facebook.com/somchai",
-    lineUserId: "somchai123",
-    gender: Gender.MALE,
-    leaveBalances: {
-      accumulated: 5,
-      sick: 10,
-      maternity: 0,
-      paternity: 3,
-      personal: 3,
-      vacation: 6,
-      ordination: 5,
-      military: 2,
-      study: 30,
-      international: 0,
-      spouse: 2
-    },
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
-];
+// Mock data storage - removed hardcoded users for production
+let users: UserData[] = [];
 
 let leaveRequests: LeaveRequest[] = [];
 
