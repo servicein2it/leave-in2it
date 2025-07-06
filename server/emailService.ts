@@ -185,7 +185,7 @@ export function generateLeaveApprovalEmail(
 - เหตุผล: ${leaveRequest.reason}
 - ${isApproved ? 'อนุมัติโดย' : 'ปฏิเสธโดย'}: ${approver}
 
-${!isApproved && rejectionReason ? `เหตุผลในการปฏิเสธ: ${rejectionReason}` : ''}
+
 
 ${isApproved 
   ? 'คุณสามารถเริ่มลาได้ตามวันที่ที่ระบุในคำขอ หากมีข้อสงสัยกรุณาติดต่อฝ่ายบุคคล'

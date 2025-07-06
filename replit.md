@@ -134,6 +134,12 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Print Document Restrictions:
+  * Disabled print functionality for rejected leave requests
+  * Print button now only works for approved requests
+  * Updated both employee and admin interfaces to restrict printing
+  * Fixed email service error with rejected reason references
+  * Streamlined print permissions: only approved requests can be printed
 - July 06, 2025. Removed Rejection Reason Feature:
   * Completely removed "เหตุผลปฏิเสธ" (rejection reason) functionality from the system
   * Updated admin rejection workflow to use simple confirmation dialog instead of reason prompt

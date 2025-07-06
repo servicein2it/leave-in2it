@@ -304,6 +304,7 @@ export const AllLeaveRequests: React.FC = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handlePrintLeaveForm(request)}
+                              disabled={request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED}
                               className="text-primary hover:text-primary/80"
                             >
                               <i className="fas fa-print mr-1"></i>
