@@ -39,6 +39,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/users', async (req, res) => {
     try {
       const userData = req.body;
+      
+      // Convert date strings to Date objects
+      if (userData.createdAt) {
+        userData.createdAt = new Date(userData.createdAt);
+      }
+      if (userData.updatedAt) {
+        userData.updatedAt = new Date(userData.updatedAt);
+      }
+      
       const user = await storage.createUser(userData);
       res.json(user);
     } catch (error) {
@@ -51,6 +60,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const updates = req.body;
+      
+      // Convert date strings to Date objects
+      if (updates.createdAt) {
+        updates.createdAt = new Date(updates.createdAt);
+      }
+      if (updates.updatedAt) {
+        updates.updatedAt = new Date(updates.updatedAt);
+      }
+      
       const user = await storage.updateUser(id, updates);
       res.json(user);
     } catch (error) {
@@ -92,6 +110,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/leave-requests', async (req, res) => {
     try {
       const requestData = req.body;
+      
+      // Convert date strings to Date objects
+      if (requestData.startDate) {
+        requestData.startDate = new Date(requestData.startDate);
+      }
+      if (requestData.endDate) {
+        requestData.endDate = new Date(requestData.endDate);
+      }
+      if (requestData.requestDate) {
+        requestData.requestDate = new Date(requestData.requestDate);
+      }
+      if (requestData.approvedDate) {
+        requestData.approvedDate = new Date(requestData.approvedDate);
+      }
+      
       const request = await storage.createLeaveRequest(requestData);
       res.json(request);
     } catch (error) {
@@ -104,6 +137,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const updates = req.body;
+      
+      // Convert date strings to Date objects
+      if (updates.startDate) {
+        updates.startDate = new Date(updates.startDate);
+      }
+      if (updates.endDate) {
+        updates.endDate = new Date(updates.endDate);
+      }
+      if (updates.requestDate) {
+        updates.requestDate = new Date(updates.requestDate);
+      }
+      if (updates.approvedDate) {
+        updates.approvedDate = new Date(updates.approvedDate);
+      }
+      
       const request = await storage.updateLeaveRequest(id, updates);
       
       // Send email notification if status changed
