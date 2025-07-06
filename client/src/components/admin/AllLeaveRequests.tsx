@@ -145,9 +145,22 @@ export const AllLeaveRequests: React.FC = () => {
 
         loadLeaveRequests();
       } catch (error) {
+        console.error('Error deleting leave request:', error);
+        let description = 'ไม่สามารถลบคำขอลาได้ กรุณาลองใหม่อีกครั้ง';
+        
+        if (error instanceof Error && error.message.includes('400:')) {
+          // Extract the actual error message from the API response
+          const match = error.message.match(/400: (.+)/);
+          if (match) {
+            description = match[1];
+          } else if (error.message.includes('approved leave request') || error.message.includes('อนุมัติแล้ว')) {
+            description = 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว เนื่องจากได้มีการหักวันลาแล้ว';
+          }
+        }
+        
         toast({
           title: "เกิดข้อผิดพลาด",
-          description: "ไม่สามารถลบคำขอลาได้ กรุณาลองใหม่อีกครั้ง",
+          description,
           variant: "destructive",
         });
       }
@@ -327,15 +340,17 @@ export const AllLeaveRequests: React.FC = () => {
                               <i className="fas fa-print mr-1"></i>
                               พิมพ์
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteRequest(request.id)}
-                              className="text-red-600 hover:text-red-800"
-                            >
-                              <i className="fas fa-trash mr-1"></i>
-                              ลบ
-                            </Button>
+                            {(request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED) && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteRequest(request.id)}
+                                className="text-red-600 hover:text-red-800"
+                              >
+                                <i className="fas fa-trash mr-1"></i>
+                                ลบ
+                              </Button>
+                            )}
                           </>
                         )}
                       </div>

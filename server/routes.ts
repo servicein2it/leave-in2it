@@ -229,7 +229,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Only allow deletion of pending and rejected requests (not approved)
       if (existingRequest.status === 'อนุมัติ') {
         return res.status(400).json({ 
-          message: 'Cannot delete approved leave request.' 
+          message: 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว เนื่องจากได้มีการหักวันลาแล้ว' 
         });
       }
       

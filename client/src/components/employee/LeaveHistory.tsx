@@ -81,10 +81,17 @@ export const LeaveHistory: React.FC = () => {
       });
     } catch (error) {
       console.error('Error deleting leave request:', error);
-      const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถลบคำขอลาได้';
-      const description = errorMessage.includes('approved leave request') 
-        ? 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว'
-        : 'ไม่สามารถลบคำขอลาได้';
+      let description = 'ไม่สามารถลบคำขอลาได้';
+      
+      if (error instanceof Error && error.message.includes('400:')) {
+        // Extract the actual error message from the API response
+        const match = error.message.match(/400: (.+)/);
+        if (match) {
+          description = match[1];
+        } else if (error.message.includes('approved leave request') || error.message.includes('อนุมัติแล้ว')) {
+          description = 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว เนื่องจากได้มีการหักวันลาแล้ว';
+        }
+      }
       
       toast({
         title: "เกิดข้อผิดพลาด",

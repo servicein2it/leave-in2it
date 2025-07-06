@@ -172,6 +172,13 @@ Changelog:
   * Simplified email notifications - no more rejection reason display
   * Updated frontend types and backend API to remove rejectedReason field
   * Streamlined leave request rejection process for better user experience
+- July 06, 2025. Enhanced Error Handling and UI Improvements:
+  * Fixed dialog accessibility warnings by adding DialogDescription to all dialog components
+  * Improved delete error messages with clear Thai language explanations
+  * Enhanced user experience by showing proper error messages when trying to delete approved requests
+  * Added conditional delete button visibility - only shows for pending and rejected requests
+  * Server now returns user-friendly Thai error messages instead of generic English
+  * Both admin and employee interfaces now handle deletion restrictions consistently
 - July 06, 2025. Employee Leave Request Deletion Feature:
   * Added delete functionality for pending leave requests in employee dashboard
   * Employees can now delete their own leave requests only when status is "รอพิจารณา" (pending)
