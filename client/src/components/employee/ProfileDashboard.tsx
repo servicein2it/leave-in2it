@@ -23,6 +23,7 @@ export const ProfileDashboard: React.FC = () => {
   const { data: userData, isLoading, error } = useQuery({
     queryKey: [`/api/users/${user?.id}`],
     enabled: !!user?.id,
+    retry: false,
   });
 
 
@@ -47,6 +48,7 @@ export const ProfileDashboard: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: [`/api/users/${user?.id}`] });
     },
     onError: (error) => {
+      console.error('Profile update error:', error);
       toast({
         title: 'เกิดข้อผิดพลาด',
         description: 'ไม่สามารถอัพเดตโปรไฟล์ได้ กรุณาลองใหม่อีกครั้ง',
@@ -120,8 +122,17 @@ export const ProfileDashboard: React.FC = () => {
         updateData.profilePicture = base64String;
       }
 
-      updateProfileMutation.mutate(updateData);
+      // Only include fields that have been changed
+      const changedData: Partial<UserData> = {};
+      Object.keys(updateData).forEach(key => {
+        if (updateData[key as keyof UserData] !== undefined) {
+          changedData[key as keyof UserData] = updateData[key as keyof UserData];
+        }
+      });
+
+      updateProfileMutation.mutate(changedData);
     } catch (error) {
+      console.error('Save profile error:', error);
       toast({
         title: 'เกิดข้อผิดพลาด',
         description: 'ไม่สามารถอัพโหลดรูปภาพได้',
@@ -150,6 +161,20 @@ export const ProfileDashboard: React.FC = () => {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-red-600">เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+        <Button 
+          onClick={() => window.location.reload()} 
+          className="mt-4"
+        >
+          โหลดใหม่
+        </Button>
       </div>
     );
   }
