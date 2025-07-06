@@ -162,7 +162,7 @@ export const AllLeaveRequests: React.FC = () => {
   const handleDeleteRequest = async (requestId: string) => {
     if (window.confirm('คุณต้องการลบคำขอลานี้ใช่หรือไม่?')) {
       try {
-        await hybridFirestoreService.leaveRequests.delete(requestId);
+        await leaveRequestsAPI.delete(requestId);
 
         toast({
           title: "ลบคำขอลาสำเร็จ",

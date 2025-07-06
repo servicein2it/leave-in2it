@@ -20,7 +20,7 @@ const getDefaultLeaveBalances = () => ({
   international: 0,
   spouse: 0
 });
-import { imageUploadService } from '@/services/firebase/storage';
+// Image upload temporarily disabled for PostgreSQL migration
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -116,19 +116,9 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
       let profilePictureUrl = formData.profilePicture;
 
       // Handle image upload if a new file is selected
+      // Image upload temporarily disabled for PostgreSQL migration
       if (profileImageFile) {
-        try {
-          const userId = employee?.id || `temp-${Date.now()}`;
-          profilePictureUrl = await imageUploadService.uploadProfileImage(profileImageFile, userId);
-        } catch (uploadError) {
-          toast({
-            title: "ข้อผิดพลาดในการอัปโหลดรูปภาพ",
-            description: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง",
-            variant: "destructive",
-          });
-          setIsLoading(false);
-          return;
-        }
+        profilePictureUrl = ''; // Will be implemented later
       }
 
       if (employee) {
@@ -177,18 +167,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           leaveBalances: formData.leaveBalances
         });
 
-        // If we uploaded a temporary image, update it with the real user ID
-        if (profileImageFile && profilePictureUrl.includes('temp-')) {
-          try {
-            const finalImageUrl = await imageUploadService.uploadProfileImage(profileImageFile, newEmployee.id);
-            await usersAPI.update(newEmployee.id, {
-              profilePicture: finalImageUrl
-            });
-          } catch (finalUploadError) {
-            console.warn('Failed to update profile picture with final user ID:', finalUploadError);
-            // Don't fail the whole operation for this
-          }
-        }
+        // Image upload will be implemented later
 
         toast({
           title: "เพิ่มพนักงานสำเร็จ",

@@ -91,7 +91,7 @@ export const EmployeeManagement: React.FC = () => {
   const handleResetPassword = async (employeeId: string) => {
     if (window.confirm('คุณต้องการรีเซ็ตรหัสผ่านเป็น "123456" ใช่หรือไม่?')) {
       try {
-        await hybridFirestoreService.users.update(employeeId, { password: '123456' });
+        await usersAPI.update(employeeId, { password: '123456' });
         toast({
           title: "รีเซ็ตรหัสผ่านสำเร็จ",
           description: "รหัสผ่านถูกเปลี่ยนเป็น '123456' เรียบร้อยแล้ว",

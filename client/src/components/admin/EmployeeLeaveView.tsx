@@ -38,8 +38,7 @@ export const EmployeeLeaveView: React.FC<EmployeeLeaveViewProps> = ({ employeeId
 
       // Load leave requests for this employee
       const allRequests = await leaveRequestsAPI.getByUserId(employeeId);
-      const employeeRequests = allRequests.filter(req => req.userId === employeeId);
-      setLeaveRequests(employeeRequests);
+      setLeaveRequests(allRequests);
     } catch (error) {
       console.error('Error loading employee data:', error);
     } finally {
