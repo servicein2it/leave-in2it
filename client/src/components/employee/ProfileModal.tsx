@@ -81,11 +81,11 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
+      // Validate file size (max 2MB to prevent base64 encoding issues)
+      if (file.size > 2 * 1024 * 1024) {
         toast({
           title: "ไฟล์ใหญ่เกินไป",
-          description: "กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 5MB",
+          description: "กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 2MB",
           variant: "destructive",
         });
         return;

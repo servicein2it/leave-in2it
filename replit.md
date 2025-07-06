@@ -134,6 +134,12 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Fixed File Upload Size Limits:
+  * Increased Express body parser limits to 10MB to handle base64 encoded images
+  * Reduced client-side file size validation from 5MB to 2MB to prevent payload errors
+  * Fixed PayloadTooLargeError when uploading profile pictures
+  * Better error handling for large file uploads with clear user feedback
+  * Optimized for base64 encoding overhead (~33% size increase)
 - July 06, 2025. Enhanced Leave Request Deletion:
   * Updated deletion logic to allow deletion of both pending and rejected requests
   * Only approved requests cannot be deleted (to protect finalized leave records)

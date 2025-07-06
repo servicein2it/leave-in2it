@@ -226,11 +226,11 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         return;
       }
 
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
+      // Validate file size (2MB max to prevent base64 encoding issues)
+      if (file.size > 2 * 1024 * 1024) {
         toast({
           title: "ข้อผิดพลาด",
-          description: "ขนาดไฟล์ต้องไม่เกิน 5MB",
+          description: "ขนาดไฟล์ต้องไม่เกิน 2MB",
           variant: "destructive",
         });
         return;
