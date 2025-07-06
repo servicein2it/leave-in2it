@@ -172,6 +172,13 @@ Changelog:
   * Simplified email notifications - no more rejection reason display
   * Updated frontend types and backend API to remove rejectedReason field
   * Streamlined leave request rejection process for better user experience
+- July 06, 2025. Admin Delete with Balance Restoration Feature:
+  * Added ability for admins to delete approved leave requests and automatically restore leave balances
+  * System now adds back deducted days when admin deletes an approved request
+  * Enhanced confirmation dialog warns admins about balance restoration
+  * Supports all 11 Thai leave types with proper field mapping for balance restoration
+  * Includes success messages indicating balance restoration completion
+  * Useful for handling errors or special circumstances requiring leave reversal
 - July 06, 2025. Enhanced Error Handling and UI Improvements:
   * Fixed dialog accessibility warnings by adding DialogDescription to all dialog components
   * Improved delete error messages with clear Thai language explanations

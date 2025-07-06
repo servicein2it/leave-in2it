@@ -226,11 +226,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Leave request not found' });
       }
       
-      // Only allow deletion of pending and rejected requests (not approved)
+      // If deleting an approved request, restore the leave balance
       if (existingRequest.status === 'อนุมัติ') {
-        return res.status(400).json({ 
-          message: 'ไม่สามารถลบคำขอลาที่ได้รับการอนุมัติแล้ว เนื่องจากได้มีการหักวันลาแล้ว' 
-        });
+        try {
+          const user = await storage.getUser(existingRequest.userId);
+          if (user) {
+            // Map Thai leave types to balance field names
+            const leaveTypeMap: { [key: string]: keyof typeof user.leaveBalances } = {
+              'วันลาสะสม': 'accumulated',
+              'ลาป่วย': 'sick',
+              'ลาคลอดบุตร': 'maternity',
+              'ลาไปช่วยเหลือภริยาที่คลอดบุตร': 'paternity',
+              'ลากิจส่วนตัว': 'personal',
+              'ลาพักผ่อน': 'vacation',
+              'ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์': 'ordination',
+              'ลาเข้ารับการตรวจเลือกทหาร': 'military',
+              'ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน': 'study',
+              'ลาไปปฏิบัติงานในองค์การระหว่างประเทศ': 'international',
+              'ลาติดตามคู่สมรส': 'spouse'
+            };
+
+            const balanceField = leaveTypeMap[existingRequest.leaveType];
+            if (balanceField) {
+              const currentBalance = user.leaveBalances[balanceField];
+              const restoredBalance = currentBalance + existingRequest.totalDays;
+              
+              // Restore user's leave balance
+              await storage.updateUser(user.id, {
+                leaveBalances: {
+                  ...user.leaveBalances,
+                  [balanceField]: restoredBalance
+                }
+              });
+              
+              console.log(`Restored ${existingRequest.totalDays} days to ${existingRequest.leaveType} balance for user ${user.nickname || user.id}`);
+            }
+          }
+        } catch (balanceError) {
+          console.error('Failed to restore leave balance:', balanceError);
+          // Continue with deletion even if balance restore fails
+        }
       }
       
       await storage.deleteLeaveRequest(id);

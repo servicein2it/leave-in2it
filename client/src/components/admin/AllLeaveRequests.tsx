@@ -133,14 +133,23 @@ export const AllLeaveRequests: React.FC = () => {
     }
   };
 
-  const handleDeleteRequest = async (requestId: string) => {
-    if (window.confirm('คุณต้องการลบคำขอลานี้ใช่หรือไม่?')) {
+  const handleDeleteRequest = async (requestId: string, status?: LeaveStatus) => {
+    const isApproved = status === LeaveStatus.APPROVED;
+    const confirmMessage = isApproved 
+      ? 'คุณต้องการลบคำขอลาที่อนุมัติแล้วใช่หรือไม่?\n\n⚠️ การลบจะคืนวันลาให้พนักงานโดยอัตโนมัติ'
+      : 'คุณต้องการลบคำขอลานี้ใช่หรือไม่?';
+      
+    if (window.confirm(confirmMessage)) {
       try {
         await leaveRequestsAPI.delete(requestId);
 
+        const successMessage = isApproved 
+          ? "คำขอลาถูกลบและคืนวันลาให้พนักงานเรียบร้อยแล้ว"
+          : "คำขอลาถูกลบออกจากระบบเรียบร้อยแล้ว";
+          
         toast({
           title: "ลบคำขอลาสำเร็จ",
-          description: "คำขอลาถูกลบออกจากระบบเรียบร้อยแล้ว",
+          description: successMessage,
         });
 
         loadLeaveRequests();
@@ -340,17 +349,15 @@ export const AllLeaveRequests: React.FC = () => {
                               <i className="fas fa-print mr-1"></i>
                               พิมพ์
                             </Button>
-                            {(request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED) && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleDeleteRequest(request.id)}
-                                className="text-red-600 hover:text-red-800"
-                              >
-                                <i className="fas fa-trash mr-1"></i>
-                                ลบ
-                              </Button>
-                            )}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteRequest(request.id, request.status)}
+                              className="text-red-600 hover:text-red-800"
+                            >
+                              <i className="fas fa-trash mr-1"></i>
+                              ลบ
+                            </Button>
                           </>
                         )}
                       </div>
