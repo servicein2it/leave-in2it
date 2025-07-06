@@ -116,9 +116,12 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
       let profilePictureUrl = formData.profilePicture;
 
       // Handle image upload if a new file is selected
-      // Image upload temporarily disabled for PostgreSQL migration
       if (profileImageFile) {
-        profilePictureUrl = ''; // Will be implemented later
+        const reader = new FileReader();
+        profilePictureUrl = await new Promise((resolve) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(profileImageFile);
+        });
       }
 
       if (employee) {
@@ -167,7 +170,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           leaveBalances: formData.leaveBalances
         });
 
-        // Image upload will be implemented later
+        // Image handling completed
 
         toast({
           title: "เพิ่มพนักงานสำเร็จ",

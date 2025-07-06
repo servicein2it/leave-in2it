@@ -18,6 +18,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { user } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [profileImagePreview, setProfileImagePreview] = useState<string>('');
   const [formData, setFormData] = useState({
     nickname: '',
     address: '',
@@ -41,10 +43,18 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     setIsLoading(true);
 
     try {
+      let profilePictureUrl = user?.profilePicture || '';
+
+      // Handle image upload if a new file is selected
+      if (profileImageFile) {
+        profilePictureUrl = await convertFileToBase64(profileImageFile);
+      }
+
       await usersAPI.update(user.id, {
         nickname: formData.nickname,
         address: formData.address,
-        socialMedia: formData.socialMedia
+        socialMedia: formData.socialMedia,
+        profilePicture: profilePictureUrl,
       });
 
       toast({
@@ -68,6 +78,50 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "ไฟล์ใหญ่เกินไป",
+          description: "กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(file.type)) {
+        toast({
+          title: "ประเภทไฟล์ไม่ถูกต้อง",
+          description: "กรุณาเลือกไฟล์ภาพในรูปแบบ JPG, PNG หรือ GIF",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setProfileImageFile(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
   const getAvatarColor = (gender: Gender) => {
     return gender === Gender.MALE ? 'bg-indigo-500' : 'bg-sky-500';
   };
@@ -85,7 +139,13 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="text-center">
-            {user.profilePicture ? (
+            {profileImagePreview ? (
+              <img 
+                src={profileImagePreview} 
+                alt="Preview" 
+                className="w-20 h-20 rounded-full object-cover border-4 border-gray-200 shadow-lg mx-auto mb-4"
+              />
+            ) : user.profilePicture ? (
               <img 
                 src={user.profilePicture} 
                 alt={user.nickname || user.firstName} 
@@ -103,6 +163,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
               accept="image/*" 
               className="hidden" 
               id="profileImage"
+              onChange={handleImageChange}
             />
             <Label 
               htmlFor="profileImage" 
