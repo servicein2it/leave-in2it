@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LeaveRequest, LeaveStatus, UserData } from '@/types';
-import { mockFirestore } from '@/services/firebase/mock';
+import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { formatDateThai, getThaiMonths, getCurrentMonthYear } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,7 +38,7 @@ export const AllLeaveRequests: React.FC = () => {
 
   const loadEmployees = async () => {
     try {
-      const allUsers = await mockFirestore.users.get();
+      const allUsers = await hybridFirestoreService.users.get();
       setEmployees(allUsers);
     } catch (error) {
       console.error('Error loading employees:', error);
@@ -50,7 +50,7 @@ export const AllLeaveRequests: React.FC = () => {
       const monthIndex = parseInt(selectedMonth);
       const year = parseInt(selectedYear) - 543; // Convert Buddhist year to Gregorian year
 
-      const requests = await mockFirestore.leaveRequests.getByMonth(year, monthIndex);
+      const requests = await hybridFirestoreService.leaveRequests.getByMonth(year, monthIndex);
       setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave requests:', error);
@@ -61,7 +61,7 @@ export const AllLeaveRequests: React.FC = () => {
 
   const handleApproveRequest = async (requestId: string) => {
     try {
-      await mockFirestore.leaveRequests.update(requestId, {
+      await hybridFirestoreService.leaveRequests.update(requestId, {
         status: LeaveStatus.APPROVED,
         approvedDate: new Date()
       });
@@ -86,7 +86,7 @@ export const AllLeaveRequests: React.FC = () => {
     if (reason === null) return;
 
     try {
-      await mockFirestore.leaveRequests.update(requestId, {
+      await hybridFirestoreService.leaveRequests.update(requestId, {
         status: LeaveStatus.REJECTED,
         rejectedReason: reason,
         approvedDate: new Date()
@@ -110,7 +110,7 @@ export const AllLeaveRequests: React.FC = () => {
   const handleDeleteRequest = async (requestId: string) => {
     if (window.confirm('คุณต้องการลบคำขอลานี้ใช่หรือไม่?')) {
       try {
-        await mockFirestore.leaveRequests.delete(requestId);
+        await hybridFirestoreService.leaveRequests.delete(requestId);
 
         toast({
           title: "ลบคำขอลาสำเร็จ",

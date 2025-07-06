@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserData, AuthContextType } from '@/types';
-import { mockAuth } from '@/services/firebase/mock';
+import { hybridAuthService, initializeAdminUser } from '@/services/firebase/hybrid';
+import { firestoreService } from '@/services/firebase/firestore';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -17,19 +18,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = mockAuth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-    });
+    const initializeApp = async () => {
+      try {
+        // Initialize admin user if it doesn't exist
+        await initializeAdminUser();
+      } catch (error) {
+        console.error('Error initializing app:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return unsubscribe;
+    initializeApp();
   }, []);
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      const user = await mockAuth.signInWithUsernameAndPassword(username, password);
-      if (user) {
-        setUser(user);
+      const result = await hybridAuthService.login(username, password);
+      if (result.success && result.user) {
+        setUser(result.user);
         return true;
       }
       return false;
@@ -41,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
-      await mockAuth.signOut();
+      hybridAuthService.logout();
       setUser(null);
     } catch (error) {
       console.error('Logout error:', error);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { LeaveRequest, LeaveStatus } from '@/types';
-import { mockFirestore } from '@/services/firebase/mock';
+import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { formatDateThai } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,7 +24,7 @@ export const LeaveHistory: React.FC = () => {
     if (!user) return;
 
     try {
-      const requests = await mockFirestore.leaveRequests.getByUserId(user.id);
+      const requests = await hybridFirestoreService.leaveRequests.getByUserId(user.id);
       setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave history:', error);

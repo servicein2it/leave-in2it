@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { UserData, Title, Gender, UserRole } from '@/types';
-import { mockFirestore, generateUsername, getDefaultLeaveBalances } from '@/services/firebase/mock';
+import { hybridFirestoreService, generateUsername, getDefaultLeaveBalances } from '@/services/firebase/hybrid';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,7 +72,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     try {
       if (employee) {
         // Update existing employee
-        await mockFirestore.users.update(employee.id, {
+        await hybridFirestoreService.users.update(employee.id, {
           title: formData.title,
           nickname: formData.nickname,
           firstName: formData.firstName,
@@ -92,7 +92,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         const username = generateUsername(formData.firstName, formData.lastName);
         const gender = formData.title === Title.NAI ? Gender.MALE : Gender.FEMALE;
 
-        await mockFirestore.users.add({
+        await hybridFirestoreService.users.add({
           username,
           password: '123456', // Default password
           role: UserRole.EMPLOYEE,

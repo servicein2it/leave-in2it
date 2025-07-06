@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { LeaveType } from '@/types';
-import { mockFirestore } from '@/services/firebase/mock';
+import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { calculateDaysBetween } from '@/utils/dateHelpers';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +43,7 @@ export const LeaveRequestForm: React.FC = () => {
         return;
       }
 
-      await mockFirestore.leaveRequests.add({
+      await hybridFirestoreService.leaveRequests.add({
         userId: user.id,
         employeeName: `${user.title}${user.firstName} ${user.lastName}`,
         leaveType: formData.leaveType as LeaveType,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { UserData, UserRole, Gender } from '@/types';
-import { mockFirestore } from '@/services/firebase/mock';
+import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { EmployeeModal } from './EmployeeModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ export const EmployeeManagement: React.FC = () => {
 
   const loadEmployees = async () => {
     try {
-      const allUsers = await mockFirestore.users.get();
+      const allUsers = await hybridFirestoreService.users.get();
       const employeeUsers = allUsers.filter(u => u.role === UserRole.EMPLOYEE);
       setEmployees(employeeUsers);
     } catch (error) {
@@ -70,7 +70,7 @@ export const EmployeeManagement: React.FC = () => {
   const handleDeleteEmployee = async (employeeId: string) => {
     if (window.confirm('คุณต้องการลบพนักงานคนนี้ใช่หรือไม่?')) {
       try {
-        await mockFirestore.users.delete(employeeId);
+        await hybridFirestoreService.users.delete(employeeId);
         toast({
           title: "ลบพนักงานสำเร็จ",
           description: "ข้อมูลพนักงานถูกลบออกจากระบบเรียบร้อยแล้ว",
@@ -89,7 +89,7 @@ export const EmployeeManagement: React.FC = () => {
   const handleResetPassword = async (employeeId: string) => {
     if (window.confirm('คุณต้องการรีเซ็ตรหัสผ่านเป็น "123456" ใช่หรือไม่?')) {
       try {
-        await mockFirestore.users.update(employeeId, { password: '123456' });
+        await hybridFirestoreService.users.update(employeeId, { password: '123456' });
         toast({
           title: "รีเซ็ตรหัสผ่านสำเร็จ",
           description: "รหัสผ่านถูกเปลี่ยนเป็น '123456' เรียบร้อยแล้ว",

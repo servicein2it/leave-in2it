@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { mockFirestore } from '@/services/firebase/mock';
+import { hybridFirestoreService } from '@/services/firebase/hybrid';
 import { Gender } from '@/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     setIsLoading(true);
 
     try {
-      await mockFirestore.users.update(user.id, {
+      await hybridFirestoreService.users.update(user.id, {
         nickname: formData.nickname,
         address: formData.address,
         socialMedia: formData.socialMedia
