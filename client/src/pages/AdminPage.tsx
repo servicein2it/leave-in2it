@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/context/SimpleAuthContext';
 import { useLocation } from 'wouter';
 import { UserRole } from '@/types';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
