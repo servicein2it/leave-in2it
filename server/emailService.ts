@@ -69,8 +69,7 @@ export function generateLeaveApprovalEmail(
   employee: UserData,
   leaveRequest: LeaveRequest,
   status: LeaveStatus,
-  approver: string,
-  rejectionReason?: string
+  approver: string
 ): EmailParams {
   const isApproved = status === LeaveStatus.APPROVED;
   const statusText = isApproved ? 'อนุมัติ' : 'ปฏิเสธ';
@@ -154,12 +153,7 @@ export function generateLeaveApprovalEmail(
         </div>
       </div>
       
-      ${!isApproved && rejectionReason ? `
-      <div class="rejection-reason">
-        <div class="info-label">เหตุผลในการปฏิเสธ:</div>
-        <div class="info-value">${rejectionReason}</div>
-      </div>
-      ` : ''}
+
       
       <p>
         ${isApproved 
@@ -215,11 +209,10 @@ export async function sendLeaveApprovalNotification(
   employee: UserData,
   leaveRequest: LeaveRequest,
   status: LeaveStatus,
-  approver: string,
-  rejectionReason?: string
+  approver: string
 ): Promise<boolean> {
   try {
-    const emailParams = generateLeaveApprovalEmail(employee, leaveRequest, status, approver, rejectionReason);
+    const emailParams = generateLeaveApprovalEmail(employee, leaveRequest, status, approver);
     const success = await sendEmail(emailParams);
     
     if (success) {

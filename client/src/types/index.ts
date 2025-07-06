@@ -84,7 +84,6 @@ export interface LeaveRequest {
   requestDate: Date;
   approvedBy?: string;
   approvedDate?: Date;
-  rejectedReason?: string;
 }
 
 export interface EmployeeFormData {

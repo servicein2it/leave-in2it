@@ -198,12 +198,7 @@ export const EmployeeLeaveView: React.FC<EmployeeLeaveViewProps> = ({ employeeId
                             )}
                           </div>
                           
-                          {request.status === LeaveStatus.REJECTED && request.rejectedReason && (
-                            <div className="mt-2 p-2 bg-red-50 rounded text-sm">
-                              <span className="font-medium text-red-700">เหตุผลที่ปฏิเสธ:</span>
-                              <span className="text-red-600 ml-1">{request.rejectedReason}</span>
-                            </div>
-                          )}
+
                         </div>
                       ))}
                   </div>

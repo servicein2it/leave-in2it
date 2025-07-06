@@ -108,19 +108,13 @@ export const AllLeaveRequests: React.FC = () => {
   };
 
   const handleRejectRequest = async (requestId: string) => {
-    const reason = window.prompt('เหตุผลที่ปฏิเสธ:');
-    if (reason === null) return;
+    if (!confirm('คุณแน่ใจหรือไม่ที่จะปฏิเสธคำขอลานี้?')) {
+      return;
+    }
 
     try {
-      // Find the leave request before updating
-      const leaveRequest = leaveRequests.find(req => req.id === requestId);
-      if (!leaveRequest) {
-        throw new Error('Leave request not found');
-      }
-
       await leaveRequestsAPI.update(requestId, {
         status: LeaveStatus.REJECTED,
-        rejectedReason: reason,
         approvedDate: new Date()
       });
 
@@ -128,9 +122,6 @@ export const AllLeaveRequests: React.FC = () => {
         title: "ปฏิเสธคำขอลาสำเร็จ",
         description: "คำขอลาได้รับการปฏิเสธเรียบร้อยแล้ว",
       });
-
-      // Send email notification with rejection reason
-      // Email notification is handled automatically by the backend
 
       loadLeaveRequests();
     } catch (error) {

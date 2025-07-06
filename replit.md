@@ -134,6 +134,13 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Removed Rejection Reason Feature:
+  * Completely removed "เหตุผลปฏิเสธ" (rejection reason) functionality from the system
+  * Updated admin rejection workflow to use simple confirmation dialog instead of reason prompt
+  * Removed rejection reason field from database schema and all components
+  * Simplified email notifications - no more rejection reason display
+  * Updated frontend types and backend API to remove rejectedReason field
+  * Streamlined leave request rejection process for better user experience
 - July 06, 2025. Employee Leave Request Deletion Feature:
   * Added delete functionality for pending leave requests in employee dashboard
   * Employees can now delete their own leave requests only when status is "รอพิจารณา" (pending)

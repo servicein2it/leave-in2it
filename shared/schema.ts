@@ -52,7 +52,6 @@ export const leaveRequests = pgTable('leave_requests', {
   requestDate: timestamp('request_date').defaultNow().notNull(),
   approvedBy: varchar('approved_by'),
   approvedDate: timestamp('approved_date'),
-  rejectedReason: text('rejected_reason'),
   documentUrl: varchar('document_url'), // For sick leave documents
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
