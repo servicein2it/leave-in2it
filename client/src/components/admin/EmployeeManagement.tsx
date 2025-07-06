@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { UserData, UserRole, Gender } from '@/types';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { usersAPI } from '@/services/api';
 import { EmployeeModal } from './EmployeeModal';
 import { EmployeeLeaveView } from './EmployeeLeaveView';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,7 +32,7 @@ export const EmployeeManagement: React.FC = () => {
 
   const loadEmployees = async () => {
     try {
-      const allUsers = await hybridFirestoreService.users.get();
+      const allUsers = await usersAPI.getAll();
       const employeeUsers = allUsers.filter(u => u.role === UserRole.EMPLOYEE);
       setEmployees(employeeUsers);
     } catch (error) {
@@ -72,7 +72,7 @@ export const EmployeeManagement: React.FC = () => {
   const handleDeleteEmployee = async (employeeId: string) => {
     if (window.confirm('คุณต้องการลบพนักงานคนนี้ใช่หรือไม่?')) {
       try {
-        await hybridFirestoreService.users.delete(employeeId);
+        await usersAPI.delete(employeeId);
         toast({
           title: "ลบพนักงานสำเร็จ",
           description: "ข้อมูลพนักงานถูกลบออกจากระบบเรียบร้อยแล้ว",

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { UserData, Title, Gender, UserRole } from '@/types';
-import { hybridFirestoreService, generateUsername, getDefaultLeaveBalances } from '@/services/firebase/hybrid';
+import { usersAPI } from '@/services/api';
 import { imageUploadService } from '@/services/firebase/storage';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';

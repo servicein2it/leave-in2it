@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { LeaveRequest, LeaveStatus, UserData } from '@/types';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { leaveRequestsAPI } from '@/services/api';
 import { formatDateThai, getThaiMonths, getCurrentMonthYear } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

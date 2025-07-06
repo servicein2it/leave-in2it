@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { UserData, LeaveRequest, LeaveStatus } from '@/types';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { leaveRequestsAPI, usersAPI } from '@/services/api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

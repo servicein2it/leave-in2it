@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/context/SimpleAuthContext';
 import { UserRole, Gender } from '@/types';
 import { useLocation } from 'wouter';
 

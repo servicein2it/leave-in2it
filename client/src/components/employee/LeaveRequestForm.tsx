@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { LeaveType } from '@/types';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { useAuth } from '@/context/SimpleAuthContext';
+import { LeaveType, LeaveStatus } from '@/types';
+import { leaveRequestsAPI } from '@/services/api';
 import { calculateDaysBetween } from '@/utils/dateHelpers';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -120,7 +120,7 @@ export const LeaveRequestForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      await hybridFirestoreService.leaveRequests.add({
+      await leaveRequestsAPI.create({
         userId: user.id,
         employeeName: `${user.title}${user.firstName} ${user.lastName}`,
         leaveType: formData.leaveType as LeaveType,
@@ -129,7 +129,7 @@ export const LeaveRequestForm: React.FC = () => {
         totalDays,
         reason: formData.reason,
         contactNumber: formData.contactNumber,
-        status: 'รอพิจารณา' as any
+        status: LeaveStatus.PENDING
       });
 
       toast({

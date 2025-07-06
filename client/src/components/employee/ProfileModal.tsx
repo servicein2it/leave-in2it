@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { hybridFirestoreService } from '@/services/firebase/hybrid';
+import { useAuth } from '@/context/SimpleAuthContext';
+import { usersAPI } from '@/services/api';
 import { Gender } from '@/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     setIsLoading(true);
 
     try {
-      await hybridFirestoreService.users.update(user.id, {
+      await usersAPI.update(user.id, {
         nickname: formData.nickname,
         address: formData.address,
         socialMedia: formData.socialMedia
