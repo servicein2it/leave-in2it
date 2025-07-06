@@ -61,6 +61,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     address: '',
     socialMedia: '',
     lineUserId: '',
+    gender: Gender.MALE,
     leaveBalances: getDefaultLeaveBalances()
   });
 
@@ -80,6 +81,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         address: employee.address || '',
         socialMedia: employee.socialMedia || '',
         lineUserId: employee.lineUserId || '',
+        gender: employee.gender,
         leaveBalances: employee.leaveBalances
       });
       // Set preview for existing profile picture
@@ -101,6 +103,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         address: '',
         socialMedia: '',
         lineUserId: '',
+        gender: Gender.MALE,
         leaveBalances: getDefaultLeaveBalances()
       });
       setProfileImagePreview('');
@@ -140,6 +143,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           address: formData.address,
           socialMedia: formData.socialMedia,
           lineUserId: formData.lineUserId,
+          gender: formData.gender,
           leaveBalances: formData.leaveBalances
         });
 
@@ -149,8 +153,6 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
         });
       } else {
         // Add new employee
-        const gender = formData.title === Title.NAI ? Gender.MALE : Gender.FEMALE;
-
         const newEmployee = await usersAPI.create({
           username: formData.username,
           password: formData.password,
@@ -166,7 +168,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
           address: formData.address,
           socialMedia: formData.socialMedia,
           lineUserId: formData.lineUserId,
-          gender,
+          gender: formData.gender,
           leaveBalances: formData.leaveBalances
         });
 
@@ -331,7 +333,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-2">
                 อีเมล
@@ -358,6 +360,21 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
                 placeholder="08X-XXX-XXXX"
                 required
               />
+            </div>
+
+            <div>
+              <Label htmlFor="gender" className="text-sm font-medium text-gray-700 mb-2">
+                เพศ
+              </Label>
+              <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value as Gender)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกเพศ" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={Gender.MALE}>ชาย</SelectItem>
+                  <SelectItem value={Gender.FEMALE}>หญิง</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           
