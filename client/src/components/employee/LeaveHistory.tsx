@@ -8,11 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/ui/loading';
+import { useToast } from '@/hooks/use-toast';
 
 export const LeaveHistory: React.FC = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingRequestId, setDeletingRequestId] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -63,6 +66,36 @@ export const LeaveHistory: React.FC = () => {
     }
   };
 
+  const handleDeleteRequest = async (requestId: string) => {
+    if (!confirm('คุณแน่ใจหรือไม่ที่จะลบคำขอลานี้?')) {
+      return;
+    }
+
+    setDeletingRequestId(requestId);
+    try {
+      await leaveRequestsAPI.delete(requestId);
+      await loadLeaveHistory(); // Refresh the list
+      toast({
+        title: "สำเร็จ",
+        description: "ลบคำขอลาเรียบร้อยแล้ว",
+      });
+    } catch (error) {
+      console.error('Error deleting leave request:', error);
+      const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถลบคำขอลาได้';
+      const description = errorMessage.includes('Only pending requests') 
+        ? 'สามารถลบได้เฉพาะคำขอลาที่อยู่ในสถานะรอพิจารณาเท่านั้น'
+        : 'ไม่สามารถลบคำขอลาได้';
+      
+      toast({
+        title: "เกิดข้อผิดพลาด",
+        description,
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingRequestId(null);
+    }
+  };
+
   if (loading) {
     return <Loading className="h-32" />;
   }
@@ -107,16 +140,30 @@ export const LeaveHistory: React.FC = () => {
                       {getStatusBadge(request.status)}
                     </td>
                     <td className="py-3 px-4">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handlePrintLeaveForm(request)}
-                        disabled={request.status === LeaveStatus.PENDING}
-                        className="text-primary hover:text-primary/80"
-                      >
-                        <i className="fas fa-print mr-1"></i>
-                        พิมพ์
-                      </Button>
+                      <div className="flex space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handlePrintLeaveForm(request)}
+                          disabled={request.status === LeaveStatus.PENDING}
+                          className="text-primary hover:text-primary/80"
+                        >
+                          <i className="fas fa-print mr-1"></i>
+                          พิมพ์
+                        </Button>
+                        {request.status === LeaveStatus.PENDING && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteRequest(request.id)}
+                            disabled={deletingRequestId === request.id}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <i className="fas fa-trash mr-1"></i>
+                            {deletingRequestId === request.id ? 'กำลังลบ...' : 'ลบ'}
+                          </Button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))

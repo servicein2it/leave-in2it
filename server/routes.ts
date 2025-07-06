@@ -177,6 +177,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete('/api/leave-requests/:id', async (req, res) => {
     try {
       const { id } = req.params;
+      
+      // Get the leave request first to check its status
+      const existingRequest = await storage.getLeaveRequest(id);
+      if (!existingRequest) {
+        return res.status(404).json({ message: 'Leave request not found' });
+      }
+      
+      // Only allow deletion of pending requests
+      if (existingRequest.status !== 'รอพิจารณา') {
+        return res.status(400).json({ 
+          message: 'Cannot delete leave request. Only pending requests can be deleted.' 
+        });
+      }
+      
       await storage.deleteLeaveRequest(id);
       res.json({ message: 'Leave request deleted successfully' });
     } catch (error) {

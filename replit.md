@@ -134,6 +134,13 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 06, 2025. Employee Leave Request Deletion Feature:
+  * Added delete functionality for pending leave requests in employee dashboard
+  * Employees can now delete their own leave requests only when status is "รอพิจารณา" (pending)
+  * Delete button appears only for pending requests, preventing deletion of approved/rejected requests
+  * Added server-side validation to ensure only pending requests can be deleted
+  * Added user-friendly error messages and confirmation dialogs
+  * Includes loading states and proper error handling with toast notifications
 - July 06, 2025. Print Document Format Fix:
   * Removed generic checkboxes for "ป่วย" and "กิจส่วนตัว" from print document
   * Replaced checkbox section with actual leave type from request
