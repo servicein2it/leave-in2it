@@ -11,9 +11,23 @@ import EmployeeManagementPage from "./pages/EmployeeManagementPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">กำลังโหลด...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <LoginPage />;
+  }
+
   return (
     <Switch>
-      <Route path="/" component={LoginPage} />
+      <Route path="/" component={user.role === 'ADMIN' ? AdminPage : EmployeePage} />
       <Route path="/employee" component={EmployeePage} />
       <Route path="/admin" component={AdminPage} />
       <Route path="/admin/employees" component={EmployeeManagementPage} />
