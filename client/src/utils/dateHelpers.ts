@@ -1,18 +1,19 @@
 // Helper functions for date formatting in Thai Buddhist Era
-export const formatDateThai = (date: Date): string => {
-  const buddhistYear = date.getFullYear() + 543;
+export const formatDateThai = (date: Date | string): string => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const buddhistYear = dateObj.getFullYear() + 543;
   const months = [
     'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
     'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
   ];
   
-  const day = date.getDate();
-  const month = months[date.getMonth()];
+  const day = dateObj.getDate();
+  const month = months[dateObj.getMonth()];
   
   return `${day} ${month} ${buddhistYear}`;
 };
 
-export const formatDateRangeThai = (startDate: Date, endDate: Date): string => {
+export const formatDateRangeThai = (startDate: Date | string, endDate: Date | string): string => {
   const start = formatDateThai(startDate);
   const end = formatDateThai(endDate);
   
@@ -23,8 +24,10 @@ export const formatDateRangeThai = (startDate: Date, endDate: Date): string => {
   return `${start} - ${end}`;
 };
 
-export const calculateDaysBetween = (startDate: Date, endDate: Date): number => {
-  const timeDiff = endDate.getTime() - startDate.getTime();
+export const calculateDaysBetween = (startDate: Date | string, endDate: Date | string): number => {
+  const startDateObj = typeof startDate === 'string' ? new Date(startDate) : startDate;
+  const endDateObj = typeof endDate === 'string' ? new Date(endDate) : endDate;
+  const timeDiff = endDateObj.getTime() - startDateObj.getTime();
   return Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 };
 
@@ -32,8 +35,9 @@ export const getCurrentBuddhistYear = (): number => {
   return new Date().getFullYear() + 543;
 };
 
-export const formatDateForInput = (date: Date): string => {
-  return date.toISOString().split('T')[0];
+export const formatDateForInput = (date: Date | string): string => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return dateObj.toISOString().split('T')[0];
 };
 
 export const parseInputDate = (dateString: string): Date => {
