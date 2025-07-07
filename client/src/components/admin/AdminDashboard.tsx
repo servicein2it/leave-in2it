@@ -6,8 +6,11 @@ import { Header } from '@/components/layout/Header';
 import { EmployeeCard } from './EmployeeCard';
 import { AllLeaveRequests } from './AllLeaveRequests';
 import { EmployeeLeaveView } from './EmployeeLeaveView';
+import { CalendarView } from '../shared/CalendarView';
+import { LeaveRequestModal } from '../shared/LeaveRequestModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loading } from '@/components/ui/loading';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const AdminDashboard: React.FC = () => {
   const [, setLocation] = useLocation();
@@ -15,6 +18,9 @@ export const AdminDashboard: React.FC = () => {
   const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [viewingEmployeeId, setViewingEmployeeId] = useState<string | null>(null);
+  const [allLeaveRequests, setAllLeaveRequests] = useState<LeaveRequest[]>([]);
+  const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -31,6 +37,7 @@ export const AdminDashboard: React.FC = () => {
       const pendingRequests = allRequests.filter(r => r.status === LeaveStatus.PENDING);
       
       setEmployees(employeeUsers);
+      setAllLeaveRequests(allRequests);
       setPendingRequestsCount(pendingRequests.length);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
@@ -118,14 +125,61 @@ export const AdminDashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* All Leave Requests */}
-        <AllLeaveRequests />
+        {/* Leave Requests Management */}
+        <Tabs defaultValue="list" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="list">รายการคำขอ</TabsTrigger>
+            <TabsTrigger value="calendar">ปฏิทินการลา</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="list" className="space-y-4">
+            <AllLeaveRequests />
+          </TabsContent>
+          
+          <TabsContent value="calendar" className="space-y-4">
+            <CalendarView 
+              leaveRequests={allLeaveRequests}
+              isAdmin={true}
+              onEventClick={(event) => {
+                setSelectedRequest(event.resource);
+                setIsModalOpen(true);
+              }}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Employee Leave View */}
       <EmployeeLeaveView
         employeeId={viewingEmployeeId}
         onClose={() => setViewingEmployeeId(null)}
+      />
+
+      {/* Leave Request Modal */}
+      <LeaveRequestModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedRequest(null);
+        }}
+        request={selectedRequest}
+        employee={selectedRequest ? employees.find(emp => emp.id === selectedRequest.userId) : null}
+        showActions={true}
+        onApprove={() => {
+          setIsModalOpen(false);
+          setSelectedRequest(null);
+          loadDashboardData();
+        }}
+        onReject={() => {
+          setIsModalOpen(false);
+          setSelectedRequest(null);
+          loadDashboardData();
+        }}
+        onDelete={() => {
+          setIsModalOpen(false);
+          setSelectedRequest(null);
+          loadDashboardData();
+        }}
       />
     </div>
   );
