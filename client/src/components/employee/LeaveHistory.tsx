@@ -38,7 +38,9 @@ export const LeaveHistory: React.FC = () => {
     if (!user) return;
 
     try {
+      console.log('Loading leave history for user ID:', user.id);
       const requests = await leaveRequestsAPI.getByUserId(user.id);
+      console.log('Found leave requests:', requests);
       setLeaveRequests(requests.sort((a, b) => new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()));
     } catch (error) {
       console.error('Error loading leave history:', error);
