@@ -199,3 +199,14 @@ body {
   background-color: #ef4444;
   border-color: #dc2626;
 }
+
+/* Force modal background to be white */
+[data-radix-dialog-content] {
+  background-color: white !important;
+  color: #1f2937 !important;
+}
+
+.dark [data-radix-dialog-content] {
+  background-color: #1f2937 !important;
+  color: white !important;
+}

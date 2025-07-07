@@ -50,7 +50,7 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl bg-white border border-gray-200 shadow-lg">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             รายละเอียดการลา
@@ -60,7 +60,7 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4">
+        <div className="space-y-4 text-gray-900">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-gray-700">ชื่อผู้ขอลา</label>
