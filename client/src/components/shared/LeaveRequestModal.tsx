@@ -1,9 +1,10 @@
 import { LeaveRequest, LeaveStatus } from '@/types';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatDateThai } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
+import { leaveRequestsAPI } from '@/services/api';
 
 interface LeaveRequestModalProps {
   isOpen: boolean;
@@ -54,6 +55,9 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
           <DialogTitle className="text-xl font-semibold">
             รายละเอียดการลา
           </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600">
+            ข้อมูลรายละเอียดของการขอลา
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">
@@ -133,13 +137,33 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
                   <>
                     <Button
                       variant="outline"
-                      onClick={() => onReject?.(request.id)}
+                      onClick={async () => {
+                        try {
+                          await leaveRequestsAPI.update(request.id, {
+                            status: LeaveStatus.REJECTED,
+                            approvedDate: new Date()
+                          });
+                          onReject?.(request.id);
+                        } catch (error) {
+                          console.error('Error rejecting request:', error);
+                        }
+                      }}
                       className="text-red-600 hover:text-red-800"
                     >
                       ปฏิเสธ
                     </Button>
                     <Button
-                      onClick={() => onApprove?.(request.id)}
+                      onClick={async () => {
+                        try {
+                          await leaveRequestsAPI.update(request.id, {
+                            status: LeaveStatus.APPROVED,
+                            approvedDate: new Date()
+                          });
+                          onApprove?.(request.id);
+                        } catch (error) {
+                          console.error('Error approving request:', error);
+                        }
+                      }}
                       className="bg-green-600 hover:bg-green-700"
                     >
                       อนุมัติ

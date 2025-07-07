@@ -1,76 +1,114 @@
 import { useAuth } from '@/context/SimpleAuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from 'react';
+import { usersAPI } from '@/services/api';
+import { UserData } from '@/types';
 
 export const LeaveBalance: React.FC = () => {
   const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState<UserData | null>(user);
+  const [loading, setLoading] = useState(false);
 
-  if (!user) return null;
+  useEffect(() => {
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
+
+  const loadUserData = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const users = await usersAPI.getAll();
+      const updatedUser = users.find(u => u.id === user.id);
+      if (updatedUser) {
+        setCurrentUser(updatedUser);
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Refresh user data every 5 seconds when component is visible
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (user && document.visibilityState === 'visible') {
+        loadUserData();
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  if (!currentUser) return null;
 
   const balanceItems = [
     {
       type: 'วันลาสะสม',
       englishType: 'Accumulated Leave',
-      balance: user.leaveBalances.accumulated,
+      balance: currentUser.leaveBalances.accumulated,
       color: 'bg-blue-50 text-blue-600'
     },
     {
       type: 'ลาป่วย',
       englishType: 'Sick Leave',
-      balance: user.leaveBalances.sick,
+      balance: currentUser.leaveBalances.sick,
       color: 'bg-red-50 text-red-600'
     },
     {
       type: 'ลาคลอดบุตร',
       englishType: 'Maternity Leave',
-      balance: user.leaveBalances.maternity,
+      balance: currentUser.leaveBalances.maternity,
       color: 'bg-purple-50 text-purple-600'
     },
     {
       type: 'ลาไปช่วยเหลือภริยาที่คลอดบุตร',
       englishType: 'Paternity Leave',
-      balance: user.leaveBalances.paternity,
+      balance: currentUser.leaveBalances.paternity,
       color: 'bg-indigo-50 text-indigo-600'
     },
     {
       type: 'ลากิจส่วนตัว',
       englishType: 'Personal Leave',
-      balance: user.leaveBalances.personal,
+      balance: currentUser.leaveBalances.personal,
       color: 'bg-yellow-50 text-yellow-600'
     },
     {
       type: 'ลาพักผ่อน',
       englishType: 'Vacation Leave',
-      balance: user.leaveBalances.vacation,
+      balance: currentUser.leaveBalances.vacation,
       color: 'bg-green-50 text-green-600'
     },
     {
       type: 'ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์',
       englishType: 'Ordination Leave',
-      balance: user.leaveBalances.ordination,
+      balance: currentUser.leaveBalances.ordination,
       color: 'bg-orange-50 text-orange-600'
     },
     {
       type: 'ลาเข้ารับการตรวจเลือกทหาร',
       englishType: 'Military Leave',
-      balance: user.leaveBalances.military,
+      balance: currentUser.leaveBalances.military,
       color: 'bg-gray-50 text-gray-600'
     },
     {
       type: 'ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน',
       englishType: 'Study Leave',
-      balance: user.leaveBalances.study,
+      balance: currentUser.leaveBalances.study,
       color: 'bg-cyan-50 text-cyan-600'
     },
     {
       type: 'ลาไปปฏิบัติงานในองค์การระหว่างประเทศ',
       englishType: 'International Leave',
-      balance: user.leaveBalances.international,
+      balance: currentUser.leaveBalances.international,
       color: 'bg-teal-50 text-teal-600'
     },
     {
       type: 'ลาติดตามคู่สมรส',
       englishType: 'Spouse Leave',
-      balance: user.leaveBalances.spouse,
+      balance: currentUser.leaveBalances.spouse,
       color: 'bg-pink-50 text-pink-600'
     }
   ];
