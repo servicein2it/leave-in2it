@@ -134,6 +134,14 @@ This is a comprehensive Leave Management System built for IN2IT Company with a T
 
 ```
 Changelog:
+- July 07, 2025. Fixed Leave Date Sync Issue:
+  * Resolved user ID mismatch causing empty leave history display
+  * Issue was system working correctly but displaying requests for wrong user
+  * Added debug logging to identify user ID and leave request associations
+  * Fixed date range display logic for single-day vs multi-day leave requests
+  * Confirmed date synchronization works perfectly between admin approvals and employee dashboard
+  * Leave requests now correctly show Thai Buddhist calendar dates with proper formatting
+  * System properly filters leave requests by current logged-in user
 - July 06, 2025. Implemented Automatic Leave Balance Deduction:
   * Added automatic balance deduction when leave requests are approved
   * System now properly updates employee leave balances upon approval
