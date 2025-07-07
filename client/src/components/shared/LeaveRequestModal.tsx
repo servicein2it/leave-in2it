@@ -50,9 +50,9 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl bg-white border border-gray-200 shadow-lg">
+      <DialogContent className="max-w-2xl !bg-white !border !border-gray-200 !shadow-lg dialog-content" style={{ backgroundColor: 'white', color: '#1f2937' }}>
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold text-gray-900">
             รายละเอียดการลา
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-600">

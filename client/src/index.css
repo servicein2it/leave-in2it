@@ -200,12 +200,36 @@ body {
   border-color: #dc2626;
 }
 
-/* Force modal background to be white */
-[data-radix-dialog-content] {
+/* Force modal background to be white - Multiple selectors for better coverage */
+[data-radix-dialog-content],
+[data-state="open"][role="dialog"],
+.dialog-content,
+div[role="dialog"] {
   background-color: white !important;
   color: #1f2937 !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Ensure dialog overlay is semi-transparent */
+[data-radix-dialog-overlay] {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Force text colors in dialog */
+[data-radix-dialog-content] * {
+  color: inherit !important;
+}
+
+[data-radix-dialog-content] .text-gray-700 {
+  color: #374151 !important;
+}
+
+[data-radix-dialog-content] .text-gray-900 {
+  color: #111827 !important;
+}
+
+/* Dark mode support */
 .dark [data-radix-dialog-content] {
   background-color: #1f2937 !important;
   color: white !important;
