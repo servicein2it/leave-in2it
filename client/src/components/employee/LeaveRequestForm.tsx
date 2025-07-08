@@ -284,7 +284,7 @@ export const LeaveRequestForm: React.FC = () => {
           
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:bg-primary/90 transition-colors duration-200"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'กำลังส่งคำขอ...' : 'ส่งคำขอลา'}

@@ -286,3 +286,15 @@ div[role="dialog"] {
   background-color: #3b82f6 !important;
   color: white !important;
 }
+
+/* Enhanced tab styling */
+[data-radix-tabs-trigger][data-state="active"] {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-radix-tabs-trigger]:hover:not([data-state="active"]) {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+}
