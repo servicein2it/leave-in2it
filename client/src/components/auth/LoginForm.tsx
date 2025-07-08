@@ -93,7 +93,7 @@ export const LoginForm: React.FC = () => {
             
             <Button 
               type="submit" 
-              className="w-full bg-primary hover:bg-primary/90 transform hover:scale-105 transition-all duration-200"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transform hover:scale-105 transition-all duration-200 shadow-lg"
               disabled={isLoading}
             >
               {isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
