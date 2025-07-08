@@ -254,8 +254,8 @@ div[role="dialog"] {
 
 [data-radix-select-item]:hover,
 [data-radix-select-item][data-highlighted] {
-  background-color: #f3f4f6 !important;
-  color: #1f2937 !important;
+  background-color: #3b82f6 !important;
+  color: white !important;
 }
 
 [data-radix-select-item][data-state="checked"] {
@@ -283,5 +283,6 @@ div[role="dialog"] {
 }
 
 .select-item:hover {
-  background-color: #f3f4f6 !important;
+  background-color: #3b82f6 !important;
+  color: white !important;
 }
