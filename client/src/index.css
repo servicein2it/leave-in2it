@@ -234,3 +234,54 @@ div[role="dialog"] {
   background-color: #1f2937 !important;
   color: white !important;
 }
+
+/* Fix Select dropdown styling */
+[data-radix-select-content] {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 6px !important;
+  padding: 4px !important;
+}
+
+[data-radix-select-item] {
+  background-color: white !important;
+  color: #1f2937 !important;
+  padding: 8px 12px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+
+[data-radix-select-item]:hover,
+[data-radix-select-item][data-highlighted] {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+}
+
+[data-radix-select-item][data-state="checked"] {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+[data-radix-select-trigger] {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #1f2937 !important;
+}
+
+/* Fix Select components with class-based targeting */
+.select-content {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.select-item {
+  background-color: white !important;
+  color: #1f2937 !important;
+  padding: 8px 12px !important;
+}
+
+.select-item:hover {
+  background-color: #f3f4f6 !important;
+}
