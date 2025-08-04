@@ -253,7 +253,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         try {
           const user = await storage.getUser(request.userId);
           if (user) {
-            await sendLeaveApprovalNotification(user, request, updates.status, updates.approvedBy);
+            await sendLeaveApprovalNotification(user, request, updates.status, updates.approvedBy || 'แอดมิน');
+            console.log(`Email notification sent to ${user.email} for ${updates.status} leave request ${request.id}`);
           }
         } catch (emailError) {
           console.error('Email notification failed:', emailError);
