@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { authService } from "./auth";
-import { sendLeaveApprovalNotification } from "./emailService";
+import { sendLeaveApprovalNotification, sendAdminNotification } from "./emailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize admin user
@@ -165,6 +165,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const request = await storage.createLeaveRequest(requestData);
+      
+      // Send admin notification email for new leave request
+      try {
+        const employee = await storage.getUser(request.userId);
+        if (employee) {
+          await sendAdminNotification(employee, request);
+          console.log(`Admin notification sent for new leave request by ${employee.firstName} ${employee.lastName}`);
+        }
+      } catch (emailError) {
+        console.error('Failed to send admin notification email:', emailError);
+        // Don't fail the request creation if email fails
+      }
+      
       res.json(request);
     } catch (error) {
       console.error('Error creating leave request:', error);
