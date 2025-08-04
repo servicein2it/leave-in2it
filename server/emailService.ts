@@ -370,7 +370,7 @@ IN2IT Company - ระบบจัดการการลา
   `;
 
   return {
-    to: 'admin@in2it.co.th', // Admin email
+    to: 'poii@in2it.co.th', // Admin email
     from: 'admin@in2it.co.th', // Use verified sender email in SendGrid
     subject,
     text,

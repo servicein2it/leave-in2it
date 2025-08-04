@@ -31,8 +31,9 @@ Preferred communication style: Simple, everyday language.
 - **Protected Routes**: Route-level protection based on user roles.
 
 ### Email Notifications
-- **SendGrid Integration**: Professional email notifications for leave approvals/rejections.
-- **Automated Workflow**: Emails sent automatically for status changes.
+- **SendGrid Integration**: Professional email notifications for leave approvals/rejections and admin notifications.
+- **Admin Notifications**: Automatic email alerts to poii@in2it.co.th when employees submit leave requests.
+- **Automated Workflow**: Emails sent automatically for status changes and new submissions.
 - **Templates**: Rich HTML templates with Thai language support.
 
 ### Key Features

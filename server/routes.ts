@@ -337,8 +337,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         employee, 
         leaveRequest, 
         status, 
-        approver, 
-        rejectionReason
+        approver
       );
       
       res.json({ message: 'Email sent successfully' });
