@@ -1,0 +1,895 @@
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IN2IT Leave Management System - ระบบจัดการการลา</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'kanit': ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#0284c7',
+                        'primary-dark': '#0369a1',
+                        'primary-light': '#38bdf8',
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="font-kanit bg-gray-50">
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <!-- Company logo from specified URL -->
+                <img src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" alt="IN2IT Company Logo" class="mx-auto h-16 w-auto mb-4">
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">ระบบจัดการการลา</h1>
+                <p class="text-gray-600">Leave Management System</p>
+            </div>
+            
+            <form class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ใช้</label>
+                    <input type="text" placeholder="admin" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label>
+                    <input type="password" placeholder="admin" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200">
+                </div>
+                
+                <button type="button" onclick="showAdminDashboard()" class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 transform hover:scale-105">
+                    เข้าสู่ระบบ
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <button onclick="showEmployeeDashboard()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                    ทดสอบระบบพนักงาน
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Dashboard -->
+    <div id="employeeDashboard" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <img src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" alt="IN2IT" class="h-8 w-auto">
+                        <h1 class="ml-4 text-xl font-semibold text-gray-800">ระบบจัดการการลา</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">พ</span>
+                            </div>
+                            <span class="text-gray-700 font-medium">พนักงาน ทดสอบ</span>
+                        </div>
+                        <button onclick="showProfile()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button onclick="logout()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Employee Dashboard Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Forms and History -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- New Leave Request Form -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-6">ขอลาใหม่</h2>
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">ประเภทการลา</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        <option>ลาป่วย</option>
+                                        <option>ลากิจส่วนตัว</option>
+                                        <option>ลาพักร้อน</option>
+                                        <option>ลาคลอดบุตร</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">จำนวนวัน</label>
+                                    <input type="number" min="1" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">วันที่เริ่มต้น</label>
+                                    <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">วันที่สิ้นสุด</label>
+                                    <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">เหตุผล</label>
+                                <textarea rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ระบุเหตุผลการลา"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">เบอร์ติดต่อในระหว่างลา</label>
+                                <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
+                                ส่งคำขอลา
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Leave History -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-6">ประวัติการลา</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">วันที่ยื่น</th>
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">ประเภท</th>
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">วันที่ลา</th>
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">จำนวนวัน</th>
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">สถานะ</th>
+                                        <th class="text-left py-3 px-4 font-medium text-gray-700">การจัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-100" data-mock="true">
+                                        <td class="py-3 px-4 text-gray-600">15 ม.ค. 2567</td>
+                                        <td class="py-3 px-4 text-gray-600">ลาป่วย</td>
+                                        <td class="py-3 px-4 text-gray-600">20-21 ม.ค. 2567</td>
+                                        <td class="py-3 px-4 text-gray-600">2</td>
+                                        <td class="py-3 px-4">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                อนุมัติ
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <button onclick="showPrintableLeaveForm()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                                <i class="fas fa-print mr-1"></i>พิมพ์
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100" data-mock="true">
+                                        <td class="py-3 px-4 text-gray-600">10 ธ.ค. 2566</td>
+                                        <td class="py-3 px-4 text-gray-600">ลาพักร้อน</td>
+                                        <td class="py-3 px-4 text-gray-600">15-19 ธ.ค. 2566</td>
+                                        <td class="py-3 px-4 text-gray-600">5</td>
+                                        <td class="py-3 px-4">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                รอพิจารณา
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <button class="text-gray-400 text-sm">
+                                                <i class="fas fa-print mr-1"></i>พิมพ์
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Leave Balance -->
+                <div class="space-y-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-6">ยอดวันลาคงเหลือ</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-medium text-gray-800">ลาป่วย</p>
+                                    <p class="text-sm text-gray-600">Sick Leave</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-blue-600">28</p>
+                                    <p class="text-sm text-gray-600">วัน</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-medium text-gray-800">ลาพักร้อน</p>
+                                    <p class="text-sm text-gray-600">Annual Leave</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-green-600">15</p>
+                                    <p class="text-sm text-gray-600">วัน</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-yellow-50 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-medium text-gray-800">ลากิจส่วนตัว</p>
+                                    <p class="text-sm text-gray-600">Personal Leave</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-yellow-600">6</p>
+                                    <p class="text-sm text-gray-600">วัน</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-purple-50 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-medium text-gray-800">ลาคลอดบุตร</p>
+                                    <p class="text-sm text-gray-600">Maternity Leave</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-purple-600">90</p>
+                                    <p class="text-sm text-gray-600">วัน</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <img src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" alt="IN2IT" class="h-8 w-auto">
+                        <h1 class="ml-4 text-xl font-semibold text-gray-800">ระบบจัดการการลา - ผู้ดูแลระบบ</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">A</span>
+                            </div>
+                            <span class="text-gray-700 font-medium">Admin</span>
+                        </div>
+                        <button onclick="logout()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Dashboard Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer" onclick="showEmployeeManagement()">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-primary/10 rounded-full">
+                            <i class="fas fa-users text-primary text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-800">จัดการพนักงาน</h3>
+                            <p class="text-sm text-gray-600">เพิ่ม แก้ไข ลบข้อมูลพนักงาน</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm p-6" data-mock="true">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-green-100 rounded-full">
+                            <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-800">คำขอรอพิจารณา</h3>
+                            <p class="text-2xl font-bold text-green-600">12</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm p-6" data-mock="true">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-blue-100 rounded-full">
+                            <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="font-semibold text-gray-800">พนักงานทั้งหมด</h3>
+                            <p class="text-2xl font-bold text-blue-600">45</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Quick Access -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">พนักงานในระบบ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <!-- Mock Employee Cards -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer" data-mock="true">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-sky-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">นส</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">สมหญิง ใจดี</p>
+                                <p class="text-sm text-gray-600">HR Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 cursor-pointer" data-mock="true">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">นส</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">วิมล รักงาน</p>
+                                <p class="text-sm text-gray-600">Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Leave Requests -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">คำขอลาทั้งหมด</h2>
+                    <div class="flex space-x-4">
+                        <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option>มกราคม 2567</option>
+                            <option>กุมภาพันธ์ 2567</option>
+                            <option>มีนาคม 2567</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">พนักงาน</th>
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">ประเภท</th>
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">วันที่ลา</th>
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">จำนวนวัน</th>
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">สถานะ</th>
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100" data-mock="true">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-sm font-medium">นส</span>
+                                        </div>
+                                        <span class="text-gray-700 font-medium">สมหญิง ใจดี</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">ลาป่วย</td>
+                                <td class="py-3 px-4 text-gray-600">20-21 ม.ค. 2567</td>
+                                <td class="py-3 px-4 text-gray-600">2</td>
+                                <td class="py-3 px-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        รอพิจารณา
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-green-600 hover:text-green-800 text-sm font-medium">
+                                            <i class="fas fa-check mr-1"></i>อนุมัติ
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                            <i class="fas fa-times mr-1"></i>ปฏิเสธ
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-100" data-mock="true">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white text-sm font-medium">นส</span>
+                                        </div>
+                                        <span class="text-gray-700 font-medium">วิมล รักงาน</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4 text-gray-600">ลาพักร้อน</td>
+                                <td class="py-3 px-4 text-gray-600">15-19 ธ.ค. 2566</td>
+                                <td class="py-3 px-4 text-gray-600">5</td>
+                                <td class="py-3 px-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        อนุมัติ
+                                    </span>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="flex space-x-2">
+                                        <button onclick="showPrintableLeaveForm()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                            <i class="fas fa-print mr-1"></i>พิมพ์
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                            <i class="fas fa-trash mr-1"></i>ลบ
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Management Page -->
+    <div id="employeeManagement" class="hidden min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <button onclick="showAdminDashboard()" class="text-gray-500 hover:text-gray-700 mr-4">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <img src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" alt="IN2IT" class="h-8 w-auto">
+                        <h1 class="ml-4 text-xl font-semibold text-gray-800">จัดการพนักงาน</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showAddEmployeeModal()" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                            <i class="fas fa-plus mr-2"></i>เพิ่มพนักงาน
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Employee Management Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="bg-white rounded-xl shadow-sm">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800">รายชื่อพนักงาน</h2>
+                        <div class="flex space-x-4">
+                            <input type="text" placeholder="ค้นหาพนักงาน..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-left py-3 px-4 font-medium text-gray-700">ชื่อ</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-700">ตำแหน่ง</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-700">อีเมล</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-700">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-100 hover:bg-gray-50" data-mock="true">
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center">
+                                                <span class="text-white font-medium">นส</span>
+                                            </div>
+                                            <div>
+                                                <div class="flex items-center space-x-2">
+                                                    <p class="font-semibold text-gray-800">สมหญิง</p>
+                                                    <i class="fas fa-venus text-pink-500 text-sm"></i>
+                                                </div>
+                                                <p class="text-sm text-gray-600">นางสาวสมหญิง ใจดี</p>
+                                                <p class="text-sm text-gray-500">@somying.jaidee</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-4 text-gray-600">HR Manager</td>
+                                    <td class="py-4 px-4 text-gray-600">somying@in2it.com</td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex space-x-2">
+                                            <button onclick="showEditEmployeeModal()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                                <i class="fas fa-edit mr-1"></i>แก้ไข
+                                            </button>
+                                            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                                                <i class="fas fa-key mr-1"></i>รีเซ็ตรหัสผ่าน
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                                <i class="fas fa-trash mr-1"></i>ลบ
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-100 hover:bg-gray-50" data-mock="true">
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center">
+                                                <span class="text-white font-medium">นส</span>
+                                            </div>
+                                            <div>
+                                                <div class="flex items-center space-x-2">
+                                                    <p class="font-semibold text-gray-800">วิมล</p>
+                                                    <i class="fas fa-venus text-pink-500 text-sm"></i>
+                                                </div>
+                                                <p class="text-sm text-gray-600">นางสาววิมล รักงาน</p>
+                                                <p class="text-sm text-gray-500">@wimol.rakgan</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-4 text-gray-600">Senior Developer</td>
+                                    <td class="py-4 px-4 text-gray-600">wimol@in2it.com</td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex space-x-2">
+                                            <button onclick="showEditEmployeeModal()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                                <i class="fas fa-edit mr-1"></i>แก้ไข
+                                            </button>
+                                            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                                                <i class="fas fa-key mr-1"></i>รีเซ็ตรหัสผ่าน
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                                <i class="fas fa-trash mr-1"></i>ลบ
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Employee Modal -->
+    <div id="employeeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">เพิ่มพนักงานใหม่</h2>
+                    <button onclick="hideEmployeeModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">คำนำหน้า</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">เลือกคำนำหน้า</option>
+                                <option value="นาย">นาย</option>
+                                <option value="นาง">นาง</option>
+                                <option value="นางสาว">นางสาว</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อเล่น</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ป้อนชื่อเล่น">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อจริง</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ป้อนชื่อจริง">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">นามสกุล</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ป้อนนามสกุล">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="example@in2it.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">เบอร์โทรศัพท์</label>
+                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="08X-XXX-XXXX">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ตำแหน่ง</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ป้อนตำแหน่งงาน">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">รูปโปรไฟล์</label>
+                        <input type="file" accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">ตั้งค่าวันลา</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ลาป่วย</label>
+                                <input type="number" min="0" value="30" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ลาพักร้อน</label>
+                                <input type="number" min="0" value="15" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ลากิจส่วนตัว</label>
+                                <input type="number" min="0" value="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">ลาคลอดบุตร</label>
+                                <input type="number" min="0" value="90" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4 pt-6 border-t">
+                        <button type="button" onclick="hideEmployeeModal()" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors duration-200">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors duration-200">
+                            บันทึก
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">แก้ไขโปรไฟล์</h2>
+                    <button onclick="hideProfile()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-6">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-sky-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white text-xl font-medium">พ</span>
+                        </div>
+                        <input type="file" accept="image/*" class="hidden" id="profileImage">
+                        <label for="profileImage" class="text-primary hover:text-primary-dark cursor-pointer text-sm font-medium">
+                            เปลี่ยนรูปโปรไฟล์
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ชื่อเล่น</label>
+                        <input type="text" value="พนักงาน ทดสอบ" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ที่อยู่</label>
+                        <textarea rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="ที่อยู่ปัจจุบัน"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">โซเชียลมีเดีย</label>
+                        <input type="url" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="https://facebook.com/username">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4 pt-6 border-t">
+                        <button type="button" onclick="hideProfile()" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors duration-200">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors duration-200">
+                            บันทึก
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Leave Form (Opens in new tab) -->
+    <div id="printableLeaveForm" class="hidden">
+        <!-- This will be used to generate content for new tab -->
+    </div>
+
+    <script>
+        // Navigation functions
+        function showEmployeeDashboard() {
+            hideAllPages();
+            document.getElementById('employeeDashboard').classList.remove('hidden');
+        }
+
+        function showAdminDashboard() {
+            hideAllPages();
+            document.getElementById('adminDashboard').classList.remove('hidden');
+        }
+
+        function showEmployeeManagement() {
+            hideAllPages();
+            document.getElementById('employeeManagement').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            hideAllPages();
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function hideAllPages() {
+            const pages = ['loginPage', 'employeeDashboard', 'adminDashboard', 'employeeManagement'];
+            pages.forEach(page => {
+                document.getElementById(page).classList.add('hidden');
+            });
+        }
+
+        // Modal functions
+        function showAddEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('hidden');
+        }
+
+        function showEditEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('hidden');
+            // TODO: Populate form with employee data for editing
+        }
+
+        function hideEmployeeModal() {
+            document.getElementById('employeeModal').classList.add('hidden');
+        }
+
+        function showProfile() {
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        function hideProfile() {
+            document.getElementById('profileModal').classList.add('hidden');
+        }
+
+        function logout() {
+            showLogin();
+        }
+
+        // Print function for leave forms
+        function showPrintableLeaveForm() {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="th">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>ใบลา - IN2IT Company</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        body { font-family: 'Kanit', sans-serif; font-size: 14px; line-height: 1.6; color: #333; background: white; }
+                        .container { max-width: 210mm; margin: 0 auto; padding: 20mm; }
+                        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                        .logo { height: 60px; width: auto; }
+                        .title { font-size: 24px; font-weight: 700; text-align: center; }
+                        .date { text-align: right; font-size: 14px; }
+                        .form-section { margin-bottom: 25px; }
+                        .form-row { display: flex; margin-bottom: 15px; align-items: center; }
+                        .form-label { min-width: 120px; font-weight: 500; }
+                        .form-input { flex: 1; border-bottom: 1px solid #333; padding: 5px 10px; margin-left: 10px; }
+                        .checkbox-group { display: flex; gap: 30px; margin: 15px 0; }
+                        .checkbox-item { display: flex; align-items: center; gap: 10px; }
+                        .checkbox { width: 20px; height: 20px; border: 2px solid #333; display: inline-block; }
+                        .signature-section { margin-top: 50px; display: flex; justify-content: space-between; }
+                        .signature-box { width: 45%; text-align: center; }
+                        .signature-line { border-bottom: 1px solid #333; margin: 40px 0 10px 0; }
+                        @media print {
+                            .container { padding: 15mm; }
+                            body { -webkit-print-color-adjust: exact; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <img src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" alt="IN2IT Company" class="logo">
+                            <div class="title">ใบลา</div>
+                            <div class="date">วันที่ 21 มกราคม 2567</div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="form-row">
+                                <span class="form-label">ข้าพเจ้า</span>
+                                <span class="form-input">นางสาว สมหญิง ใจดี</span>
+                            </div>
+                            <div class="form-row">
+                                <span class="form-label">ตำแหน่ง</span>
+                                <span class="form-input">HR Manager</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div style="margin-bottom: 15px;">
+                                <strong>ขอลา:</strong>
+                            </div>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <span class="checkbox">✓</span>
+                                    <span>ป่วย</span>
+                                </div>
+                                <div class="checkbox-item">
+                                    <span class="checkbox"></span>
+                                    <span>กิจส่วนตัว</span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <span class="form-label">เรื่อง</span>
+                                <span class="form-input">ไข้หวัดใหญ่</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="form-row">
+                                <span class="form-label">ตั้งแต่วันที่</span>
+                                <span class="form-input">20 มกราคม 2567</span>
+                                <span class="form-label" style="margin-left: 20px;">ถึงวันที่</span>
+                                <span class="form-input">21 มกราคม 2567</span>
+                            </div>
+                            <div class="form-row">
+                                <span class="form-label">รวม</span>
+                                <span class="form-input">2 วัน</span>
+                            </div>
+                            <div class="form-row">
+                                <span class="form-label">เบอร์โทรติดต่อ</span>
+                                <span class="form-input">081-234-5678</span>
+                            </div>
+                        </div>
+                        
+                        <div class="signature-section">
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div>ลายเซ็นผู้ขอลา</div>
+                                <div style="margin-top: 10px;">( นางสาว สมหญิง ใจดี )</div>
+                            </div>
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div>ลายเซ็นผู้อนุมัติ</div>
+                                <div style="margin-top: 10px;">( ............................. )</div>
+                                <div style="margin-top: 20px;">
+                                    <strong>ความเห็น:</strong>
+                                    <div style="margin-top: 10px;">
+                                        <input type="checkbox" style="margin-right: 10px;">อนุมัติ
+                                        <input type="checkbox" style="margin-left: 20px; margin-right: 10px;">ไม่อนุมัติ
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+        }
+
+        // Initialize with login page
+        document.addEventListener('DOMContentLoaded', function() {
+            showLogin();
+        });
+
+        // TODO: Implement Firebase mock system
+        // TODO: Implement state management with React hooks
+        // TODO: Add form validation
+        // TODO: Add real-time data updates
+        // TODO: Implement leave balance calculations
+        // TODO: Add Buddhist Era date formatting
+        // TODO: Add responsive design improvements
+        // TODO: Add accessibility features
+        // TODO: Implement role-based access control
+        // TODO: Add error handling
+    </script>
+</body>
+</html>
