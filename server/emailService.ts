@@ -1,4 +1,4 @@
-import { MailService } from '@sendgrid/mail';
+import nodemailer from 'nodemailer';
 
 // Define interfaces for email service (avoiding client-side imports)
 interface UserData {
@@ -25,12 +25,21 @@ enum LeaveStatus {
   REJECTED = "ปฏิเสธ"
 }
 
-if (!process.env.SENDGRID_API_KEY) {
-  throw new Error("SENDGRID_API_KEY environment variable must be set");
-}
+// Gmail SMTP configuration
+const createTransporter = () => {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    console.log('Gmail credentials not configured, email service disabled');
+    return null;
+  }
 
-const mailService = new MailService();
-mailService.setApiKey(process.env.SENDGRID_API_KEY);
+  return nodemailer.createTransporter({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD, // Use App Password, not regular password
+    },
+  });
+};
 
 interface EmailParams {
   to: string;
@@ -42,28 +51,26 @@ interface EmailParams {
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
-    if (!process.env.SENDGRID_API_KEY) {
-      console.log('SendGrid API key not configured, skipping email');
+    const transporter = createTransporter();
+    
+    if (!transporter) {
+      console.log('Gmail credentials not configured, skipping email');
       return false;
     }
     
-    await mailService.send({
+    const mailOptions = {
+      from: `"IN2IT Leave Management" <${process.env.GMAIL_USER}>`,
       to: params.to,
-      from: params.from,
       subject: params.subject,
       text: params.text || '',
       html: params.html,
-    });
+    };
+    
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', result.messageId);
     return true;
   } catch (error: unknown) {
-    console.error('SendGrid email error:', error);
-    // Log the specific error for debugging
-    if (error && typeof error === 'object' && 'response' in error) {
-      const sendGridError = error as { response?: { body?: unknown } };
-      if (sendGridError.response?.body) {
-        console.error('SendGrid error details:', sendGridError.response.body);
-      }
-    }
+    console.error('Gmail SMTP email error:', error);
     return false;
   }
 }
@@ -201,7 +208,7 @@ IN2IT Company
 
   return {
     to: employee.email,
-    from: 'admin@in2it.co.th', // Use verified sender email in SendGrid
+    from: process.env.GMAIL_USER || 'noreply@company.com',
     subject,
     text,
     html
@@ -370,8 +377,8 @@ IN2IT Company - ระบบจัดการการลา
   `;
 
   return {
-    to: 'poii@in2it.co.th', // Admin email
-    from: 'admin@in2it.co.th', // Use verified sender email in SendGrid
+    to: process.env.ADMIN_EMAIL || 'admin@company.com', // Admin email
+    from: process.env.GMAIL_USER || 'noreply@company.com',
     subject,
     text,
     html

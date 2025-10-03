@@ -20,7 +20,7 @@ export const ProfileDashboard: React.FC = () => {
   const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const { data: userData, isLoading, error } = useQuery({
+  const { data: userData, isLoading, error } = useQuery<UserData>({
     queryKey: [`/api/users/${user?.id}`],
     enabled: !!user?.id,
     retry: false,

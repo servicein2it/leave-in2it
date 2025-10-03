@@ -194,7 +194,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
             toolbar={true}
             components={{
-              event: ({ event }) => (
+              event: ({ event }: { event: any }) => (
                 <div className="text-xs font-medium truncate">
                   {event.title}
                 </div>
