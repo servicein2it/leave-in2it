@@ -1,74 +1,4 @@
-/* SF Pro Display Font - English */
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/5e4509d3e53b2e3faf7874bf6078aaf0d86ba9d6a8ec3079cc872b7b1d4b338b.woff2") format("woff2");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/9750654d035b4d4d577ab1db20918077ad19a76bba8a65e6e690802912c3d82f.woff2") format("woff2");
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/104802c6c6dc7a3d84d629a79b78046847a9cc8caac8f73ea07e2dddfb5e31ce.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/5bc1142d5fc993d2ec21a8fa93a17718818e8172dffc649b7d8a3ab459cfbf9c.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/b8da67821e588e3ee5516083d99f1d9907c23a24fcb52dfb3c57cd38924dcef7.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/e80a61b2cbc6d6b3b3ed8b50bcd8f6a89f8f5b69460e03f47defe0554c3220d2.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/32b6db04338d853de4148e775afcacadfb2d0bd3e8f10192916f6688f34c6005.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/9c8773b18df092674df6b952c940fdc72cb66c5b6f408851e66866e72743df56.woff2") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("https://thewineproperty.com/font/7c60d03415a0dafaba510d4fe6a06ff74a049450351dc9ed1a305d0f9bff90e3.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Sukhumvit Set Font - Thai */
-@font-face {
-  font-family: "Sukhumvit Set";
-  src: url("https://thewineproperty.com/font/69fc4f0f2a8869feeec71379c2cf824c.woff") format("woff");
-  font-display: swap;
-}
+/* Use system fonts instead of external fonts to avoid CORS issues */
 
 @tailwind base;
 @tailwind components;
@@ -80,8 +10,8 @@
 }
 
 :root {
-  --font-sf: "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-thai: "Sukhumvit Set", "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-sf: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-thai: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Sarabun", "Kanit", sans-serif;
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
