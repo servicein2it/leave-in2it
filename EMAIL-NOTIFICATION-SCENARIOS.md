@@ -7,69 +7,144 @@ The Leave Management System includes a comprehensive email notification system w
 ## 🎯 Notification Scenarios
 
 ### 1. **Leave Request Submitted** (LEAVE_SUBMITTED)
-**Trigger**: When an employee submits a new leave request
+**Trigger**: Automatically sent when an employee submits a new leave request through the system
 
 **Recipients**: Employee who submitted the request
 
-**Purpose**: Confirm that the leave request has been received and is pending approval
+**Purpose**: 
+- Confirm successful submission of leave request
+- Provide request details for employee's records
+- Set expectations for approval timeline
+- Reassure employee that request is being processed
+
+**Email Content**:
+- Professional greeting with employee name
+- Confirmation message with success indicator
+- Complete leave request details in formatted table
+- Timeline expectations (24-48 hours)
+- Next steps information
+- HR contact information
 
 **Default Variables**:
 - `{{employeeName}}` - Employee's full name
 - `{{leaveType}}` - Type of leave requested
 - `{{totalDays}}` - Number of days requested
-- `{{startDate}}` - Leave start date
-- `{{endDate}}` - Leave end date
+- `{{startDate}}` - Leave start date (formatted)
+- `{{endDate}}` - Leave end date (formatted)
 - `{{reason}}` - Reason for leave
 
-**Default Subject**: `[IN2IT] คำขอลาของคุณถูกส่งเรียบร้อยแล้ว`
+**Default Subject**: `[IN2IT] ✅ Your Leave Request Has Been Submitted`
+
+**Design Features**:
+- Blue gradient info box with request details
+- Yellow warning box for "what happens next"
+- Professional typography with clear hierarchy
+- Mobile-responsive design
 
 ---
 
 ### 2. **Leave Request Approved** (LEAVE_APPROVED)
-**Trigger**: When an admin approves a leave request
+**Trigger**: Automatically sent when an admin/manager approves a leave request in the system
 
 **Recipients**: Employee whose leave was approved
 
-**Purpose**: Notify employee that their leave request has been approved
+**Purpose**: 
+- Notify employee of approval decision
+- Confirm approved leave dates
+- Provide important reminders for leave preparation
+- Show who approved the request
+- Celebrate the approval with positive messaging
+
+**Email Content**:
+- Congratulatory message with success icon (✅)
+- Green gradient celebration box
+- Complete approved leave details
+- Important reminders checklist:
+  - Complete pending tasks
+  - Set out-of-office responder
+  - Inform team members
+  - Update emergency contact info
+- HR contact information
+- Positive, encouraging tone
 
 **Default Variables**:
 - `{{employeeName}}` - Employee's full name
 - `{{leaveType}}` - Type of leave
 - `{{totalDays}}` - Number of days approved
-- `{{startDate}}` - Leave start date
-- `{{endDate}}` - Leave end date
+- `{{startDate}}` - Leave start date (formatted)
+- `{{endDate}}` - Leave end date (formatted)
 - `{{reason}}` - Reason for leave
 - `{{approver}}` - Name of person who approved
 
-**Default Subject**: `[IN2IT] คำขอลาของคุณได้รับการอนุมัติแล้ว`
+**Default Subject**: `[IN2IT] ✅ Your Leave Request Has Been Approved`
 
 **Additional Actions**:
-- Leave balance is automatically deducted
-- Leave status updated to "อนุมัติ"
+- Leave balance is automatically deducted from employee's account
+- Leave status updated to "อนุมัติ" (Approved)
+- Calendar is updated with approved leave dates
+
+**Design Features**:
+- Green gradient success banner with checkmark
+- Blue info box with reminders
+- Professional and celebratory tone
+- Clear call-to-action for preparation
 
 ---
 
-### 3. **Leave Request Rejected** (LEAVE_REJECTED)
-**Trigger**: When an admin rejects a leave request
+### 3. **Leave Request Not Approved** (LEAVE_REJECTED)
+**Trigger**: Automatically sent when an admin/manager does not approve a leave request
 
-**Recipients**: Employee whose leave was rejected
+**Recipients**: Employee whose leave was not approved
 
-**Purpose**: Notify employee that their leave request was not approved
+**Purpose**: 
+- Inform employee of decision professionally and empathetically
+- Provide clear next steps and alternatives
+- Maintain positive employee relations
+- Encourage communication with management
+- Offer support and guidance
+
+**Email Content**:
+- Empathetic opening message
+- Professional notification with info icon (ℹ️)
+- Red/orange gradient notification box (not harsh red)
+- Complete request details for reference
+- Constructive "Next Steps" section:
+  - Schedule meeting with supervisor
+  - Consider alternative dates
+  - Contact HR for assistance
+  - Review leave policies
+- Encouraging message about discussing alternatives
+- Multiple contact options (email, phone)
+- Professional and supportive tone throughout
 
 **Default Variables**:
 - `{{employeeName}}` - Employee's full name
 - `{{leaveType}}` - Type of leave
 - `{{totalDays}}` - Number of days requested
-- `{{startDate}}` - Leave start date
-- `{{endDate}}` - Leave end date
+- `{{startDate}}` - Leave start date (formatted)
+- `{{endDate}}` - Leave end date (formatted)
 - `{{reason}}` - Reason for leave
-- `{{approver}}` - Name of person who rejected
+- `{{approver}}` - Name of person who reviewed
 
-**Default Subject**: `[IN2IT] คำขอลาของคุณไม่ได้รับการอนุมัติ`
+**Default Subject**: `[IN2IT] ℹ️ Update on Your Leave Request`
 
 **Additional Actions**:
-- Leave status updated to "ปฏิเสธ"
-- No balance deduction
+- Leave status updated to "ปฏิเสธ" (Not Approved)
+- No balance deduction occurs
+- Request remains in history for reference
+
+**Design Features**:
+- Soft red/orange gradient (not aggressive)
+- Yellow "Next Steps" action box
+- Gray contact information box
+- Empathetic and professional language
+- Focus on solutions and alternatives
+
+**Important Notes**:
+- Tone is professional, not punitive
+- Encourages dialogue and understanding
+- Provides clear paths forward
+- Maintains employee morale
 
 ---
 
