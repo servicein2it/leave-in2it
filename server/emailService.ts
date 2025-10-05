@@ -32,7 +32,7 @@ const createTransporter = () => {
     return null;
   }
 
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.GMAIL_USER,
@@ -406,8 +406,7 @@ export async function sendAdminNotification(
   }
 }
 
-// Se
-nd test email with sample data
+// Send test email with sample data
 export async function sendTestEmail(template: any, testEmail: string): Promise<boolean> {
   try {
     const transporter = createTransporter();

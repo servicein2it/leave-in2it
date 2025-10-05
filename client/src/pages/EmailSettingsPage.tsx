@@ -120,12 +120,38 @@ export default function EmailSettingsPage() {
 
   const getTemplateTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
-      'LEAVE_SUBMITTED': '📝 แจ้งเตือนพนักงาน: ส่งคำขอลาแล้ว',
-      'LEAVE_APPROVED': '✅ แจ้งเตือนพนักงาน: คำขอลาได้รับอนุมัติ',
-      'LEAVE_REJECTED': '❌ แจ้งเตือนพนักงาน: คำขอลาไม่ได้รับอนุมัติ',
-      'ADMIN_NOTIFICATION': '🔔 แจ้งเตือนแอดมิน: มีคำขอลาใหม่',
+      'LEAVE_SUBMITTED': 'Employee: Request Submitted',
+      'LEAVE_APPROVED': 'Employee: Request Approved',
+      'LEAVE_REJECTED': 'Employee: Request Not Approved',
+      'ADMIN_NOTIFICATION': 'Admin: New Request Alert',
     };
     return labels[type] || type;
+  };
+
+  const getTemplateScenario = (type: string) => {
+    const scenarios: Record<string, { trigger: string; recipient: string; purpose: string }> = {
+      'LEAVE_SUBMITTED': {
+        trigger: 'When employee submits a leave request',
+        recipient: 'Employee who submitted',
+        purpose: 'Confirm submission and set expectations'
+      },
+      'LEAVE_APPROVED': {
+        trigger: 'When admin approves the request',
+        recipient: 'Employee whose request was approved',
+        purpose: 'Notify approval with preparation reminders'
+      },
+      'LEAVE_REJECTED': {
+        trigger: 'When admin does not approve the request',
+        recipient: 'Employee whose request was not approved',
+        purpose: 'Inform decision with next steps guidance'
+      },
+      'ADMIN_NOTIFICATION': {
+        trigger: 'When employee submits new request',
+        recipient: 'Admin/HR personnel',
+        purpose: 'Alert for pending approval action'
+      }
+    };
+    return scenarios[type];
   };
 
   if (isLoading) {
@@ -178,31 +204,34 @@ export default function EmailSettingsPage() {
                 <h3 className="text-[17px] font-semibold text-gray-900">Templates</h3>
                 <p className="text-[13px] text-gray-500 mt-1">Choose a template to edit</p>
               </div>
-              <div className="p-3 space-y-1.5">
-                {templates?.map((template) => (
-                  <button
-                    key={template.id}
-                    onClick={() => setSelectedTemplate(template)}
-                    className={`w-full text-left px-4 py-3.5 rounded-xl transition-all duration-200 ${
-                      selectedTemplate?.id === template.id
-                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30 scale-[1.02]'
-                        : 'hover:bg-gray-50 text-gray-700'
-                    }`}
-                  >
-                    <div className="flex flex-col gap-1">
-                      <span className={`text-[15px] font-medium ${
-                        selectedTemplate?.id === template.id ? 'text-white' : 'text-gray-900'
-                      }`}>
-                        {getTemplateTypeLabel(template.templateType).split(' ')[0]}
-                      </span>
-                      <span className={`text-[12px] ${
-                        selectedTemplate?.id === template.id ? 'text-blue-100' : 'text-gray-500'
-                      }`}>
-                        {getTemplateTypeLabel(template.templateType).substring(2)}
-                      </span>
-                    </div>
-                  </button>
-                ))}
+              <div className="p-3 space-y-2">
+                {templates?.map((template) => {
+                  const scenario = getTemplateScenario(template.templateType);
+                  return (
+                    <button
+                      key={template.id}
+                      onClick={() => setSelectedTemplate(template)}
+                      className={`w-full text-left px-4 py-4 rounded-xl transition-all duration-200 ${
+                        selectedTemplate?.id === template.id
+                          ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30 scale-[1.02]'
+                          : 'hover:bg-gray-50 text-gray-700 border border-gray-200'
+                      }`}
+                    >
+                      <div className="flex flex-col gap-2">
+                        <span className={`text-[14px] font-semibold ${
+                          selectedTemplate?.id === template.id ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {getTemplateTypeLabel(template.templateType)}
+                        </span>
+                        <span className={`text-[11px] leading-relaxed ${
+                          selectedTemplate?.id === template.id ? 'text-blue-100' : 'text-gray-500'
+                        }`}>
+                          {scenario?.trigger}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -222,6 +251,31 @@ export default function EmailSettingsPage() {
               </div>
               <div className="p-6">
               {selectedTemplate ? (
+                <>
+                  {/* Scenario Information Card */}
+                  {(() => {
+                    const scenario = getTemplateScenario(selectedTemplate.templateType);
+                    return scenario ? (
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-5 mb-6">
+                        <h4 className="text-[15px] font-semibold text-blue-900 mb-3">Email Scenario</h4>
+                        <div className="space-y-2">
+                          <div className="flex items-start gap-3">
+                            <span className="text-[12px] font-medium text-blue-700 min-w-[80px]">Trigger:</span>
+                            <span className="text-[13px] text-blue-800">{scenario.trigger}</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <span className="text-[12px] font-medium text-blue-700 min-w-[80px]">Recipient:</span>
+                            <span className="text-[13px] text-blue-800">{scenario.recipient}</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <span className="text-[12px] font-medium text-blue-700 min-w-[80px]">Purpose:</span>
+                            <span className="text-[13px] text-blue-800">{scenario.purpose}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null;
+                  })()}
+
                 <Tabs defaultValue="content" className="w-full">
                   <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-xl">
                     <TabsTrigger 
@@ -414,6 +468,7 @@ export default function EmailSettingsPage() {
                     </div>
                   </TabsContent>
                 </Tabs>
+                </>
               ) : (
                 <div className="text-center py-20">
                   <div className="inline-flex p-6 bg-gradient-to-br from-gray-100 to-gray-50 rounded-3xl mb-6">
