@@ -21,8 +21,9 @@ export default function EmailSettingsPage() {
   const [showPreview, setShowPreview] = useState(false);
 
   // Fetch email templates
-  const { data: templates, isLoading } = useQuery<EmailTemplate[]>({
+  const { data: templates, isLoading, error } = useQuery<EmailTemplate[]>({
     queryKey: ['/api/email-templates'],
+    retry: 1,
   });
 
   // Update template mutation
@@ -156,8 +157,64 @@ export default function EmailSettingsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">กำลังโหลด...</div>
+      <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="text-[15px] text-gray-600">Loading email templates...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
+        <div className="max-w-md text-center">
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+            <div className="text-red-600 text-5xl mb-4">⚠️</div>
+            <h2 className="text-[20px] font-semibold text-red-900 mb-2">Database Not Set Up</h2>
+            <p className="text-[14px] text-red-700 mb-4">
+              The email templates table doesn't exist in your database yet.
+            </p>
+            <div className="bg-white rounded-xl p-4 text-left text-[13px] text-gray-700 mb-4">
+              <p className="font-semibold mb-2">Quick Fix:</p>
+              <ol className="list-decimal list-inside space-y-1">
+                <li>Go to Supabase Dashboard</li>
+                <li>Open SQL Editor</li>
+                <li>Run the SQL from <code className="bg-gray-100 px-1 rounded">supabase-email-templates.sql</code></li>
+                <li>Refresh this page</li>
+              </ol>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!templates || templates.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
+        <div className="max-w-md text-center">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8">
+            <div className="text-yellow-600 text-5xl mb-4">📭</div>
+            <h2 className="text-[20px] font-semibold text-yellow-900 mb-2">No Templates Found</h2>
+            <p className="text-[14px] text-yellow-700 mb-4">
+              The email templates table is empty. Please run the SQL migration to insert default templates.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
