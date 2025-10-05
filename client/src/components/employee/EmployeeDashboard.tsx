@@ -39,16 +39,33 @@ export const EmployeeDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fbfbfd]">
       <Header onProfileClick={handleProfileClick} />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="dashboard">แดชบอร์ด</TabsTrigger>
-            <TabsTrigger value="calendar">ปฏิทินการลา</TabsTrigger>
-            <TabsTrigger value="profile">ข้อมูลส่วนตัว</TabsTrigger>
-          </TabsList>
+          <div className="flex justify-center mb-8">
+            <TabsList className="inline-flex bg-white/80 backdrop-blur-xl p-1.5 rounded-2xl border border-gray-200/50 shadow-sm">
+              <TabsTrigger 
+                value="dashboard"
+                className="px-6 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-200 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/30 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900"
+              >
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger 
+                value="calendar"
+                className="px-6 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-200 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/30 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900"
+              >
+                Calendar
+              </TabsTrigger>
+              <TabsTrigger 
+                value="profile"
+                className="px-6 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-200 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/30 data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900"
+              >
+                Profile
+              </TabsTrigger>
+            </TabsList>
+          </div>
           
           <TabsContent value="dashboard" className="mt-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
