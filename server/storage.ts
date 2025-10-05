@@ -1,4 +1,4 @@
-import { users, leaveRequests, type User, type InsertUser, type LeaveRequest, type InsertLeaveRequest } from "../shared/schema";
+import { users, leaveRequests, emailTemplates, type User, type InsertUser, type LeaveRequest, type InsertLeaveRequest, type EmailTemplate, type InsertEmailTemplate } from "../shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
 import { v4 as uuidv4 } from 'uuid';
@@ -19,6 +19,12 @@ export interface IStorage {
   createLeaveRequest(request: InsertLeaveRequest): Promise<LeaveRequest>;
   updateLeaveRequest(id: string, updates: Partial<LeaveRequest>): Promise<LeaveRequest>;
   deleteLeaveRequest(id: string): Promise<void>;
+  
+  // Email template operations
+  getEmailTemplate(id: string): Promise<EmailTemplate | undefined>;
+  getEmailTemplateByType(type: string): Promise<EmailTemplate | undefined>;
+  getAllEmailTemplates(): Promise<EmailTemplate[]>;
+  updateEmailTemplate(id: string, updates: Partial<EmailTemplate>): Promise<EmailTemplate>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -111,6 +117,30 @@ export class DatabaseStorage implements IStorage {
 
   async deleteLeaveRequest(id: string): Promise<void> {
     await db.delete(leaveRequests).where(eq(leaveRequests.id, id));
+  }
+
+  // Email template operations
+  async getEmailTemplate(id: string): Promise<EmailTemplate | undefined> {
+    const [template] = await db.select().from(emailTemplates).where(eq(emailTemplates.id, id));
+    return template || undefined;
+  }
+
+  async getEmailTemplateByType(type: string): Promise<EmailTemplate | undefined> {
+    const [template] = await db.select().from(emailTemplates).where(eq(emailTemplates.templateType, type));
+    return template || undefined;
+  }
+
+  async getAllEmailTemplates(): Promise<EmailTemplate[]> {
+    return await db.select().from(emailTemplates).orderBy(emailTemplates.templateType);
+  }
+
+  async updateEmailTemplate(id: string, updates: Partial<EmailTemplate>): Promise<EmailTemplate> {
+    const [template] = await db
+      .update(emailTemplates)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(emailTemplates.id, id))
+      .returning();
+    return template;
   }
 }
 

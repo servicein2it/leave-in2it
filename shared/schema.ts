@@ -64,6 +64,21 @@ export const sessions = pgTable('sessions', {
   expire: timestamp('expire').notNull(),
 });
 
+// Email templates table
+export const emailTemplates = pgTable('email_templates', {
+  id: varchar('id').primaryKey().notNull(),
+  templateName: varchar('template_name').unique().notNull(),
+  templateType: varchar('template_type').notNull(), // 'LEAVE_SUBMITTED', 'LEAVE_APPROVED', 'LEAVE_REJECTED', 'ADMIN_NOTIFICATION'
+  subject: varchar('subject').notNull(),
+  senderName: varchar('sender_name').notNull(),
+  senderEmail: varchar('sender_email').notNull(),
+  bannerText: varchar('banner_text').notNull(),
+  emailBody: text('email_body').notNull(),
+  isActive: boolean('is_active').default(true),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -77,8 +92,16 @@ export const insertLeaveRequestSchema = createInsertSchema(leaveRequests).omit({
   updatedAt: true,
 });
 
+export const insertEmailTemplateSchema = createInsertSchema(emailTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertLeaveRequest = z.infer<typeof insertLeaveRequestSchema>;
 export type LeaveRequest = typeof leaveRequests.$inferSelect;
+export type InsertEmailTemplate = z.infer<typeof insertEmailTemplateSchema>;
+export type EmailTemplate = typeof emailTemplates.$inferSelect;

@@ -348,6 +348,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Email template routes
+  app.get('/api/email-templates', async (req, res) => {
+    try {
+      const templates = await storage.getAllEmailTemplates();
+      res.json(templates);
+    } catch (error) {
+      console.error('Error fetching email templates:', error);
+      res.status(500).json({ message: 'Failed to fetch email templates' });
+    }
+  });
+
+  app.get('/api/email-templates/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const template = await storage.getEmailTemplate(id);
+      
+      if (!template) {
+        return res.status(404).json({ message: 'Template not found' });
+      }
+      
+      res.json(template);
+    } catch (error) {
+      console.error('Error fetching email template:', error);
+      res.status(500).json({ message: 'Failed to fetch email template' });
+    }
+  });
+
+  app.put('/api/email-templates/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updates = req.body;
+      
+      const template = await storage.updateEmailTemplate(id, updates);
+      res.json(template);
+    } catch (error) {
+      console.error('Error updating email template:', error);
+      res.status(500).json({ message: 'Failed to update email template' });
+    }
+  });
+
+  app.post('/api/email-templates/test', async (req, res) => {
+    try {
+      const { templateId, testEmail } = req.body;
+      
+      const template = await storage.getEmailTemplate(templateId);
+      if (!template) {
+        return res.status(404).json({ message: 'Template not found' });
+      }
+
+      // Send test email with sample data
+      const { sendTestEmail } = await import('./emailService');
+      await sendTestEmail(template, testEmail);
+      
+      res.json({ message: 'Test email sent successfully' });
+    } catch (error) {
+      console.error('Error sending test email:', error);
+      res.status(500).json({ message: 'Failed to send test email' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -107,3 +107,17 @@ export interface AuthContextType {
   logout: () => void;
   loading: boolean;
 }
+
+export interface EmailTemplate {
+  id: string;
+  templateName: string;
+  templateType: 'LEAVE_SUBMITTED' | 'LEAVE_APPROVED' | 'LEAVE_REJECTED' | 'ADMIN_NOTIFICATION';
+  subject: string;
+  senderName: string;
+  senderEmail: string;
+  bannerText: string;
+  emailBody: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}

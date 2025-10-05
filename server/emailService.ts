@@ -405,3 +405,78 @@ export async function sendAdminNotification(
     return false;
   }
 }
+
+// Se
+nd test email with sample data
+export async function sendTestEmail(template: any, testEmail: string): Promise<boolean> {
+  try {
+    const transporter = createTransporter();
+    
+    if (!transporter) {
+      console.log('Gmail credentials not configured, skipping email');
+      return false;
+    }
+
+    // Replace variables with sample data
+    let emailBody = template.emailBody;
+    emailBody = emailBody.replace(/{{employeeName}}/g, 'สมชาย ใจดี');
+    emailBody = emailBody.replace(/{{leaveType}}/g, 'ลาพักผ่อน');
+    emailBody = emailBody.replace(/{{totalDays}}/g, '3');
+    emailBody = emailBody.replace(/{{startDate}}/g, '1 มกราคม 2025');
+    emailBody = emailBody.replace(/{{endDate}}/g, '3 มกราคม 2025');
+    emailBody = emailBody.replace(/{{reason}}/g, 'ไปเที่ยวกับครอบครัว');
+    emailBody = emailBody.replace(/{{approver}}/g, 'ผู้จัดการ');
+    emailBody = emailBody.replace(/{{position}}/g, 'Software Developer');
+    emailBody = emailBody.replace(/{{email}}/g, 'somchai@in2it.co.th');
+    emailBody = emailBody.replace(/{{phone}}/g, '081-234-5678');
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${template.subject}</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
+    .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center; }
+    .header h1 { margin: 0; font-size: 24px; }
+    .content { padding: 30px 20px; }
+    .footer { background: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0; }
+    .footer p { margin: 0; color: #64748b; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>${template.bannerText}</h1>
+    </div>
+    <div class="content">
+      ${emailBody}
+    </div>
+    <div class="footer">
+      <p>© 2025 IN2IT Company - ระบบจัดการการลา</p>
+      <p>อีเมลนี้ถูกส่งโดยอัตโนมัติ กรุณาอย่าตอบกลับ</p>
+      <p style="margin-top: 10px; color: #ef4444; font-weight: bold;">🧪 นี่คืออีเมลทดสอบ</p>
+    </div>
+  </div>
+</body>
+</html>
+    `;
+
+    const mailOptions = {
+      from: `"${template.senderName}" <${process.env.GMAIL_USER}>`,
+      to: testEmail,
+      subject: `[TEST] ${template.subject}`,
+      html,
+    };
+    
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Test email sent successfully:', result.messageId);
+    return true;
+  } catch (error: unknown) {
+    console.error('Test email error:', error);
+    return false;
+  }
+}

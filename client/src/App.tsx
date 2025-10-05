@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import EmployeePage from "./pages/EmployeePage";
 import AdminPage from "./pages/AdminPage";
 import EmployeeManagementPage from "./pages/EmployeeManagementPage";
+import EmailSettingsPage from "./pages/EmailSettingsPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/employee" component={EmployeePage} />
       <Route path="/admin" component={AdminPage} />
       <Route path="/admin/employees" component={EmployeeManagementPage} />
+      <Route path="/admin/email-settings" component={EmailSettingsPage} />
       <Route component={NotFound} />
     </Switch>
   );
