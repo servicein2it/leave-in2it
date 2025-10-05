@@ -282,7 +282,7 @@ export default function EmailSettingsPage() {
                       />
                       <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
                         <p className="text-[12px] text-blue-700 leading-relaxed">
-                          <span className="font-semibold">Available variables:</span> {'{'}{'{'}}employeeName{'}'}{'}'}, {'{'}{'{'}}leaveType{'}'}{'}'}, {'{'}{'{'}}totalDays{'}'}{'}'}, {'{'}{'{'}}startDate{'}'}{'}'}, {'{'}{'{'}}endDate{'}'}{'}'}, {'{'}{'{'}}reason{'}'}{'}'}, {'{'}{'{'}}approver{'}'}{'}'}, {'{'}{'{'}}position{'}'}{'}'}, {'{'}{'{'}}email{'}'}{'}'}, {'{'}{'{'}}phone{'}'}{'}'}
+                          <span className="font-semibold">Available variables:</span> {'{{employeeName}}, {{leaveType}}, {{totalDays}}, {{startDate}}, {{endDate}}, {{reason}}, {{approver}}, {{position}}, {{email}}, {{phone}}'}
                         </p>
                       </div>
                     </div>
