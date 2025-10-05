@@ -40,10 +40,10 @@ INSERT INTO email_templates (
   'template-001',
   'Leave Request Submitted - Employee Confirmation',
   'LEAVE_SUBMITTED',
-  '[IN2IT] ✅ Your Leave Request Has Been Submitted',
+  '[IN2IT] Your Leave Request Has Been Submitted',
   'IN2IT Leave Management System',
   'noreply@in2it.co.th',
-  '📝 Leave Request Submitted Successfully',
+  '&#128221; Leave Request Submitted Successfully',
   '<div style="font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; color: #1f2937;">
   <p style="font-size: 16px; margin-bottom: 20px;">Dear <strong>{{employeeName}}</strong>,</p>
   
@@ -53,7 +53,7 @@ INSERT INTO email_templates (
   </p>
 
   <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #3b82f6; border-radius: 12px; padding: 20px; margin: 24px 0;">
-    <h3 style="color: #1e40af; margin: 0 0 16px 0; font-size: 17px;">📋 Leave Request Details</h3>
+    <h3 style="color: #1e40af; margin: 0 0 16px 0; font-size: 17px;">&#128221; Leave Request Details</h3>
     <table style="width: 100%; border-collapse: collapse;">
       <tr>
         <td style="padding: 8px 0; color: #64748b; font-size: 14px; width: 140px;">Leave Type:</td>
@@ -80,7 +80,7 @@ INSERT INTO email_templates (
 
   <div style="background: #fef3c7; border-radius: 12px; padding: 16px; margin: 20px 0;">
     <p style="margin: 0; font-size: 14px; color: #92400e;">
-      <strong>⏱️ What happens next?</strong><br>
+      <strong>&#9200; What happens next?</strong><br>
       Your manager will review your request within 24-48 hours. You''ll receive an email notification once a decision has been made.
     </p>
   </div>
@@ -95,15 +95,15 @@ INSERT INTO email_templates (
   'template-002',
   'Leave Request Approved - Confirmation',
   'LEAVE_APPROVED',
-  '[IN2IT] ✅ Your Leave Request Has Been Approved',
+  '[IN2IT] Your Leave Request Has Been Approved',
   'IN2IT Leave Management System',
   'noreply@in2it.co.th',
-  '🎉 Leave Request Approved',
+  '&#127881; Leave Request Approved',
   '<div style="font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; color: #1f2937;">
   <p style="font-size: 16px; margin-bottom: 20px;">Dear <strong>{{employeeName}}</strong>,</p>
   
   <div style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-left: 4px solid #22c55e; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center;">
-    <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
+    <div style="font-size: 48px; margin-bottom: 12px;">&#9989;</div>
     <h2 style="color: #166534; margin: 0 0 8px 0; font-size: 24px;">Leave Request Approved!</h2>
     <p style="color: #15803d; margin: 0; font-size: 15px;">Your leave has been approved by management</p>
   </div>
@@ -114,7 +114,7 @@ INSERT INTO email_templates (
   </p>
 
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 24px 0;">
-    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">📋 Approved Leave Details</h3>
+    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">&#128221; Approved Leave Details</h3>
     <table style="width: 100%; border-collapse: collapse;">
       <tr>
         <td style="padding: 8px 0; color: #64748b; font-size: 14px; width: 140px;">Leave Type:</td>
@@ -141,11 +141,11 @@ INSERT INTO email_templates (
 
   <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 12px; padding: 16px; margin: 20px 0;">
     <p style="margin: 0; font-size: 14px; color: #1e40af;">
-      <strong>📌 Important Reminders:</strong><br>
-      • Ensure all pending tasks are completed or delegated<br>
-      • Update your out-of-office email responder<br>
-      • Inform your team about your absence<br>
-      • Keep your contact information updated for emergencies
+      <strong>&#128204; Important Reminders:</strong><br>
+      &#8226; Ensure all pending tasks are completed or delegated<br>
+      &#8226; Update your out-of-office email responder<br>
+      &#8226; Inform your team about your absence<br>
+      &#8226; Keep your contact information updated for emergencies
     </p>
   </div>
 
@@ -159,15 +159,15 @@ INSERT INTO email_templates (
   'template-003',
   'Leave Request Not Approved - Notification',
   'LEAVE_REJECTED',
-  '[IN2IT] ℹ️ Update on Your Leave Request',
+  '[IN2IT] Update on Your Leave Request',
   'IN2IT Leave Management System',
   'noreply@in2it.co.th',
-  '📋 Leave Request Status Update',
+  '&#128221; Leave Request Status Update',
   '<div style="font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; color: #1f2937;">
   <p style="font-size: 16px; margin-bottom: 20px;">Dear <strong>{{employeeName}}</strong>,</p>
   
   <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left: 4px solid #ef4444; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center;">
-    <div style="font-size: 48px; margin-bottom: 12px;">ℹ️</div>
+    <div style="font-size: 48px; margin-bottom: 12px;">&#8505;</div>
     <h2 style="color: #991b1b; margin: 0 0 8px 0; font-size: 24px;">Leave Request Not Approved</h2>
     <p style="color: #dc2626; margin: 0; font-size: 15px;">Your leave request requires further discussion</p>
   </div>
@@ -178,7 +178,7 @@ INSERT INTO email_templates (
   </p>
 
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 24px 0;">
-    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">📋 Request Details</h3>
+    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">&#128221; Request Details</h3>
     <table style="width: 100%; border-collapse: collapse;">
       <tr>
         <td style="padding: 8px 0; color: #64748b; font-size: 14px; width: 140px;">Leave Type:</td>
@@ -201,11 +201,11 @@ INSERT INTO email_templates (
 
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; padding: 16px; margin: 20px 0;">
     <p style="margin: 0; font-size: 14px; color: #92400e;">
-      <strong>💡 Next Steps:</strong><br>
-      • Schedule a meeting with your supervisor to discuss alternative dates<br>
-      • Consider submitting a request for different dates that may work better<br>
-      • Contact HR if you need assistance with leave planning<br>
-      • Review company leave policies for guidance
+      <strong>&#128161; Next Steps:</strong><br>
+      &#8226; Schedule a meeting with your supervisor to discuss alternative dates<br>
+      &#8226; Consider submitting a request for different dates that may work better<br>
+      &#8226; Contact HR if you need assistance with leave planning<br>
+      &#8226; Review company leave policies for guidance
     </p>
   </div>
 
@@ -232,13 +232,13 @@ INSERT INTO email_templates (
   'template-004',
   'Admin Alert - New Leave Request Pending',
   'ADMIN_NOTIFICATION',
-  '[IN2IT] 🔔 New Leave Request from {{employeeName}} - Action Required',
+  '[IN2IT] New Leave Request from {{employeeName}} - Action Required',
   'IN2IT Leave Management System',
   'noreply@in2it.co.th',
-  '🔔 New Leave Request Requires Your Attention',
+  '&#128276; New Leave Request Requires Your Attention',
   '<div style="font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, sans-serif; color: #1f2937;">
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center;">
-    <div style="font-size: 48px; margin-bottom: 12px;">🔔</div>
+    <div style="font-size: 48px; margin-bottom: 12px;">&#128276;</div>
     <h2 style="color: #92400e; margin: 0 0 8px 0; font-size: 24px;">New Leave Request</h2>
     <p style="color: #b45309; margin: 0; font-size: 15px;">Pending your review and approval</p>
   </div>
@@ -248,7 +248,7 @@ INSERT INTO email_templates (
   </p>
 
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 24px 0;">
-    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">👤 Employee Information</h3>
+    <h3 style="color: #1e293b; margin: 0 0 16px 0; font-size: 17px;">&#128100; Employee Information</h3>
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
       <tr>
         <td style="padding: 8px 0; color: #64748b; font-size: 14px; width: 140px;">Employee:</td>
@@ -268,7 +268,7 @@ INSERT INTO email_templates (
       </tr>
     </table>
 
-    <h3 style="color: #1e293b; margin: 20px 0 16px 0; font-size: 17px;">📋 Leave Request Details</h3>
+    <h3 style="color: #1e293b; margin: 20px 0 16px 0; font-size: 17px;">&#128221; Leave Request Details</h3>
     <table style="width: 100%; border-collapse: collapse;">
       <tr>
         <td style="padding: 8px 0; color: #64748b; font-size: 14px; width: 140px;">Leave Type:</td>
@@ -295,7 +295,7 @@ INSERT INTO email_templates (
 
   <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-radius: 12px; padding: 16px; margin: 20px 0;">
     <p style="margin: 0; font-size: 14px; color: #991b1b;">
-      <strong>⏰ Action Required:</strong><br>
+      <strong>&#9200; Action Required:</strong><br>
       Please review and respond to this leave request within 24-48 hours. 
       The employee is waiting for your decision to plan accordingly.
     </p>
@@ -303,7 +303,7 @@ INSERT INTO email_templates (
 
   <div style="text-align: center; margin: 30px 0;">
     <a href="https://your-app-url.com/admin" style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 15px; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);">
-      Review Leave Request →
+      Review Leave Request &#8594;
     </a>
   </div>
 
