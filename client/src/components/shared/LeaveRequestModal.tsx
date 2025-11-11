@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { formatDateThai } from '@/utils/dateHelpers';
 import { generatePrintableLeaveForm } from '@/utils/pdfGenerator';
 import { leaveRequestsAPI } from '@/services/api';
+import { Printer, Trash2 } from 'lucide-react';
 
 interface LeaveRequestModalProps {
   isOpen: boolean;
@@ -125,7 +126,7 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
                   onClick={handlePrint}
                   className="text-blue-600 hover:text-blue-800"
                 >
-                  <i className="fas fa-print mr-2"></i>
+                  <Printer size={16} className="mr-2" />
                   พิมพ์ใบลา
                 </Button>
               )}
@@ -176,7 +177,7 @@ export const LeaveRequestModal: React.FC<LeaveRequestModalProps> = ({
                     onClick={() => onDelete?.(request.id)}
                     className="text-red-600 hover:text-red-800"
                   >
-                    <i className="fas fa-trash mr-2"></i>
+                    <Trash2 size={16} className="mr-2" />
                     ลบ
                   </Button>
                 )}

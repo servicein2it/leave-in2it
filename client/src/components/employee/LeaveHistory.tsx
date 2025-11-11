@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/ui/loading';
 import { useToast } from '@/hooks/use-toast';
+import { Printer, Trash2 } from 'lucide-react';
 
 export const LeaveHistory: React.FC = () => {
   const { user } = useAuth();
@@ -158,7 +159,7 @@ export const LeaveHistory: React.FC = () => {
                           disabled={request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED}
                           className="text-primary hover:text-primary/80"
                         >
-                          <i className="fas fa-print mr-1"></i>
+                          <Printer size={14} className="mr-1" />
                           พิมพ์
                         </Button>
                         {(request.status === LeaveStatus.PENDING || request.status === LeaveStatus.REJECTED) && (
@@ -169,7 +170,7 @@ export const LeaveHistory: React.FC = () => {
                             disabled={deletingRequestId === request.id}
                             className="text-red-600 hover:text-red-800"
                           >
-                            <i className="fas fa-trash mr-1"></i>
+                            <Trash2 size={14} className="mr-1" />
                             {deletingRequestId === request.id ? 'กำลังลบ...' : 'ลบ'}
                           </Button>
                         )}

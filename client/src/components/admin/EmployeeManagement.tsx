@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { useToast } from '@/hooks/use-toast';
+import { ArrowLeft, Plus, Edit, Key, Calendar, Trash2 } from 'lucide-react';
 
 export const EmployeeManagement: React.FC = () => {
   const [, setLocation] = useLocation();
@@ -134,7 +135,7 @@ export const EmployeeManagement: React.FC = () => {
                 onClick={() => setLocation('/admin')}
                 className="mr-4 text-gray-500 hover:text-gray-700"
               >
-                <i className="fas fa-arrow-left"></i>
+                <ArrowLeft size={20} />
               </Button>
               <img 
                 src="https://in2it-service.com/IN2IT/logo/in2it-logo.png" 
@@ -148,7 +149,7 @@ export const EmployeeManagement: React.FC = () => {
                 onClick={handleAddEmployee}
                 className="bg-primary hover:bg-primary/90 text-white font-medium"
               >
-                <i className="fas fa-plus mr-2"></i>
+                <Plus size={16} className="mr-2" />
                 เพิ่มพนักงาน
               </Button>
             </div>
@@ -238,7 +239,7 @@ export const EmployeeManagement: React.FC = () => {
                               onClick={() => handleEditEmployee(employee)}
                               className="text-primary hover:text-primary/80"
                             >
-                              <i className="fas fa-edit mr-1"></i>
+                              <Edit size={14} className="mr-1" />
                               แก้ไข
                             </Button>
                             <Button
@@ -247,7 +248,7 @@ export const EmployeeManagement: React.FC = () => {
                               onClick={() => handleResetPassword(employee.id)}
                               className="text-gray-500 hover:text-gray-700"
                             >
-                              <i className="fas fa-key mr-1"></i>
+                              <Key size={14} className="mr-1" />
                               รีเซ็ตรหัสผ่าน
                             </Button>
                             <Button
@@ -256,7 +257,7 @@ export const EmployeeManagement: React.FC = () => {
                               onClick={() => setViewingEmployeeId(employee.id)}
                               className="text-blue-500 hover:text-blue-700"
                             >
-                              <i className="fas fa-calendar-alt mr-1"></i>
+                              <Calendar size={14} className="mr-1" />
                               ใบลา
                             </Button>
                             <Button
@@ -265,7 +266,7 @@ export const EmployeeManagement: React.FC = () => {
                               onClick={() => handleDeleteEmployee(employee.id)}
                               className="text-red-600 hover:text-red-800"
                             >
-                              <i className="fas fa-trash mr-1"></i>
+                              <Trash2 size={14} className="mr-1" />
                               ลบ
                             </Button>
                           </div>

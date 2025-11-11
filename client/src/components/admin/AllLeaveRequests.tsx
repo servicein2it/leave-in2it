@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { Check, X, Printer, Trash2 } from 'lucide-react';
 
 export const AllLeaveRequests: React.FC = () => {
   const { toast } = useToast();
@@ -324,7 +325,7 @@ export const AllLeaveRequests: React.FC = () => {
                               onClick={() => handleApproveRequest(request.id)}
                               className="text-green-600 hover:text-green-800"
                             >
-                              <i className="fas fa-check mr-1"></i>
+                              <Check size={14} className="mr-1" />
                               อนุมัติ
                             </Button>
                             <Button
@@ -333,7 +334,7 @@ export const AllLeaveRequests: React.FC = () => {
                               onClick={() => handleRejectRequest(request.id)}
                               className="text-red-600 hover:text-red-800"
                             >
-                              <i className="fas fa-times mr-1"></i>
+                              <X size={14} className="mr-1" />
                               ปฏิเสธ
                             </Button>
                           </>
@@ -346,16 +347,16 @@ export const AllLeaveRequests: React.FC = () => {
                               disabled={request.status !== LeaveStatus.APPROVED}
                               className="text-primary hover:text-primary/80"
                             >
-                              <i className="fas fa-print mr-1"></i>
+                              <Printer size={14} className="mr-1" />
                               พิมพ์
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleDeleteRequest(request.id, request.status)}
+                              onClick={() => handleDeleteRequest(request.id)}
                               className="text-red-600 hover:text-red-800"
                             >
-                              <i className="fas fa-trash mr-1"></i>
+                              <Trash2 size={14} className="mr-1" />
                               ลบ
                             </Button>
                           </>

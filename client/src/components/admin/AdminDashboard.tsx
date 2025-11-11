@@ -11,6 +11,7 @@ import { LeaveRequestModal } from '../shared/LeaveRequestModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loading } from '@/components/ui/loading';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Users, Mail, CalendarCheck, TrendingUp } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const [, setLocation] = useLocation();
@@ -64,7 +65,7 @@ export const AdminDashboard: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-primary/10 rounded-full">
-                  <i className="fas fa-users text-primary text-xl"></i>
+                  <Users className="text-primary" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="font-semibold text-gray-800">จัดการพนักงาน</h3>
@@ -81,7 +82,7 @@ export const AdminDashboard: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-blue-100 rounded-full">
-                  <i className="fas fa-envelope text-blue-600 text-xl"></i>
+                  <Mail className="text-blue-600" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="font-semibold text-gray-800">ตั้งค่าอีเมล</h3>
@@ -95,7 +96,7 @@ export const AdminDashboard: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-green-100 rounded-full">
-                  <i className="fas fa-calendar-check text-green-600 text-xl"></i>
+                  <CalendarCheck className="text-green-600" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="font-semibold text-gray-800">คำขอรอพิจารณา</h3>
@@ -109,7 +110,7 @@ export const AdminDashboard: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="p-3 bg-blue-100 rounded-full">
-                  <i className="fas fa-chart-line text-blue-600 text-xl"></i>
+                  <TrendingUp className="text-blue-600" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="font-semibold text-gray-800">พนักงานทั้งหมด</h3>

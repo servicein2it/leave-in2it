@@ -1,6 +1,7 @@
 import { useAuth } from '@/context/SimpleAuthContext';
 import { UserRole, Gender } from '@/types';
 import { useLocation } from 'wouter';
+import { Settings, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   onProfileClick?: () => void;
@@ -68,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
                 onClick={onProfileClick}
                 className="text-gray-500 hover:text-gray-700 transition-colors"
               >
-                <i className="fas fa-cog"></i>
+                <Settings size={20} />
               </button>
             )}
             
@@ -76,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
               onClick={handleLogout}
               className="text-gray-500 hover:text-gray-700 transition-colors"
             >
-              <i className="fas fa-sign-out-alt"></i>
+              <LogOut size={20} />
             </button>
           </div>
         </div>
