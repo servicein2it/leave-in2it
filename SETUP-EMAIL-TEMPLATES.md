@@ -47,8 +47,9 @@ SELECT * FROM email_templates;
 **Check 2: Check your DATABASE_URL**
 Make sure your `.env` file has the correct Supabase connection string:
 ```
-DATABASE_URL="postgresql://postgres.cjqdbdfsyspbxeyxqcgh:In2it2018!15@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres"
+DATABASE_URL="postgresql://postgres.YOUR_PROJECT_ID:YOUR_PASSWORD@YOUR_REGION.pooler.supabase.com:6543/postgres"
 ```
+Replace with your actual Supabase connection string from the Supabase Dashboard.
 
 **Check 3: Restart your development server**
 ```bash

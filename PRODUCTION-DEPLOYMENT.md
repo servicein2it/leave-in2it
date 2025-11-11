@@ -125,13 +125,19 @@ After deployment, test these URLs:
 ## Environment Variables Required
 
 ```env
-DATABASE_URL=postgresql://...
-GMAIL_USER=service@in2it.co.th
-GMAIL_APP_PASSWORD=your-app-password
-ADMIN_EMAIL=service@in2it.co.th
+DATABASE_URL=postgresql://postgres.YOUR_PROJECT_ID:YOUR_PASSWORD@YOUR_REGION.pooler.supabase.com:6543/postgres
+GMAIL_USER=your-email@domain.com
+GMAIL_APP_PASSWORD=your-gmail-app-password
+ADMIN_EMAIL=your-admin@domain.com
 NODE_ENV=production
 PORT=5000
 ```
+
+**⚠️ SECURITY WARNING:**
+- Never commit `.env` file to git
+- Never hardcode credentials in source code
+- Use environment variables in production
+- Rotate credentials if exposed
 
 ## Support
 
