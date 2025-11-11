@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,15 +10,29 @@ import { useToast } from '@/hooks/use-toast';
 import { queryClient } from '@/lib/queryClient';
 import { Mail, Send, Save, Eye, ArrowLeft, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useLocation } from 'wouter';
+import { useAuth } from '@/context/SimpleAuthContext';
+import { UserRole } from '@/types';
 import type { EmailTemplate } from '@/types';
 
 export default function EmailSettingsPage() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(null);
   const [testEmail, setTestEmail] = useState('');
   const [previewHtml, setPreviewHtml] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+
+  // Redirect if not admin
+  useEffect(() => {
+    if (user && user.role !== UserRole.ADMIN) {
+      setLocation('/employee');
+    }
+  }, [user, setLocation]);
+
+  if (!user || user.role !== UserRole.ADMIN) {
+    return null;
+  }
 
   // Fetch email templates
   const { data: templates, isLoading, error } = useQuery<EmailTemplate[]>({
